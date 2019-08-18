@@ -21,7 +21,7 @@ jobs:
     displayName: 'Install pip, setuptools, wheel'
   - script: pip install -r bindings/requirements.txt
     displayName: 'Install liq requirements'
-  - script:
+  - script: |
       cd bindings
       python setup.py bdist_wheel
     displayName: 'Build with setuptools and cffi'
