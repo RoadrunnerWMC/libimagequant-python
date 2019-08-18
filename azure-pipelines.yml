@@ -35,17 +35,25 @@ jobs:
       pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
     displayName: 'Test with pytest'
   - task: PublishTestResults@2
+    displayName: 'Publish test results'
     condition: succeededOrFailed()
     inputs:
       testResultsFiles: '**/test-*.xml'
       testRunTitle: 'Publish test results for Python $(python.version)'
   - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage results'
     inputs:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
       reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
   - task: CopyFiles@2
+    displayName: 'Copy artifacts to directory'
     inputs:
       sourceFolder: bindings/dist
       contents: '*.whl'
       targetFolder: $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifacts'
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: drop
