@@ -16,13 +16,14 @@ stages:
 
     steps:
     - task: UsePythonVersion@0
+      displayName: 'Switch to Python version'
       inputs:
         versionSpec: '$(python.version)'
 
     - script: python -m pip install --upgrade pip setuptools wheel
-      displayName: 'Install tools'
+      displayName: 'Install pip, setuptools, wheel'
     - script: pip install -r bindings/requirements.txt
-      displayName: 'Install requirements'
+      displayName: 'Install liq requirements'
     - script: |
         cd bindings
         python setup.py bdist_wheel
@@ -46,6 +47,8 @@ stages:
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(python.version)'
+    - script: pip install bindings/dist/*.whl
+      displayName: 'Install wheel with pip'
     - script: |
         pip install pytest
         pip install pytest-cov
