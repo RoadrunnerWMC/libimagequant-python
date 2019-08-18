@@ -1,3 +1,7 @@
+import os, os.path
+
+os.chdir(os.path.dirname(__file__))
+
 from cffi import FFI
 ffibuilder = FFI()
 
