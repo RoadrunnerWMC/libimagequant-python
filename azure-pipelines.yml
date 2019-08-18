@@ -10,6 +10,8 @@ jobs:
         python.version: '3.6'
       Python37:
         python.version: '3.7'
+      PyPy3:
+        python.version: 'pypy3'
   steps:
   - template: azure-pipelines-unixy-steps.yml
 - job: 'Build_and_Test_Mac_1013'
@@ -23,6 +25,8 @@ jobs:
         python.version: '3.6'
       Python37:
         python.version: '3.7'
+      PyPy3:
+        python.version: 'pypy3'
   steps:
   - template: azure-pipelines-unixy-steps.yml
 - job: 'Build_and_Test_WinServer_2016'
@@ -36,5 +40,7 @@ jobs:
         python.version: '3.6'
       Python37:
         python.version: '3.7'
+      PyPy3:
+        python.version: 'pypy3'
   steps:
   - template: azure-pipelines-win-steps.yml
