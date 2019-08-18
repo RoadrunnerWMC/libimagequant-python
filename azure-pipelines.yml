@@ -44,3 +44,8 @@ jobs:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
       reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: bindings/dist
+      contents: '*.whl'
+      targetFolder: $(Build.ArtifactStagingDirectory)
