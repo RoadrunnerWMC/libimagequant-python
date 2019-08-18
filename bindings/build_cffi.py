@@ -1,3 +1,5 @@
+import sys
+
 from cffi import FFI
 ffibuilder = FFI()
 
@@ -118,14 +120,18 @@ ffibuilder.cdef(
     static const char *_py_get_liq_version_string();
 """)
 
+# Hack because VS puts the .c file in an extra "Release" subfolder
+updirs = '../../..'
+if 'win' in sys.platform: updirs += '/..'
+
 ffibuilder.set_source('libimagequant._libimagequant',  # name of the output C extension
 """
-    #include "../../../libimagequant/libimagequant.h"
+    #include "%s/libimagequant/libimagequant.h"
 
     static const char *_py_get_liq_version_string() {
         return LIQ_VERSION_STRING;
     }
-""",
+""" % updirs,
     sources=['../libimagequant/blur.c',
              '../libimagequant/kmeans.c',
              '../libimagequant/libimagequant.c',
