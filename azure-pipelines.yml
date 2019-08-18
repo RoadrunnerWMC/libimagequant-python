@@ -21,7 +21,7 @@ stages:
 
     - script: python -m pip install --upgrade pip setuptools wheel
       displayName: 'Install tools'
-    - script: pip install -r requirements.txt
+    - script: pip install -r bindings/requirements.txt
       displayName: 'Install requirements'
     - script: python bindings/build_cffi.py
       displayName: 'Build with cffi'
