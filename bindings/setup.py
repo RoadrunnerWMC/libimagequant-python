@@ -17,7 +17,7 @@ setuptools.setup(
         'cffi>=1.0.0'
     ],
     cffi_modules=[
-        'libimagequant/build_cffi.py:ffibuilder',
+        'build_cffi.py:ffibuilder',
     ],
     install_requires=[
         'cffi>=1.0.0',

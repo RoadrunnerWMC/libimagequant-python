@@ -1,7 +1,3 @@
-import os, os.path
-
-os.chdir(os.path.dirname(__file__))
-
 from cffi import FFI
 ffibuilder = FFI()
 
@@ -124,7 +120,7 @@ ffibuilder.cdef(
 
 ffibuilder.set_source('libimagequant._libimagequant',  # name of the output C extension
 """
-    #include "../../libimagequant/libimagequant.h"
+    #include "../../../libimagequant/libimagequant.h"
 
     static const char *_py_get_liq_version_string() {
         return LIQ_VERSION_STRING;
