@@ -122,8 +122,7 @@ ffibuilder.cdef(
 
 # Hack because VS puts the .c file in an extra "Release" subfolder
 updirs = '../../..'
-print('sys.platform =', sys.platform)
-if 'win' in sys.platform: updirs += '/..'
+if sys.platform == 'win32': updirs += '/..'
 
 ffibuilder.set_source('libimagequant._libimagequant',  # name of the output C extension
 """
