@@ -165,8 +165,30 @@ If that doesn't work, you might have better luck with either of:
 
 If for some reason you'd instead like to install from source, read on.
 
-Building from source
---------------------
+Building from source (Linux/Mac)
+--------------------------------
+
+To build from source, begin by cloning or downloading the repository.
+
+If desired, you can replace the ``libimagequant`` folder with the latest
+libimagequant source code.
+
+Navigate (in a terminal) to the ``bindings`` directory, and run:
+
+.. code-block:: text
+
+    python3 build_cffi.py
+
+This should create ``_libimagequant.c``, ``_libimagequant.o``, and a ``.so``
+file (e.g. ``_libimagequant.cpython-36m-x86_64-linux-gnu.so``) in the
+``bindings/libimagequant`` folder.
+
+.. todo::
+
+    Finish writing this section.
+
+Building from source (Windows)
+------------------------------
 
 .. todo::
 
