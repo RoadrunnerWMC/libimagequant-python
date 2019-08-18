@@ -27,6 +27,8 @@ jobs:
     displayName: 'Build with setuptools and cffi'
   - script: pip install bindings/dist/*.whl
     displayName: 'Install wheel with pip'
+  - script: pip install Pillow
+    displayName: 'Install Pillow for tests'
   - script: |
       pip install pytest
       pip install pytest-cov
