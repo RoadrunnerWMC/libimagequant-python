@@ -25,6 +25,10 @@ stages:
       displayName: 'Install requirements'
     - script: python bindings/build_cffi.py
       displayName: 'Build with cffi'
+- stage: 'Test'
+  displayName: 'Test with pytest'
+  dependsOn: 'Build'
+  jobs:
   - job: 'Test'
     pool:
       vmImage: 'ubuntu-16.04'
@@ -36,7 +40,6 @@ stages:
           python.version: '3.6'
         Python37:
           python.version: '3.7'
-
     steps:
     - task: UsePythonVersion@0
       inputs:
