@@ -23,8 +23,10 @@ stages:
       displayName: 'Install tools'
     - script: pip install -r bindings/requirements.txt
       displayName: 'Install requirements'
-    - script: python bindings/build_cffi.py
-      displayName: 'Build with cffi'
+    - script: |
+        cd bindings
+        python setup.py bdist_wheel
+      displayName: 'Build with setuptools and cffi'
 - stage: 'Test'
   displayName: 'Test with pytest'
   dependsOn: 'Build'
