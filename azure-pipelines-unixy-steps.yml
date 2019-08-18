@@ -1,0 +1,46 @@
+steps:
+- task: UsePythonVersion@0
+  displayName: 'Switch to Python version'
+  inputs:
+    versionSpec: '$(python.version)'
+
+- script: python -m pip install --upgrade pip setuptools wheel
+  displayName: 'Install pip, setuptools, wheel'
+- script: pip install -r bindings/requirements.txt
+  displayName: 'Install liq requirements'
+- script: |
+    cd bindings
+    python setup.py bdist_wheel
+  displayName: 'Build with setuptools and cffi'
+- script: pip install bindings/dist/*.whl
+  displayName: 'Install wheel with pip'
+- script: pip install Pillow
+  displayName: 'Install Pillow for tests'
+- script: |
+    pip install pytest
+    pip install pytest-cov
+    pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+  displayName: 'Test with pytest'
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFiles: '**/test-*.xml'
+    testRunTitle: 'Publish test results for Python $(python.version)'
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage results'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+- task: CopyFiles@2
+  displayName: 'Copy artifacts to directory'
+  inputs:
+    sourceFolder: bindings/dist
+    contents: '*.whl'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: drop
