@@ -12,4 +12,4 @@ jobs:
         python.version: '3.7'
 
   steps:
-    template: azure-pipelines-unixy-steps.yml
+  - template: azure-pipelines-unixy-steps.yml
