@@ -24,7 +24,7 @@ def load_test_image(name):
     Return a triple (width, height, pixeldata), where pixeldata is
     a bytes object with RGBA data.
     """
-    img = PIL.Image.open(os.path.join('res', name)).convert('RGBA')
+    img = PIL.Image.open(os.path.join(os.path.dirname(__file__), 'res', name)).convert('RGBA')
     width = img.width
     height = img.height
     pixeldata = img.tobytes()
