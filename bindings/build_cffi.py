@@ -138,7 +138,8 @@ ffibuilder.set_source('libimagequant._libimagequant',  # name of the output C ex
              '../libimagequant/mediancut.c',
              '../libimagequant/mempool.c',
              '../libimagequant/nearest.c',
-             '../libimagequant/pam.c'])
+             '../libimagequant/pam.c'],
+    extra_compile_args=['-std=c99'])
 
 if __name__ == '__main__':
     ffibuilder.compile(verbose=True)
