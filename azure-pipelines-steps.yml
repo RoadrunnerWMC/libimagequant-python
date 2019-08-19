@@ -13,10 +13,10 @@ steps:
 #    $(python.command) get-pip.py
 #  displayName: 'Install pip with wget (manylinux1)'
 #  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
-- script: $(python.command) -m pip install --upgrade pip
+- script: $(python.command) -m pip install --upgrade --user pip
   displayName: 'Update pip (non-manylinux1)'
 #  condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
-- script: $(python.command) -m pip install --upgrade setuptools wheel
+- script: $(python.command) -m pip install --upgrade --user setuptools wheel
   displayName: 'Install setuptools, wheel'
 - script: pip install -r bindings/requirements.txt
   displayName: 'Install liq requirements.txt'
@@ -24,13 +24,13 @@ steps:
     cd bindings
     $(python.command) setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
-- bash: pip install bindings/dist/*.whl
+- bash: pip install --user bindings/dist/*.whl
   displayName: 'Install wheel with pip'
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow (Mac)'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin')))
 - script:
-    pip install Pillow pytest pytest-cov
+    pip install --user Pillow pytest pytest-cov
   displayName: 'Install Pillow and pytest'
 - script: |
     cd tests
