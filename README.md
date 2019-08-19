@@ -15,5 +15,5 @@ Full documentation, including setup and usage instructions, is available on
 License
 -------
 
-Licensed under the GNU GPL v3. See the `LICENSE` file in the `bindings`
-directory for the full license text.
+Licensed under the GNU GPL v3. See the `LICENSE` file for the full license
+text.
