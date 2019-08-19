@@ -13,13 +13,13 @@ steps:
   displayName: 'Build with setuptools and cffi'
 - script: pip install bindings/dist/*.whl
   displayName: 'Install wheel with pip (non-Windows)'
-  condition: and(succeeded(), ne($(Agent.OS), 'Windows_NT'))
+  condition: and(succeeded(), ne('$(Agent.OS)', 'Windows_NT'))
 - powershell: pip install $(ls bindings/dist/*.whl | % {$_.FullName})
   displayName: 'Install wheel with pip (Windows)'
-  condition: and(succeeded(), eq($(Agent.OS), 'Windows_NT'))
+  condition: and(succeeded(), eq('$(Agent.OS)', 'Windows_NT'))
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow'
-  condition: and(succeeded(), and(eq($(python.version), 'pypy3'), eq($(Agent.OS), 'Darwin')))
+  condition: and(succeeded(), and(eq('$(python.version)', 'pypy3'), eq('$(Agent.OS)', 'Darwin')))
 - script: pip install Pillow
   displayName: 'Install Pillow for tests'
 - script: |
