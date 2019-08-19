@@ -23,7 +23,7 @@ steps:
     python setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
 - bash: pip install bindings/dist/*.whl
-  displayName: 'Install wheel with pip
+  displayName: 'Install wheel with pip'
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow (Mac)'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin')))
