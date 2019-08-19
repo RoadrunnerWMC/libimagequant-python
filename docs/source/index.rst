@@ -149,50 +149,52 @@ The unofficial libimagequant Python bindings are tested against `Python
 <https://www.python.org/>`_ 3 and `PyPy <https://www.pypy.org>`_ (in Python 3
 mode). Python 2 is not supported.
 
-The recommended way to install is through pip. You can try running:
+Builds are available on PyPI for 64-bit Windows, 64-bit macOS, and 64-bit
+Ubuntu. If you're using one of those, the recommended way to install is through
+pip. You can try running:
 
 .. code-block:: text
 
-    pip install ndspy
+    pip install libimagequant
 
 If that doesn't work, you might have better luck with either of:
 
 .. code-block:: text
 
-    python3 -m pip install ndspy
+    python3 -m pip install libimagequant
 
-    py -3 -m pip install ndspy
+    py -3 -m pip install libimagequant
 
-If for some reason you'd instead like to install from source, read on.
+If for some reason you'd instead like to install from source (such as if you're
+running a system for which official builds are not available on PyPI), read on.
 
-Building from source (Linux/Mac)
---------------------------------
+Building from source
+--------------------
 
 To build from source, begin by cloning or downloading the repository.
 
 If desired, you can replace the ``libimagequant`` folder with the latest
-libimagequant source code.
+libimagequant source code from `its own repository
+<https://github.com/ImageOptim/libimagequant>`_.
 
-Navigate (in a terminal) to the ``bindings`` directory, and run:
+Install ``cffi``, ``setuptools`` and ``wheel`` on the Python interpreter you
+want the bindings to be built against. For example,
 
 .. code-block:: text
 
-    python3 build_cffi.py
+    python3 -m pip install --upgrade cffi setuptools wheel
 
-This should create ``_libimagequant.c``, ``_libimagequant.o``, and a ``.so``
-file (e.g. ``_libimagequant.cpython-36m-x86_64-linux-gnu.so``) in the
-``bindings/libimagequant`` folder.
+Navigate (in a terminal) to the ``bindings`` directory, and run
+``setup.py bdist_wheel`` with the Python interpreter you want the bindings to
+be built against. For example,
 
-.. todo::
+.. code-block:: text
 
-    Finish writing this section.
+    python3 setup.py bdist_wheel
 
-Building from source (Windows)
-------------------------------
-
-.. todo::
-
-    Write this section.
+This should create (among other things) a ``dist`` folder with a ``.whl``
+(wheel) file inside. You can now install the wheel file with pip, or distribute
+it.
 
 
 .. _api-ref:
