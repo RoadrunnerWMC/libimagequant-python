@@ -5,14 +5,14 @@ jobs:
   strategy:
     matrix:
       Python35:
-        python.version: '3.5'
+        parameters.python: '3.5'
       Python36:
-        python.version: '3.6'
+        parameters.python: '3.6'
       Python37:
-        python.version: '3.7'
+        parameters.python: '3.7'
       PyPy3:
-        python.version: 'pypy3'
-  variables: { platform: linux }
+        parameters.python: 'pypy3'
+  variables: { parameters.os: linux }
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_Mac_1013'
@@ -21,14 +21,14 @@ jobs:
   strategy:
     matrix:
       Python35:
-        python.version: '3.5'
+        parameters.python: '3.5'
       Python36:
-        python.version: '3.6'
+        parameters.python: '3.6'
       Python37:
-        python.version: '3.7'
+        parameters.python: '3.7'
       PyPy3:
-        python.version: 'pypy3'
-  variables: { platform: mac }
+        parameters.python: 'pypy3'
+  variables: { parameters.os: mac }
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_WinServer_2016'
@@ -37,13 +37,13 @@ jobs:
   strategy:
     matrix:
       Python35:
-        python.version: '3.5'
+        parameters.python: '3.5'
       Python36:
-        python.version: '3.6'
+        parameters.python: '3.6'
       Python37:
-        python.version: '3.7'
+        parameters.python: '3.7'
       PyPy3:
-        python.version: 'pypy3'
-  variables: { platform: windows }
+        parameters.python: 'pypy3'
+  variables: { parameters.os: windows }
   steps:
   - template: azure-pipelines-steps.yml
