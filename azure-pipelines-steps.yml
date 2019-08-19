@@ -19,7 +19,7 @@ steps:
   displayName: 'Build with setuptools and cffi'
 - script: |
     mkdir bindings/dist/wheelhouse
-    $(python.command) -m auditwheel repair "bindings/dist/*.whl"
+    $(python.command) -m auditwheel repair bindings/dist/*.whl
     rm bindings/dist/*.whl
     mv bindings/dist/wheelhouse/* bindings/dist/
     rm -rf bindings/dist/wheelhouse
