@@ -11,15 +11,15 @@ steps:
     cd bindings
     python setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
-- ${{ if ne(parameters.os, 'windows') }}:
-  - script: pip install bindings/dist/*.whl
-    displayName: 'Install wheel with pip'
-- ${{ if eq(parameters.os, 'windows') }}:
-  - powershell: pip install $(ls bindings/dist/*.whl | % {$_.FullName})
-    displayName: 'Install wheel with pip'
-- ${{ if and(eq(parameters.python, 'pypy3'), eq(parameters.os, 'mac')) }}:
-  - script: brew install libjpeg zlib
-    displayName: 'Install libjpeg and zlib for Pillow'
+- script: pip install bindings/dist/*.whl
+  displayName: 'Install wheel with pip (non-Windows)'
+  condition: and(succeeded(), ne('${{ parameters.os }}', 'windows'))
+- powershell: pip install $(ls bindings/dist/*.whl | % {$_.FullName})
+  displayName: 'Install wheel with pip (Windows)'
+  condition: and(succeeded(), eq('${{ parameters.os }}', 'windows'))
+- script: brew install libjpeg zlib
+  displayName: 'Install libjpeg and zlib for Pillow'
+  condition: and(succeeded(), and(eq('${{ parameters.python }}', 'pypy3'), eq('${{ parameters.os }}', 'mac')))
 - script: pip install Pillow
   displayName: 'Install Pillow for tests'
 - script: |

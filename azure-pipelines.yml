@@ -1,10 +1,10 @@
-parameters:
-  python: ''
-  os: ''
 jobs:
 - job: 'Build_and_Test_Ubuntu_1604'
   pool:
     vmImage: 'ubuntu-16.04'
+  parameters:
+    python: ''
+    os: 'linux'
   strategy:
     matrix:
       Python35:
@@ -15,13 +15,14 @@ jobs:
         parameters.python: '3.7'
       PyPy3:
         parameters.python: 'pypy3'
-  parameters:
-    os: 'linux'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_Mac_1013'
   pool:
     vmImage: 'macOS-10.13'
+  parameters:
+    python: ''
+    os: 'mac'
   strategy:
     matrix:
       Python35:
@@ -32,13 +33,14 @@ jobs:
         parameters.python: '3.7'
       PyPy3:
         parameters.python: 'pypy3'
-  parameters:
-    os: 'mac'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_WinServer_2016'
   pool:
     vmImage: 'vs2017-win2016'
+  parameters:
+    python: ''
+    os: 'windows'
   strategy:
     matrix:
       Python35:
@@ -49,7 +51,5 @@ jobs:
         parameters.python: '3.7'
       PyPy3:
         parameters.python: 'pypy3'
-  parameters:
-    os: 'windows'
   steps:
   - template: azure-pipelines-steps.yml
