@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/RoadrunnerWMC/libimagequant-python',
     packages=setuptools.find_packages(),
+    python_requires='>=3.5',
     setup_requires=[
         'cffi>=1.0.0'
     ],
