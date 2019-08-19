@@ -2,54 +2,51 @@ jobs:
 - job: 'Build_and_Test_Ubuntu_1604'
   pool:
     vmImage: 'ubuntu-16.04'
-  parameters:
-    python: ''
-    os: 'linux'
+  variables:
+    os.version: 'linux'
   strategy:
     matrix:
       Python35:
-        parameters.python: '3.5'
+        python.version: '3.5'
       Python36:
-        parameters.python: '3.6'
+        python.version: '3.6'
       Python37:
-        parameters.python: '3.7'
+        python.version: '3.7'
       PyPy3:
-        parameters.python: 'pypy3'
+        python.version: 'pypy3'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_Mac_1013'
   pool:
     vmImage: 'macOS-10.13'
-  parameters:
-    python: ''
-    os: 'mac'
+  variables:
+    os.version: 'mac'
   strategy:
     matrix:
       Python35:
-        parameters.python: '3.5'
+        python.version: '3.5'
       Python36:
-        parameters.python: '3.6'
+        python.version: '3.6'
       Python37:
-        parameters.python: '3.7'
+        python.version: '3.7'
       PyPy3:
-        parameters.python: 'pypy3'
+        python.version: 'pypy3'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_WinServer_2016'
   pool:
     vmImage: 'vs2017-win2016'
-  parameters:
-    python: ''
-    os: 'windows'
+  variables:
+    os.version: 'windows'
   strategy:
     matrix:
       Python35:
-        parameters.python: '3.5'
+        python.version: '3.5'
       Python36:
-        parameters.python: '3.6'
+        python.version: '3.6'
       Python37:
-        parameters.python: '3.7'
+        python.version: '3.7'
       PyPy3:
-        parameters.python: 'pypy3'
+        python.version: 'pypy3'
   steps:
   - template: azure-pipelines-steps.yml
