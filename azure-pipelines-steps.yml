@@ -3,8 +3,12 @@ steps:
   displayName: 'Switch to Python version'
   inputs:
     versionSpec: '$(python.version)'
-- script: python -m pip install --upgrade pip setuptools wheel
-  displayName: 'Install pip, setuptools, wheel'
+- script: |
+    wget https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+  displayName: 'Install pip'
+- script: python -m pip install --upgrade setuptools wheel
+  displayName: 'Install setuptools, wheel'
 - script: pip install -r bindings/requirements.txt
   displayName: 'Install liq requirements.txt'
 - script: |

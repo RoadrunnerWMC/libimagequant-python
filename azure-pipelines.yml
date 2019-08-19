@@ -3,7 +3,7 @@ resources:
   - container: manylinux1
     image: pyca/cryptography-manylinux1:x86_64
 jobs:
-- job: 'Build_and_Test_Ubuntu_1604'
+- job: 'Build_and_Test_manylinux1'
   pool:
     vmImage: 'ubuntu-16.04'
   container: manylinux1
