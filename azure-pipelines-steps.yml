@@ -18,7 +18,7 @@ steps:
 #  condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
 - script: $(python.command) -m pip install --upgrade --user setuptools wheel
   displayName: 'Install setuptools, wheel'
-- script: $(python.command) -m install --user -r bindings/requirements.txt
+- script: $(python.command) -m pip install --user -r bindings/requirements.txt
   displayName: 'Install liq requirements.txt'
 - script: |
     cd bindings
