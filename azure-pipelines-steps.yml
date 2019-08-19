@@ -8,6 +8,9 @@ steps:
   displayName: 'Update pip'
 - script: $(python.command) -m pip install --upgrade --user setuptools wheel
   displayName: 'Install setuptools, wheel'
+- script: $(python.command) -m pip install --upgrade --user auditwheel
+  displayName: 'Install auditwheel (manylinux1)'
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 - script: $(python.command) -m pip install --user -r bindings/requirements.txt
   displayName: 'Install liq requirements.txt'
 - script: |
@@ -19,7 +22,7 @@ steps:
     $(python.command) -m auditwheel repair "bindings/dist/*.whl"
     rm bindings/dist/*.whl
     mv bindings/dist/wheelhouse/* bindings/dist/
-    rm -rf wheelhouse
+    rm -rf bindings/dist/wheelhouse
   displayName: 'Repair wheel (manylinux1)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 - bash: $(python.command) -m pip install --user bindings/dist/*.whl
