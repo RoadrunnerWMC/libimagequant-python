@@ -4,18 +4,8 @@ steps:
   inputs:
     versionSpec: '$(python.version)'
   condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
-  
-#- script: yum install wget
-#  displayName: 'Install wget (manylinux1)'
-#  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
-#- script: |
-#    wget https://bootstrap.pypa.io/get-pip.py
-#    $(python.command) get-pip.py
-#  displayName: 'Install pip with wget (manylinux1)'
-#  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 - script: $(python.command) -m pip install --upgrade --user pip
-  displayName: 'Update pip (non-manylinux1)'
-#  condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
+  displayName: 'Update pip'
 - script: $(python.command) -m pip install --upgrade --user setuptools wheel
   displayName: 'Install setuptools, wheel'
 - script: $(python.command) -m pip install --user -r bindings/requirements.txt
@@ -24,6 +14,14 @@ steps:
     cd bindings
     $(python.command) setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
+- script: |
+    mkdir bindings/dist/wheelhouse
+    $(python.command) -m auditwheel repair "bindings/dist/*.whl"
+    rm bindings/dist/*.whl
+    mv bindings/dist/wheelhouse/* bindings/dist/
+    rm -rf wheelhouse
+  displayName: 'Repair wheel (manylinux1)'
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 - bash: $(python.command) -m pip install --user bindings/dist/*.whl
   displayName: 'Install wheel with pip'
 - script: brew install libjpeg zlib
