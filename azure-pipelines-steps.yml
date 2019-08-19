@@ -3,10 +3,13 @@ steps:
   displayName: 'Switch to Python version'
   inputs:
     versionSpec: '$(python.version)'
+- script: yum install wget
+  displayName: 'Install wget (manylinux1)'
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 - script: |
-    echo -e "import urllib.request\nwith urllib.request.urlopen('https://bootstrap.pypa.io/get-pip.py') as response:\n with open('get-pip.py', 'wb') as f:\n  f.write(response.read())" | python
+    wget https://bootstrap.pypa.io/get-pip.py
     python get-pip.py
-  displayName: 'Install pip with manual download (manylinux1)'
+  displayName: 'Install pip with wget (manylinux1)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 - script: python -m pip install --upgrade pip
   displayName: 'Update pip (non-manylinux1)'
