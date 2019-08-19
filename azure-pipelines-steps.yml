@@ -1,26 +1,28 @@
 steps:
 - task: UsePythonVersion@0
-  displayName: 'Switch to Python version'
+  displayName: 'Switch to Python version (non-manylinux1)'
   inputs:
     versionSpec: '$(python.version)'
-- script: yum install wget
-  displayName: 'Install wget (manylinux1)'
-  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
-- script: |
-    wget https://bootstrap.pypa.io/get-pip.py
-    python get-pip.py
-  displayName: 'Install pip with wget (manylinux1)'
-  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
-- script: python -m pip install --upgrade pip
-  displayName: 'Update pip (non-manylinux1)'
   condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
-- script: python -m pip install --upgrade setuptools wheel
+  
+#- script: yum install wget
+#  displayName: 'Install wget (manylinux1)'
+#  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+#- script: |
+#    wget https://bootstrap.pypa.io/get-pip.py
+#    $(python.command) get-pip.py
+#  displayName: 'Install pip with wget (manylinux1)'
+#  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+- script: $(python.command) -m pip install --upgrade pip
+  displayName: 'Update pip (non-manylinux1)'
+#  condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
+- script: $(python.command) -m pip install --upgrade setuptools wheel
   displayName: 'Install setuptools, wheel'
 - script: pip install -r bindings/requirements.txt
   displayName: 'Install liq requirements.txt'
 - script: |
     cd bindings
-    python setup.py bdist_wheel
+    $(python.command) setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
 - bash: pip install bindings/dist/*.whl
   displayName: 'Install wheel with pip'

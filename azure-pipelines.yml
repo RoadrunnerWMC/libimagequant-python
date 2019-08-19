@@ -11,12 +11,15 @@ jobs:
     matrix:
       Python35:
         python.version: '3.5'
+        python.command: '/opt/python/cp35-cp35m'
       Python36:
         python.version: '3.6'
+        python.command: '/opt/python/cp36-cp36m'
       Python37:
         python.version: '3.7'
-      PyPy3:
-        python.version: 'pypy3'
+        python.command: '/opt/python/cp37-cp37m'
+      # PyPy3:
+      #   python.version: 'pypy3'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_Mac_1013'
@@ -26,12 +29,16 @@ jobs:
     matrix:
       Python35:
         python.version: '3.5'
+        python.command: 'python'
       Python36:
         python.version: '3.6'
+        python.command: 'python'
       Python37:
         python.version: '3.7'
+        python.command: 'python'
       PyPy3:
         python.version: 'pypy3'
+        python.command: 'python'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_WinServer_2016'
@@ -41,11 +48,15 @@ jobs:
     matrix:
       Python35:
         python.version: '3.5'
+        python.command: 'python'
       Python36:
         python.version: '3.6'
+        python.command: 'python'
       Python37:
         python.version: '3.7'
+        python.command: 'python'
       PyPy3:
         python.version: 'pypy3'
+        python.command: 'python'
   steps:
   - template: azure-pipelines-steps.yml
