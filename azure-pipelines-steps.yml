@@ -4,10 +4,17 @@ steps:
   inputs:
     versionSpec: '$(python.version)'
   condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
-- script: $(python.command) -m pip install --upgrade --user pip
-  displayName: 'Update pip'
-- script: $(python.command) -m pip install --upgrade --user setuptools wheel
-  displayName: 'Install setuptools, wheel'
+- script: |
+    # create a wget.py script that has the most basic functionality of wget
+    echo -e "import sys\nimport urllib.request\nwith urllib.request.urlopen(sys.argv[1]) as response:\n with open(sys.argv[1].split('/')[-1], 'wb') as f:\n  f.write(response.read())" > wget.py
+    # run it with Python 3.7 to download PyPy
+    /opt/python/cp37-cp37m/bin/python wget.py https://bitbucket.org/squeaky/portable-pypy/downloads/$(pypy.version)-portable.tar.bz2
+    # unzip it
+    tar xvjf $(pypy.version)-portable.tar.bz2
+  displayName: 'Install PyPy with manual download (manylinux1)'
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
+- script: $(python.command) -m pip install --upgrade --user pip setuptools wheel
+  displayName: 'Install/update pip, setuptools, wheel'
 - script: $(python.command) -m pip install --upgrade --user auditwheel
   displayName: 'Install auditwheel (manylinux1)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
@@ -29,7 +36,7 @@ steps:
   displayName: 'Install wheel with pip'
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow (Mac)'
-  condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin')))
+  condition: and(succeeded(), eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin'))
 - script:
     $(python.command) -m pip install --user Pillow pytest pytest-cov
   displayName: 'Install Pillow and pytest'
@@ -42,7 +49,7 @@ steps:
     cd tests
     $(python.command) -m pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml -p no:faulthandler
   displayName: 'Test with pytest (Win/PyPy)'
-  condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT')))
+  condition: and(succeeded(), eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT'))
 - task: PublishTestResults@2
   displayName: 'Publish test results'
   condition: succeededOrFailed()
