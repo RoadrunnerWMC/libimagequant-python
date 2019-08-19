@@ -22,41 +22,41 @@ jobs:
       #   python.version: 'pypy3'
   steps:
   - template: azure-pipelines-steps.yml
-# - job: 'Build_and_Test_Mac_1013'
-#   pool:
-#     vmImage: 'macOS-10.13'
-#   strategy:
-#     matrix:
-#       Python35:
-#         python.version: '3.5'
-#         python.command: 'python'
-#       Python36:
-#         python.version: '3.6'
-#         python.command: 'python'
-#       Python37:
-#         python.version: '3.7'
-#         python.command: 'python'
-#       PyPy3:
-#         python.version: 'pypy3'
-#         python.command: 'python'
-#   steps:
-#   - template: azure-pipelines-steps.yml
-# - job: 'Build_and_Test_WinServer_2016'
-#   pool:
-#     vmImage: 'vs2017-win2016'
-#   strategy:
-#     matrix:
-#       Python35:
-#         python.version: '3.5'
-#         python.command: 'python'
-#       Python36:
-#         python.version: '3.6'
-#         python.command: 'python'
-#       Python37:
-#         python.version: '3.7'
-#         python.command: 'python'
-#       PyPy3:
-#         python.version: 'pypy3'
-#         python.command: 'python'
-#   steps:
-#   - template: azure-pipelines-steps.yml
+- job: 'Build_and_Test_Mac_1013'
+  pool:
+    vmImage: 'macOS-10.13'
+  strategy:
+    matrix:
+      Python35:
+        python.version: '3.5'
+        python.command: 'python'
+      Python36:
+        python.version: '3.6'
+        python.command: 'python'
+      Python37:
+        python.version: '3.7'
+        python.command: 'python'
+      PyPy3:
+        python.version: 'pypy3'
+        python.command: 'python'
+  steps:
+  - template: azure-pipelines-steps.yml
+- job: 'Build_and_Test_WinServer_2016'
+  pool:
+    vmImage: 'vs2017-win2016'
+  strategy:
+    matrix:
+      Python35:
+        python.version: '3.5'
+        python.command: 'python'
+      Python36:
+        python.version: '3.6'
+        python.command: 'python'
+      Python37:
+        python.version: '3.7'
+        python.command: 'python'
+      PyPy3:
+        python.version: 'pypy3'
+        python.command: 'python'
+  steps:
+  - template: azure-pipelines-steps.yml
