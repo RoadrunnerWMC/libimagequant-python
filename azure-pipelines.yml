@@ -1,3 +1,7 @@
+resources:
+  containers:
+  - container: manylinux1
+    image: pyca/cryptography-manylinux1:x86_64
 jobs:
 - job: 'Build_and_Test_Ubuntu_1604'
   pool:
