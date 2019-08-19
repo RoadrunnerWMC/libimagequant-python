@@ -3,7 +3,7 @@ steps:
   displayName: 'Switch to Python version'
   inputs:
     versionSpec: '$(python.version)'
-- script: yum install wget
+- script: sudo yum install wget
   displayName: 'Install wget (manylinux1)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
 - script: |
@@ -22,12 +22,8 @@ steps:
     cd bindings
     python setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
-- script: pip install bindings/dist/*.whl
-  displayName: 'Install wheel with pip (non-Windows)'
-  condition: and(succeeded(), ne(variables['Agent.OS'], 'Windows_NT'))
-- powershell: pip install $(ls bindings/dist/*.whl | % {$_.FullName})
-  displayName: 'Install wheel with pip (Windows)'
-  condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
+- bash: pip install bindings/dist/*.whl
+  displayName: 'Install wheel with pip
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow (Mac)'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin')))
@@ -36,12 +32,12 @@ steps:
   displayName: 'Install Pillow and pytest'
 - script: |
     cd tests
-    pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml --cov-report=html
+    pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml
   displayName: 'Test with pytest (non- Win/PyPy)'
   condition: and(succeeded(), not(and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT'))))
 - script: |
     cd tests
-    pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml --cov-report=html -p no:faulthandler
+    pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml -p no:faulthandler
   displayName: 'Test with pytest (Win/PyPy)'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT')))
 - task: PublishTestResults@2
