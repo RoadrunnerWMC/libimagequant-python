@@ -1,3 +1,6 @@
+parameters:
+  python: ''
+  os: ''
 jobs:
 - job: 'Build_and_Test_Ubuntu_1604'
   pool:
@@ -12,7 +15,8 @@ jobs:
         parameters.python: '3.7'
       PyPy3:
         parameters.python: 'pypy3'
-  variables: { parameters.os: linux }
+  parameters:
+    os: 'linux'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_Mac_1013'
@@ -28,7 +32,8 @@ jobs:
         parameters.python: '3.7'
       PyPy3:
         parameters.python: 'pypy3'
-  variables: { parameters.os: mac }
+  parameters:
+    os: 'mac'
   steps:
   - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_WinServer_2016'
@@ -44,6 +49,7 @@ jobs:
         parameters.python: '3.7'
       PyPy3:
         parameters.python: 'pypy3'
-  variables: { parameters.os: windows }
+  parameters:
+    os: 'windows'
   steps:
   - template: azure-pipelines-steps.yml

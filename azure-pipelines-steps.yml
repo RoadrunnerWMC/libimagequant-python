@@ -18,7 +18,7 @@ steps:
   - powershell: pip install $(ls bindings/dist/*.whl | % {$_.FullName})
     displayName: 'Install wheel with pip'
 - ${{ if and(eq(parameters.python, 'pypy3'), eq(parameters.os, 'mac')) }}:
-  - script: apt install libjpeg-dev zlib1g-dev
+  - script: brew install libjpeg zlib
     displayName: 'Install libjpeg and zlib for Pillow'
 - script: pip install Pillow
   displayName: 'Install Pillow for tests'
