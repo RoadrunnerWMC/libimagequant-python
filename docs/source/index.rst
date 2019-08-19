@@ -8,8 +8,8 @@ libimagequant Python Bindings Documentation
 Welcome to the documentation for the unofficial Python bindings for
 `libimagequant <https://pngquant.org/lib/>`_.
 
-The bindings are designed to be Pythonic, yet still faithful to the C API.
-Almost every C function can be used through this API. The Python classes
+These bindings are designed to be Pythonic, yet still faithful to the C API.
+Almost every C function can be used through the bindings. The Python classes
 correspond directly to C structs, and each Python function represents one C
 function. However, some changes have been made:
 
