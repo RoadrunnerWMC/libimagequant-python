@@ -34,12 +34,12 @@ steps:
   displayName: 'Install Pillow and pytest'
 - script: |
     cd tests
-    pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml
+    $(python.command) -m pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml
   displayName: 'Test with pytest (non- Win/PyPy)'
   condition: and(succeeded(), not(and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT'))))
 - script: |
     cd tests
-    pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml -p no:faulthandler
+    $(python.command) -m pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml -p no:faulthandler
   displayName: 'Test with pytest (Win/PyPy)'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT')))
 - task: PublishTestResults@2
