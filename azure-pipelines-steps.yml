@@ -3,7 +3,6 @@ steps:
   displayName: 'Switch to Python version'
   inputs:
     versionSpec: '$(python.version)'
-
 - script: python -m pip install --upgrade pip setuptools wheel
   displayName: 'Install pip, setuptools, wheel'
 - script: pip install -r bindings/requirements.txt
@@ -12,8 +11,15 @@ steps:
     cd bindings
     python setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
-- powershell: pip install $(ls bindings/dist/*.whl | % {$_.FullName})
-  displayName: 'Install wheel with pip'
+- ${{ if ne(platform, 'windows') }}:
+  - script: pip install bindings/dist/*.whl
+    displayName: 'Install wheel with pip'
+- ${{ if eq(platform, 'windows') }}:
+  - powershell: pip install $(ls bindings/dist/*.whl | % {$_.FullName})
+    displayName: 'Install wheel with pip'
+- ${{ if and(eq(python.version, 'pypy3'), eq(platform, 'mac')) }}:
+  - script: apt install libjpeg-dev zlib1g-dev
+    displayName: 'Install libjpeg and zlib for Pillow'
 - script: pip install Pillow
   displayName: 'Install Pillow for tests'
 - script: |

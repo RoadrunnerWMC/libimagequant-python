@@ -12,8 +12,9 @@ jobs:
         python.version: '3.7'
       PyPy3:
         python.version: 'pypy3'
+  variables: { platform: linux }
   steps:
-  - template: azure-pipelines-unixy-steps.yml
+  - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_Mac_1013'
   pool:
     vmImage: 'macOS-10.13'
@@ -27,8 +28,9 @@ jobs:
         python.version: '3.7'
       PyPy3:
         python.version: 'pypy3'
+  variables: { platform: mac }
   steps:
-  - template: azure-pipelines-unixy-steps.yml
+  - template: azure-pipelines-steps.yml
 - job: 'Build_and_Test_WinServer_2016'
   pool:
     vmImage: 'vs2017-win2016'
@@ -42,5 +44,6 @@ jobs:
         python.version: '3.7'
       PyPy3:
         python.version: 'pypy3'
+  variables: { platform: windows }
   steps:
-  - template: azure-pipelines-win-steps.yml
+  - template: azure-pipelines-steps.yml
