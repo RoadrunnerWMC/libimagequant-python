@@ -24,13 +24,13 @@ steps:
     cd bindings
     $(python.command) setup.py bdist_wheel
   displayName: 'Build with setuptools and cffi'
-- bash: pip install --user bindings/dist/*.whl
+- bash: $(python.command) -m pip install --user bindings/dist/*.whl
   displayName: 'Install wheel with pip'
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow (Mac)'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin')))
 - script:
-    pip install --user Pillow pytest pytest-cov
+    $(python.command) -m pip install --user Pillow pytest pytest-cov
   displayName: 'Install Pillow and pytest'
 - script: |
     cd tests
