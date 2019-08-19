@@ -20,13 +20,17 @@ steps:
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin')))
-- script: pip install Pillow
-  displayName: 'Install Pillow for tests'
-- script: |
-    pip install pytest
-    pip install pytest-cov
-    pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-  displayName: 'Test with pytest'
+- script:
+    pip install Pillow pytest pytest-cov
+  displayName: 'Install Pillow and pytest'
+- script:
+  pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+  displayName: 'Test with pytest (non- Win/PyPy)'
+  condition: and(succeeded(), not(and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT'))))
+- script:
+  pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html -p no:faulthandler
+  displayName: 'Test with pytest (Win/PyPy)'
+  condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT')))
 - task: PublishTestResults@2
   displayName: 'Publish test results'
   condition: succeededOrFailed()
