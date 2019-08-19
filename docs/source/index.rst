@@ -20,13 +20,15 @@ function. However, some changes have been made:
     are given the Python :py:class:`bool` type.
 *   Error-code return values are instead expressed by raising exceptions (see
     :ref:`exceptions`).
+*   A few functions -- mostly ones that don't make much sense in Python -- are
+    not supported (see :ref:`unsupported-functions`).
 
 This documentation is intentionally terse, so as to avoid duplicating the
 information in the official C API documentation. The recommended way to use
-this documentation is to first peruse `the official libimagequant C API
-documentation <https://pngquant.org/lib/>`_ to see how you could accomplish
-your goals in C, and to then search for C function names on this page to find
-the equivalent Python APIs.
+this page is to first peruse `the official libimagequant C API documentation
+<https://pngquant.org/lib/>`_ to see how you could accomplish your goals in C,
+and to then search for the C function names here to find the equivalent Python
+APIs.
 
 You may want to take a look at :ref:`examples`, :ref:`installation`, or the
 :ref:`api-ref`.
@@ -145,9 +147,8 @@ And here's a port of `example.c from the libimagequant repository
 Installation
 ============
 
-The unofficial libimagequant Python bindings are tested against `Python
-<https://www.python.org/>`_ 3 and `PyPy <https://www.pypy.org>`_ (in Python 3
-mode). Python 2 is not supported.
+These bindings are tested against `Python <https://www.python.org/>`_ 3 and
+`PyPy <https://www.pypy.org>`_ (in Python 3 mode). Python 2 is not supported.
 
 Builds are available on PyPI for 64-bit Windows, 64-bit macOS, and 64-bit
 Ubuntu. If you're using one of those, the recommended way to install is through
@@ -193,8 +194,8 @@ be built against. For example,
     python3 setup.py bdist_wheel
 
 This should create (among other things) a ``dist`` folder with a ``.whl``
-(wheel) file inside. You can now install the wheel file with pip, or distribute
-it.
+(wheel) file inside. You can now install that wheel file with pip, or
+distribute it.
 
 
 .. _api-ref:
@@ -214,38 +215,33 @@ this, the Python bindings for those functions convert those return values to
 exceptions, which you can catch using ``try``/``except``. The following table
 outlines how they're mapped:
 
-+------------------------------+-----------------------------------------------------+
-| ``liq_error`` value          | Python exception                                    |
-+==============================+=====================================================+
-| ``LIQ_OK``                   | *(n/a)*                                             |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_QUALITY_TOO_LOW``      | :py:class:`QualityTooLowError`                      |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_VALUE_OUT_OF_RANGE``   | :py:class:`ValueError` (built-in) [#builtin-exc]_   |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_OUT_OF_MEMORY``        | :py:class:`MemoryError` (built-in) [#builtin-exc]_  |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_ABORTED``              | :py:class:`AbortedError`                            |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_BITMAP_NOT_AVAILABLE`` | :py:class:`BitmapNotAvailableError`                 |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_BUFFER_TOO_SMALL``     | :py:class:`BufferTooSmallError`                     |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_INVALID_POINTER``      | :py:class:`RuntimeError` (built-in) [#builtin-exc]_ |
-+------------------------------+-----------------------------------------------------+
-| ``LIQ_UNSUPPORTED``          | :py:class:`UnsupportedError`                        |
-+------------------------------+-----------------------------------------------------+
-
-.. [#builtin-exc]
-    This is a standard Python exception type, not one defined by the
-    libimagequant Python bindings library.
++------------------------------+---------------------------------------------------+
+| ``liq_error`` value          | Python exception                                  |
++==============================+===================================================+
+| ``LIQ_OK``                   | *(n/a)*                                           |
++------------------------------+---------------------------------------------------+
+| ``LIQ_QUALITY_TOO_LOW``      | :py:class:`libimagequant.QualityTooLowError`      |
++------------------------------+---------------------------------------------------+
+| ``LIQ_VALUE_OUT_OF_RANGE``   | :py:class:`ValueError`                            |
++------------------------------+---------------------------------------------------+
+| ``LIQ_OUT_OF_MEMORY``        | :py:class:`MemoryError`                           |
++------------------------------+---------------------------------------------------+
+| ``LIQ_ABORTED``              | :py:class:`libimagequant.AbortedError`            |
++------------------------------+---------------------------------------------------+
+| ``LIQ_BITMAP_NOT_AVAILABLE`` | :py:class:`libimagequant.BitmapNotAvailableError` |
++------------------------------+---------------------------------------------------+
+| ``LIQ_BUFFER_TOO_SMALL``     | :py:class:`libimagequant.BufferTooSmallError`     |
++------------------------------+---------------------------------------------------+
+| ``LIQ_INVALID_POINTER``      | :py:class:`RuntimeError`                          |
++------------------------------+---------------------------------------------------+
+| ``LIQ_UNSUPPORTED``          | :py:class:`libimagequant.UnsupportedError`        |
++------------------------------+---------------------------------------------------+
 
 
-Classes, functions and values
------------------------------
+Constants
+---------
 
-
-.. data:: LIQ_VERSION and LIQ_VERSION_STRING
+.. data:: libimagequant.LIQ_VERSION and libimagequant.LIQ_VERSION_STRING
 
     Information about the version of **libimagequant** currently in use.
 
@@ -254,7 +250,7 @@ Classes, functions and values
 
     Python equivalents of ``LIQ_VERSION`` and ``LIQ_VERSION_STRING``.
 
-.. data:: BINDINGS_VERSION and BINDINGS_VERSION_STRING
+.. data:: libimagequant.BINDINGS_VERSION and libimagequant.BINDINGS_VERSION_STRING
 
     Information about the version of the **Python bindings** currently in use.
     
@@ -272,19 +268,11 @@ Classes, functions and values
     :py:data:`LIQ_VERSION_STRING` instead.
 
 
-.. py:class:: Color
-
-    Python equivalent of the ``liq_color`` struct.
-
-    This is simply a `collections.namedtuple
-    <https://docs.python.org/3/library/collections.html#collections.namedtuple>`_
-    with ``r``, ``g``, ``b``, and ``a`` fields.
-
-    The ``liq_palette`` struct is represented in these bindings as a
-    :py:class:`list` of instances of this class.
+Classes
+-------
 
 
-.. py:class:: Attr
+.. py:class:: libimagequant.Attr
 
     Python equivalent of the ``liq_attr`` struct.
     
@@ -341,7 +329,7 @@ Classes, functions and values
         .. note::
 
             Since the only meaningful values for this variable in the C API are
-            "zero" and "non-zero", it is presented as a :py:class:`bool` in
+            "zero" and "non-zero," it is presented as a :py:class:`bool` in
             these Python bindings.
 
         :type: :py:class:`bool`
@@ -351,14 +339,14 @@ Classes, functions and values
         Python equivalent of ``liq_attr_copy()``.
 
         :returns: A copy of this object.
-        :rtype: :py:class:`Attr`
+        :rtype: :py:class:`libimagequant.Attr`
 
     .. py:function:: create_rgba(bitmap: bytes, width: int, height: int, gamma: float) -> Image
 
         Python equivalent of ``liq_image_create_rgba()``.
 
-        :returns: The new image made from the provided data.
-        :rtype: :py:class:`Image`
+        :returns: The new image created from the provided data.
+        :rtype: :py:class:`libimagequant.Image`
 
     .. py:function:: set_log_callback(log_callback_function: Callable[[Attr, str, object], None], user_info: object)
 
@@ -391,7 +379,7 @@ Classes, functions and values
         the callback.
 
 
-.. py:class:: Histogram(attr: Attr)
+.. py:class:: libimagequant.Histogram(attr: Attr)
 
     Python equivalent of the ``liq_histogram`` struct.
     
@@ -416,10 +404,10 @@ Classes, functions and values
         Python equivalent of ``liq_histogram_quantize()``.
 
         :returns: The result of the quantization.
-        :rtype: :py:class:`Result`
+        :rtype: :py:class:`libimagequant.Result`
 
 
-.. py:class:: HistogramEntry(color: Color, count: int)
+.. py:class:: libimagequant.HistogramEntry(color: Color, count: int)
 
     Python equivalent of the ``liq_histogram_entry`` struct.
 
@@ -427,7 +415,7 @@ Classes, functions and values
 
         Python equivalent of the ``liq_histogram.color`` member.
 
-        :type: :py:class:`Color`
+        :type: :py:class:`libimagequant.Color`
 
     .. py:attribute:: count
 
@@ -436,7 +424,7 @@ Classes, functions and values
         :type: :py:class:`int`
 
 
-.. py:class:: Image
+.. py:class:: libimagequant.Image
 
     Python equivalent of the ``liq_image`` struct.
     
@@ -467,7 +455,7 @@ Classes, functions and values
 
         For consistency with the C API, this is a write-only property.
 
-        :type: :py:class:`Image`
+        :type: :py:class:`libimagequant.Image`
 
     .. py:attribute:: importance_map
 
@@ -486,10 +474,10 @@ Classes, functions and values
         Python equivalent of ``liq_image_quantize()``.
 
         :returns: The result of the quantization.
-        :rtype: :py:class:`Result`
+        :rtype: :py:class:`libimagequant.Result`
 
 
-.. py:class:: Result
+.. py:class:: libimagequant.Result
 
     Python equivalent of the ``liq_result`` struct.
     
@@ -550,7 +538,7 @@ Classes, functions and values
         Python equivalent of ``liq_get_palette()``.
 
         :returns: The list of colors.
-        :rtype: :py:class:`list` of :py:class:`Color`\s
+        :rtype: :py:class:`list` of :py:class:`libimagequant.Color`\s
 
     .. py:function:: remap_image(input_image: Image) -> bytes
 
@@ -576,6 +564,19 @@ Classes, functions and values
         Call this function with ``progress_callback_function = None`` to clear
         the callback.
 
+.. py:class:: libimagequant.Color
+
+    Python equivalent of the ``liq_color`` struct.
+
+    This is simply a `collections.namedtuple
+    <https://docs.python.org/3/library/collections.html#collections.namedtuple>`_
+    with ``r``, ``g``, ``b``, and ``a`` fields.
+
+    Please note that the equivalent of a ``liq_palette`` struct in these
+    bindings is a :py:class:`list` of instances of this class.
+
+
+.. _unsupported-functions:
 
 Functions with no direct Python equivalent
 ==========================================
