@@ -6,7 +6,7 @@ steps:
 - script: python -m pip install --upgrade pip setuptools wheel
   displayName: 'Install pip, setuptools, wheel'
 - script: pip install -r bindings/requirements.txt
-  displayName: 'Install liq requirements'
+  displayName: 'Install liq requirements.txt'
 - script: |
     cd bindings
     python setup.py bdist_wheel
@@ -18,7 +18,7 @@ steps:
   displayName: 'Install wheel with pip (Windows)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Windows_NT'))
 - script: brew install libjpeg zlib
-  displayName: 'Install libjpeg and zlib for Pillow'
+  displayName: 'Install libjpeg and zlib for Pillow (Mac)'
   condition: and(succeeded(), and(eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin')))
 - script:
     pip install Pillow pytest pytest-cov

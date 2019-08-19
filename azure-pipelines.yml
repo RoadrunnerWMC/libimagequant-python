@@ -2,6 +2,7 @@ jobs:
 - job: 'Build_and_Test_Ubuntu_1604'
   pool:
     vmImage: 'ubuntu-16.04'
+  container: manylinux1
   strategy:
     matrix:
       Python35:
