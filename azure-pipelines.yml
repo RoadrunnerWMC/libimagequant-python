@@ -11,13 +11,13 @@ jobs:
     matrix:
       Python35:
         python.version: '3.5'
-        python.command: '/opt/python/cp35-cp35m'
+        python.command: '/opt/python/cp35-cp35m/python'
       Python36:
         python.version: '3.6'
-        python.command: '/opt/python/cp36-cp36m'
+        python.command: '/opt/python/cp36-cp36m/python'
       Python37:
         python.version: '3.7'
-        python.command: '/opt/python/cp37-cp37m'
+        python.command: '/opt/python/cp37-cp37m/python'
       # PyPy3:
       #   python.version: 'pypy3'
   steps:
