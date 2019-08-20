@@ -45,7 +45,7 @@ steps:
     $(python.command) wget.py http://www.zlib.net/zlib-1.2.11.tar.gz
     tar -xvzf zlib-1.2.11.tar.gz
     cd zlib-1.2.11
-    ./configure --prefix=/usr/local/zlib
+    ./configure --prefix=../zlib
     make
     make install
   displayName: 'Manually install zlib (manylinux2010/PyPy)'
