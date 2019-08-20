@@ -1,12 +1,12 @@
 resources:
   containers:
-  - container: manylinux1
-    image: quay.io/pypa/manylinux1_x86_64
+  - container: manylinux2010
+    image: quay.io/pypa/manylinux2010_x86_64
 jobs:
-- job: 'Build_and_Test_manylinux1'
+- job: 'Build_and_Test_manylinux2010'
   pool:
     vmImage: 'ubuntu-16.04'
-  container: manylinux1
+  container: manylinux2010
   strategy:
     matrix:
       Python35:
