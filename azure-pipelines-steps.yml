@@ -41,8 +41,14 @@ steps:
 - script: brew install libjpeg zlib
   displayName: 'Install libjpeg and zlib for Pillow (Mac)'
   condition: and(succeeded(), eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Darwin'))
-- script: yum install zlib-devel
-  displayName: 'Install zlib (manylinux2010/PyPy)'
+- script: |
+    $(python.command) wget.py http://www.zlib.net/zlib-1.2.11.tar.gz
+    tar -xvzf zlib-1.2.11.tar.gz
+    cd zlib-1.2.11
+    ./configure --prefix=/usr/local/zlib
+    make
+    make install
+  displayName: 'Manually install zlib (manylinux2010/PyPy)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
 - script:
     $(python.command) -m pip install --user Pillow pytest pytest-cov
