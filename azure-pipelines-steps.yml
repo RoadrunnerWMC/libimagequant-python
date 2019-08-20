@@ -11,7 +11,11 @@ steps:
     /opt/python/cp37-cp37m/bin/python wget.py https://bitbucket.org/squeaky/portable-pypy/downloads/$(pypy.version)-portable.tar.bz2
     # unzip it
     tar xvjf $(pypy.version)-portable.tar.bz2
-  displayName: 'Install PyPy with manual download (manylinux2010)'
+    # run it to download pip
+    $(python.command) wget.py https://bootstrap.pypa.io/get-pip.py
+    # run pip
+    $(python.command) get-pip.py
+  displayName: 'Manually download and install PyPy and pip (manylinux2010/pypy)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
 - script: $(python.command) -m pip install --upgrade --user pip setuptools wheel
   displayName: 'Install/update pip, setuptools, wheel'
