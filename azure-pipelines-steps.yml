@@ -49,6 +49,8 @@ steps:
     make
     make install
     echo "export ZLIB_ROOT=../zlib" >> ~/.bashrc
+    cd include
+    ls
   displayName: 'Manually install zlib (manylinux2010/PyPy)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
 - script:
