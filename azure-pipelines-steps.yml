@@ -48,7 +48,7 @@ steps:
     ./configure --prefix=../zlib
     make
     make install
-    python3 -c "import os; print(os.environ)"
+    $(python.command_upone) -c "import os; print(os.environ)"
   displayName: 'Manually install zlib (manylinux2010/PyPy)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
 - script: $(python.command) -m pip install --user Pillow pytest pytest-cov
