@@ -26,6 +26,7 @@ jobs:
         pypy.version: 'pypy3.5-7.0.0-linux_x86_64'
         python.command: '$(pypy.version)-portable/bin/./pypy3'
         python.command_upone: '../$(pypy.version)-portable/bin/./pypy3'
+        zlib.root: 'zlib'
   steps:
   - template: azure-pipelines-steps.yml
 # - job: 'Build_and_Test_Mac_1013'
