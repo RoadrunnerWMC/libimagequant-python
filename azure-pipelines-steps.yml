@@ -9,9 +9,13 @@ steps:
     echo -e "import sys\nimport urllib.request\nwith urllib.request.urlopen(sys.argv[1]) as response:\n with open(sys.argv[1].split('/')[-1], 'wb') as f:\n  f.write(response.read())" > wget.py
     # run it with Python 3.7 to download PyPy
     /opt/python/cp37-cp37m/bin/python wget.py http://buildbot.pypy.org/nightly/trunk/$(pypy.version).tar.bz2
-    # unzip it
-    tar xvjf $(pypy.version).tar.bz2
-    # run it to download pip
+    # make directory
+    mkdir $(pypy.version)
+    # unzip it there
+    tar xvjf $(pypy.version).tar.bz2 -C $(pypy.version)
+    # move files out of subdirectory
+    mv $(pypy.version)/*/* $(pypy.version)/
+    # run wget.py to download pip
     $(python.command) wget.py https://bootstrap.pypa.io/get-pip.py
     # run pip
     $(python.command) get-pip.py
