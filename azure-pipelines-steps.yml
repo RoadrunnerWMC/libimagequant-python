@@ -4,17 +4,19 @@ steps:
   inputs:
     versionSpec: '$(python.version)'
   condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
-- script: |
+- bash: |
     # create a wget.py script that has the most basic functionality of wget
     echo -e "import sys\nimport urllib.request\nwith urllib.request.urlopen(sys.argv[1]) as response:\n with open(sys.argv[1].split('/')[-1], 'wb') as f:\n  f.write(response.read())" > wget.py
     # run it with Python 3.7 to download PyPy
-    /opt/python/cp37-cp37m/bin/python wget.py http://buildbot.pypy.org/nightly/trunk/$(pypy.version).tar.bz2
+    /opt/python/cp37-cp37m/bin/python wget.py http://buildbot.pypy.org/nightly/py3.6/$(pypy.version).tar.bz2
     # make directory
     mkdir $(pypy.version)
     # unzip it there
     tar xvjf $(pypy.version).tar.bz2 -C $(pypy.version)
     # move files out of subdirectory
-    mv $(pypy.version)/*/* $(pypy.version)/
+    cd $(pypy.version)
+    mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .
+    cd ..
     # run wget.py to download pip
     $(python.command) wget.py https://bootstrap.pypa.io/get-pip.py
     # run pip
