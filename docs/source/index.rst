@@ -33,6 +33,11 @@ APIs.
 You may want to take a look at :ref:`examples`, :ref:`installation`, or the
 :ref:`api-ref`.
 
+You might also be interested in the companion library
+`libimagequant_integrations <https://github.com/RoadrunnerWMC/libimagequant-python-integrations>`_,
+which provides helper functions for using libimagequant with many other Python
+libraries used for imagery.
+
 
 Indices and tables
 ==================
@@ -46,6 +51,11 @@ Indices and tables
 
 Examples
 ========
+
+*Note:* instead of copypasting these examples in order to use libimagequant
+with Pillow, consider using the
+`libimagequant_integrations <https://github.com/RoadrunnerWMC/libimagequant-python-integrations>`_
+library, which provides robust conversion functions for you.
 
 Here's the simplest useful example, which uses `Pillow
 <https://python-pillow.org/>`_ for loading/saving PNGs:
@@ -147,12 +157,14 @@ And here's a port of `example.c from the libimagequant repository
 Installation
 ============
 
-These bindings are tested against `Python <https://www.python.org/>`_ 3 and
-`PyPy <https://www.pypy.org>`_ (in Python 3 mode). Python 2 is not supported.
+These bindings are tested against `Python <https://www.python.org/>`_ 3 (3.5
+through 3.7, at the time of this writing) and `PyPy <https://www.pypy.org>`_
+(in Python 3 mode). Python 2 is not supported.
 
-Builds are available on PyPI for 64-bit Windows, 64-bit macOS, and 64-bit
-Ubuntu. If you're using one of those, the recommended way to install is through
-pip. You can try running:
+Builds are available on PyPI for CPython 3.5-3.7 and PyPy3 [#pypy-linux]_, on
+64-bit Windows, 64-bit macOS, and 64-bit Linux [#pypy-linux]_ (using the
+"manylinux2010" platform). If you're using any of those environments, the
+recommended way to install is through pip. You can try running:
 
 .. code-block:: text
 
@@ -168,6 +180,12 @@ If that doesn't work, you might have better luck with either of:
 
 If for some reason you'd instead like to install from source (such as if you're
 running a system for which official builds are not available on PyPI), read on.
+
+.. [#pypy-linux]
+    Unfortunately, complications with Azure Pipelines currently prevent us from
+    building the library for the specific combination of manylinux2010 + PyPy3.
+    We hope this can be resolved in the future. As a workaround, you can
+    compile it yourself for PyPy on your own Linux system.
 
 Building from source
 --------------------
