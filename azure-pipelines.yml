@@ -32,6 +32,11 @@ jobs:
       # #   python.command: '$(pypy.version)/bin/./pypy3'
       # #   python.command_upone: '../$(pypy.version)/bin/./pypy3'
       # #   zlib.root: 'zlib'
+  variables:
+    # Prevents
+    # "Process terminated. Couldn't find a valid ICU package installed on the system."
+    # errors during the "Publish code coverage results" step
+    CORECLR_GLOBAL_INVARIANT: '1' 
   steps:
   - template: azure-pipelines-steps.yml
 # - job: 'Build_and_Test_Mac_1013'
