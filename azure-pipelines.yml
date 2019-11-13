@@ -21,7 +21,7 @@ jobs:
         python.version: '3.7'
         python.command: '/opt/python/cp37-cp37m/bin/python'
         python.command_upone: '/opt/python/cp37-cp37m/bin/python'
-      Python37:
+      Python38:
         python.version: '3.8'
         python.command: '/opt/python/cp38-cp38m/bin/python'
         python.command_upone: '/opt/python/cp38-cp38m/bin/python'
@@ -50,7 +50,7 @@ jobs:
         python.version: '3.7'
         python.command: 'python'
         python.command_upone: 'python'
-      Python37:
+      Python38:
         python.version: '3.8'
         python.command: 'python'
         python.command_upone: 'python'
@@ -77,7 +77,7 @@ jobs:
         python.version: '3.7'
         python.command: 'python'
         python.command_upone: 'python'
-      Python37:
+      Python38:
         python.version: '3.8'
         python.command: 'python'
         python.command_upone: 'python'
