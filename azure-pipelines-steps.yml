@@ -68,28 +68,25 @@ steps:
     $(python.command_upone) -m pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml -p no:faulthandler
   displayName: 'Test with pytest (Win/PyPy)'
   condition: and(succeeded(), eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT'))
-- script: yum install libicu
-  displayName: 'Install libicu for code coverage (manylinux2010)'
-  condition: eq(variables['Agent.OS'], 'Linux')
-- task: UseDotNet@2
-  displayName: 'Install .NET Core SDK for code coverage (manylinux2010)'
-  inputs:
-    packageType: sdk
-    version: 3.x
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-  condition: eq(variables['Agent.OS'], 'Linux')
+# - task: UseDotNet@2
+#   displayName: 'Install .NET Core SDK for code coverage (manylinux2010)'
+#   inputs:
+#     packageType: sdk
+#     version: 3.x
+#     installationPath: $(Agent.ToolsDirectory)/dotnet
+#   condition: eq(variables['Agent.OS'], 'Linux')
 - task: PublishTestResults@2
   displayName: 'Publish test results'
   condition: succeededOrFailed()
   inputs:
     testResultsFiles: '**/test-*.xml'
     testRunTitle: 'Publish test results for Python $(python.version)'
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage results'
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+# - task: PublishCodeCoverageResults@1
+#   displayName: 'Publish code coverage results'
+#   inputs:
+#     codeCoverageTool: Cobertura
+#     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+#     reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
 - task: CopyFiles@2
   displayName: 'Copy artifacts to directory'
   inputs:
