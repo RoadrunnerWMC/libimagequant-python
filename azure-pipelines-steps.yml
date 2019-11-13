@@ -36,7 +36,7 @@ steps:
     # create a wget.py script that has the most basic functionality of wget
     echo -e "import sys\nimport urllib.request\nwith urllib.request.urlopen(sys.argv[1]) as response:\n with open(sys.argv[1].split('/')[-1], 'wb') as f:\n  f.write(response.read())" > wget.py
     # run it with Python 3.8 to download PyPy
-    /opt/python/cp38-cp38/bin/python wget.py https://bitbucket.org/squeaky/portable-pypy/downloads/$(pypy.version)-portable.tar.bz2
+    /opt/python/cp38-cp38/bin/python wget.py https://github.com/squeaky-pl/portable-pypy/releases/download/$(pypy.version)/$(pypy.version)-linux_x86_64-portable.tar.bz2
     # unzip it
     tar xvjf $(pypy.version)-portable.tar.bz2
     # run it to download pip
