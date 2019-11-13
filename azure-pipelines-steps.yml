@@ -4,33 +4,48 @@ steps:
   inputs:
     versionSpec: '$(python.version)'
   condition: and(succeeded(), ne(variables['Agent.OS'], 'Linux'))
+# ===========================================================
+# - bash: |
+#     # create a wget.py script that has the most basic functionality of wget
+#     echo -e "import sys\nimport urllib.request\nwith urllib.request.urlopen(sys.argv[1]) as response:\n with open(sys.argv[1].split('/')[-1], 'wb') as f:\n  f.write(response.read())" > wget.py
+#     # run it with Python 3.8 to download PyPy
+#     /opt/python/cp38-cp38/bin/python wget.py http://buildbot.pypy.org/nightly/py3.7/$(pypy.version).tar.bz2
+#     # make directory
+#     mkdir $(pypy.version)
+#     # unzip it there
+#     tar xvjf $(pypy.version).tar.bz2 -C $(pypy.version)
+#     # move files out of subdirectory
+#     cd $(pypy.version)
+#     mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .
+#     cd ..
+#     # make symlinks for various .so files
+#     # echo "FIND"
+#     # find / -name libffi.*
+#     # echo "ENDFIND"
+#     ln -s /lib64/libbz2.so.1 libbz2.so.1.0
+#     ln -s /usr/lib64/libffi.so.5 libffi.so.6
+#     #####
+#     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
+#     # run wget.py to download pip
+#     $(python.command) wget.py https://bootstrap.pypa.io/get-pip.py
+#     # run pip
+#     $(python.command) get-pip.py
+#   displayName: 'Manually download and install PyPy and pip (manylinux2010/pypy)'
+#   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
 - bash: |
     # create a wget.py script that has the most basic functionality of wget
     echo -e "import sys\nimport urllib.request\nwith urllib.request.urlopen(sys.argv[1]) as response:\n with open(sys.argv[1].split('/')[-1], 'wb') as f:\n  f.write(response.read())" > wget.py
     # run it with Python 3.8 to download PyPy
-    /opt/python/cp38-cp38/bin/python wget.py http://buildbot.pypy.org/nightly/py3.7/$(pypy.version).tar.bz2
-    # make directory
-    mkdir $(pypy.version)
-    # unzip it there
-    tar xvjf $(pypy.version).tar.bz2 -C $(pypy.version)
-    # move files out of subdirectory
-    cd $(pypy.version)
-    mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .
-    cd ..
-    # make symlinks for various .so files
-    # echo "FIND"
-    # find / -name libffi.*
-    # echo "ENDFIND"
-    ln -s /lib64/libbz2.so.1 libbz2.so.1.0
-    ln -s /usr/lib64/libffi.so.5 libffi.so.6
-    #####
-    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
-    # run wget.py to download pip
+    /opt/python/cp38-cp38/bin/python wget.py https://bitbucket.org/squeaky/portable-pypy/downloads/$(pypy.version)-portable.tar.bz2
+    # unzip it
+    tar xvjf $(pypy.version)-portable.tar.bz2
+    # run it to download pip
     $(python.command) wget.py https://bootstrap.pypa.io/get-pip.py
     # run pip
     $(python.command) get-pip.py
   displayName: 'Manually download and install PyPy and pip (manylinux2010/pypy)'
   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
+# ===========================================================
 - script: $(python.command) -m pip install --upgrade --user pip setuptools wheel
   displayName: 'Install/update pip, setuptools, wheel'
 - script: $(python.command) -m pip install --upgrade --user auditwheel

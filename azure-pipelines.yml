@@ -28,10 +28,9 @@ jobs:
       #   python.command_upone: '/opt/python/cp38-cp38/bin/python'
       PyPy3:
         python.version: 'pypy3'
-        pypy.version: 'pypy-c-jit-latest-linux64'
-        python.command: '$(pypy.version)/bin/./pypy3'
-        python.command_upone: '../$(pypy.version)/bin/./pypy3'
-        zlib.root: 'zlib'
+        pypy.version: 'pypy3.5-7.0.0-linux_x86_64'
+        python.command: '$(pypy.version)-portable/bin/./pypy3'
+        python.command_upone: '../$(pypy.version)-portable/bin/./pypy3'
   steps:
   - template: azure-pipelines-steps.yml
 # - job: 'Build_and_Test_Mac_1013'
