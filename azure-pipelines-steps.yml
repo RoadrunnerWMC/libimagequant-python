@@ -72,7 +72,7 @@ steps:
   displayName: 'Install .NET Core SDK for code coverage (manylinux2010)'
   inputs:
     packageType: sdk
-    version: 2.2.203
+    version: 3.x
     installationPath: $(Agent.ToolsDirectory)/dotnet
   condition: eq(variables['Agent.OS'], 'Linux')
 - task: PublishTestResults@2
