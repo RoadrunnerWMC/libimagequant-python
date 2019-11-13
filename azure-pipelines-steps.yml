@@ -18,9 +18,11 @@ steps:
     mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .
     cd ..
     # make symlinks for various .so files
-    ls /lib64
+    echo "/LIB"
+    ls /lib
+    echo "/USR/LIB"
+    ls /usr/lib
     ln -s /lib64/libbz2.so.1 libbz2.so.1.0
-    # ln -s /lib64/libbz2.so.1 libbz2.so.1.0
     #####
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
     # run wget.py to download pip
