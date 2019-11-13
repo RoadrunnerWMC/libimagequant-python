@@ -36,7 +36,7 @@ jobs:
     # Prevents
     # "Process terminated. Couldn't find a valid ICU package installed on the system."
     # errors during the "Publish code coverage results" step
-    CORECLR_GLOBAL_INVARIANT: '1' 
+    CORECLR_GLOBAL_INVARIANT: 1
   steps:
   - template: azure-pipelines-steps.yml
 # - job: 'Build_and_Test_Mac_1013'
