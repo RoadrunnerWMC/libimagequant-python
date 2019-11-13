@@ -9,23 +9,23 @@ jobs:
   container: manylinux2010
   strategy:
     matrix:
-      # # <3.8 have to be in the form "cpXY-cpXYm"; >=3.8 have to be in the form "cpXY-cpXY"
-      # Python35:
-      #   python.version: '3.5'
-      #   python.command: '/opt/python/cp35-cp35m/bin/python'
-      #   python.command_upone: '/opt/python/cp35-cp35m/bin/python'
-      # Python36:
-      #   python.version: '3.6'
-      #   python.command: '/opt/python/cp36-cp36m/bin/python'
-      #   python.command_upone: '/opt/python/cp36-cp36m/bin/python'
-      # Python37:
-      #   python.version: '3.7'
-      #   python.command: '/opt/python/cp37-cp37m/bin/python'
-      #   python.command_upone: '/opt/python/cp37-cp37m/bin/python'
-      # Python38:
-      #   python.version: '3.8'
-      #   python.command: '/opt/python/cp38-cp38/bin/python'
-      #   python.command_upone: '/opt/python/cp38-cp38/bin/python'
+      # <3.8 have to be in the form "cpXY-cpXYm"; >=3.8 have to be in the form "cpXY-cpXY"
+      Python35:
+        python.version: '3.5'
+        python.command: '/opt/python/cp35-cp35m/bin/python'
+        python.command_upone: '/opt/python/cp35-cp35m/bin/python'
+      Python36:
+        python.version: '3.6'
+        python.command: '/opt/python/cp36-cp36m/bin/python'
+        python.command_upone: '/opt/python/cp36-cp36m/bin/python'
+      Python37:
+        python.version: '3.7'
+        python.command: '/opt/python/cp37-cp37m/bin/python'
+        python.command_upone: '/opt/python/cp37-cp37m/bin/python'
+      Python38:
+        python.version: '3.8'
+        python.command: '/opt/python/cp38-cp38/bin/python'
+        python.command_upone: '/opt/python/cp38-cp38/bin/python'
       PyPy3:
         python.version: 'pypy3'
         pypy.version: 'pypy3.6-7.2.0'
@@ -33,57 +33,57 @@ jobs:
         python.command_upone: '../$(pypy.version)-linux_x86_64-portable/bin/./pypy3'
   steps:
   - template: azure-pipelines-steps.yml
-# - job: 'Build_and_Test_Mac_1013'
-#   pool:
-#     vmImage: 'macOS-10.13'
-#   strategy:
-#     matrix:
-#       Python35:
-#         python.version: '3.5'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       Python36:
-#         python.version: '3.6'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       Python37:
-#         python.version: '3.7'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       Python38:
-#         python.version: '3.8'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       PyPy3:
-#         python.version: 'pypy3'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#   steps:
-#   - template: azure-pipelines-steps.yml
-# - job: 'Build_and_Test_WinServer_2016'
-#   pool:
-#     vmImage: 'vs2017-win2016'
-#   strategy:
-#     matrix:
-#       Python35:
-#         python.version: '3.5'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       Python36:
-#         python.version: '3.6'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       Python37:
-#         python.version: '3.7'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       Python38:
-#         python.version: '3.8'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#       PyPy3:
-#         python.version: 'pypy3'
-#         python.command: 'python'
-#         python.command_upone: 'python'
-#   steps:
-#   - template: azure-pipelines-steps.yml
+- job: 'Build_and_Test_Mac_1013'
+  pool:
+    vmImage: 'macOS-10.13'
+  strategy:
+    matrix:
+      Python35:
+        python.version: '3.5'
+        python.command: 'python'
+        python.command_upone: 'python'
+      Python36:
+        python.version: '3.6'
+        python.command: 'python'
+        python.command_upone: 'python'
+      Python37:
+        python.version: '3.7'
+        python.command: 'python'
+        python.command_upone: 'python'
+      Python38:
+        python.version: '3.8'
+        python.command: 'python'
+        python.command_upone: 'python'
+      PyPy3:
+        python.version: 'pypy3'
+        python.command: 'python'
+        python.command_upone: 'python'
+  steps:
+  - template: azure-pipelines-steps.yml
+- job: 'Build_and_Test_WinServer_2016'
+  pool:
+    vmImage: 'vs2017-win2016'
+  strategy:
+    matrix:
+      Python35:
+        python.version: '3.5'
+        python.command: 'python'
+        python.command_upone: 'python'
+      Python36:
+        python.version: '3.6'
+        python.command: 'python'
+        python.command_upone: 'python'
+      Python37:
+        python.version: '3.7'
+        python.command: 'python'
+        python.command_upone: 'python'
+      Python38:
+        python.version: '3.8'
+        python.command: 'python'
+        python.command_upone: 'python'
+      PyPy3:
+        python.version: 'pypy3'
+        python.command: 'python'
+        python.command_upone: 'python'
+  steps:
+  - template: azure-pipelines-steps.yml
