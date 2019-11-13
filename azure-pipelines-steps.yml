@@ -68,8 +68,8 @@ steps:
     $(python.command_upone) -m pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml -p no:faulthandler
   displayName: 'Test with pytest (Win/PyPy)'
   condition: and(succeeded(), eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT'))
-- script: apt install libicu-dev
-  displayName: 'Install libicu-dev for code coverage (manylinux2010)'
+- script: yum install libicu
+  displayName: 'Install libicu for code coverage (manylinux2010)'
   condition: eq(variables['Agent.OS'], 'Linux')
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK for code coverage (manylinux2010)'
