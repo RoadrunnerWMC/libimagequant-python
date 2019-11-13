@@ -1,14 +1,9 @@
 import functools
 import os, os.path
-import warnings
+import struct
+import zlib
 
 import libimagequant as liq
-
-# PIL internally raises some DeprecationWarnings upon import -- block
-# those so they don't affect our actual tests
-with warnings.catch_warnings():
-    warnings.filterwarnings('ignore', category=DeprecationWarning)
-    import PIL.Image
 
 
 ########################################################################
@@ -22,12 +17,9 @@ def load_test_image(name):
     Return a triple (width, height, pixeldata), where pixeldata is
     a bytes object with RGBA data.
     """
-    img = PIL.Image.open(os.path.join(os.path.dirname(__file__), 'res', name)).convert('RGBA')
-    width = img.width
-    height = img.height
-    pixeldata = img.tobytes()
-
-    return width, height, pixeldata
+    with open(os.path.join(os.path.dirname(__file__), 'res', name + '.raw'), 'rb') as f:
+        width, height = struct.unpack_from('<II', f.read(8))
+        return width, height, zlib.decompress(f.read())
 
 
 def try_multiple_values(img, values, *,

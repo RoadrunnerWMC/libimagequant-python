@@ -60,7 +60,7 @@ def test_result_set_progress_callback():
         result.set_progress_callback(progress_callback, my_user_info)
 
     tuples = utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [None],
         attr_callback=attr_callback,
         result_callback=result_callback)
@@ -108,7 +108,7 @@ def test_result_set_progress_callback_abort():
         result.set_progress_callback(progress_callback, None)
 
     tuples = utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [None],
         attr_callback=attr_callback,
         result_callback=result_callback)
@@ -140,7 +140,7 @@ def test_result_dithering_level():
             result.dithering_level = 1.1
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [0.0, 0.5, 1.0],
         result_callback=result_callback)))
 
@@ -166,7 +166,7 @@ def test_result_output_gamma():
             result.output_gamma = 1.1
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [0.01, 0.5, 0.99],
         result_callback=result_callback)))
 
@@ -177,7 +177,7 @@ def test_result_get_palette():
     """
 
     (_, _, result, _), = utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [None])
 
     palette = result.get_palette()
@@ -200,7 +200,7 @@ def test_result_quantization_and_remapping_error_and_quality():
     """
 
     (_, image, result, _), = utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [None])
 
     # Not sure what the actual maxes for quantization_error and remapping_error are

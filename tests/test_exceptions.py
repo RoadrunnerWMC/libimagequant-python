@@ -16,7 +16,7 @@ def test_quality_too_low_error():
 
     with pytest.raises(liq.QualityTooLowError):
         utils.get_output_datas(utils.try_multiple_values(
-            'flower.jpg',
+            'flower',
             [None],
             attr_callback=attr_callback))
 
@@ -49,7 +49,7 @@ def test_buffer_too_small_error():
     """
 
     # Load the background as an Image
-    width, height, input_pixels = utils.load_test_image('test-card.png')
+    width, height, input_pixels = utils.load_test_image('test-card')
     attr = liq.Attr()
     background = attr.create_rgba(input_pixels, width, height, 0)
 
@@ -59,7 +59,7 @@ def test_buffer_too_small_error():
             image.background = background
 
     utils.try_multiple_values(
-        'alpha-gradient.png',
+        'alpha-gradient',
         [None],
         image_callback=image_callback)
 

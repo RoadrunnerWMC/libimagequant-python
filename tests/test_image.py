@@ -32,8 +32,8 @@ def test_image_background():
             image.background
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'alpha-gradient.png',
-        ['test-card_480_360.png'], # ['flower.jpg', 'test-card_480_360.png'],
+        'alpha-gradient',
+        ['test-card_480_360'], # ['flower', 'test-card_480_360'],
         image_callback=image_callback)))
 
 
@@ -56,8 +56,8 @@ def test_image_importance_map():
             image.importance_map
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'alpha-gradient.png',
-        ['importance-map-1.png', 'importance-map-2.png', 'importance-map-3.png'],
+        'alpha-gradient',
+        ['importance-map-1', 'importance-map-2', 'importance-map-3'],
         image_callback=image_callback)))
 
 
@@ -78,7 +78,7 @@ def test_image_add_fixed_color():
     ]
 
     tuples = utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         FIXED_COLORS,
         image_callback=image_callback)
     palettes = [r.get_palette() for (a, ii, r, e) in tuples]
@@ -93,8 +93,8 @@ def test_image_width_height():
     Test Image.width and Image.height
     """
 
-    # flower.jpg (480x360)
-    # --------------------
+    # flower (480x360)
+    # ----------------
 
     def image_callback_1(value, image):
         assert image.width == 480
@@ -106,12 +106,12 @@ def test_image_width_height():
             image.height = 256
 
     utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [None],
         image_callback=image_callback_1)
 
-    # test-card.png (640x480)
-    # -----------------------
+    # test-card (640x480)
+    # -------------------
 
     def image_callback_2(value, image):
         assert image.width == 640
@@ -123,7 +123,7 @@ def test_image_width_height():
             image.height = 256
 
     utils.try_multiple_values(
-        'test-card.png',
+        'test-card',
         [None],
         image_callback=image_callback_2)
 

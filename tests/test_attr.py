@@ -8,7 +8,7 @@ def test_attr_copy():
     """
     Test Attr.copy()
     """
-    width, height, input_pixels = utils.load_test_image('flower.jpg')
+    width, height, input_pixels = utils.load_test_image('flower')
 
     attr = liq.Attr()
     attr.max_colors = 88
@@ -38,7 +38,7 @@ def test_attr_max_colors():
             attr.max_colors = 257
 
     (_, _, result, _), = utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [77],
         attr_callback=attr_callback)
     assert len(result.get_palette()) == 77
@@ -61,7 +61,7 @@ def test_attr_speed():
             attr.speed = 11
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [1, 5, 10],
         attr_callback=attr_callback)))
 
@@ -83,7 +83,7 @@ def test_attr_min_opacity():
             attr.min_opacity = 256
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'alpha-gradient.png',
+        'alpha-gradient',
         [0, 63, 127, 191, 255],
         attr_callback=attr_callback)))
 
@@ -105,7 +105,7 @@ def test_attr_min_posterization():
             attr.min_posterization = 5
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [0, 1, 2, 3, 4],
         attr_callback=attr_callback)))
 
@@ -127,7 +127,7 @@ def test_attr_min_quality():
             attr.min_quality = 101
 
     tuples = utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [0, 25, 75, 90, 100],
         attr_callback=attr_callback,
         allow_exceptions=True)
@@ -157,7 +157,7 @@ def test_attr_max_quality():
             attr.max_quality = 101
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [0, 33, 66, 100],
         attr_callback=attr_callback)))
 
@@ -174,7 +174,7 @@ def test_attr_last_index_transparent():
             attr.last_index_transparent
 
     tuples = utils.try_multiple_values(
-        'alpha-gradient.png',
+        'alpha-gradient',
         [False, True],
         attr_callback=attr_callback)
     palettes = [r.get_palette() for (a, ii, r, e) in tuples]
@@ -225,7 +225,7 @@ def test_attr_set_log_callback():
         attr.set_log_callback(log_callback, my_user_info)
 
     utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [None],
         attr_callback=attr_callback)
 
@@ -278,7 +278,7 @@ def test_attr_set_progress_callback():
         attr.set_progress_callback(progress_callback, my_user_info)
 
     utils.try_multiple_values(
-        'flower.jpg',
+        'flower',
         [None],
         attr_callback=attr_callback)
 
@@ -312,7 +312,7 @@ def test_attr_set_progress_callback_abort():
 
     with pytest.raises(liq.AbortedError):
         utils.try_multiple_values(
-            'flower.jpg',
+            'flower',
             [None],
             attr_callback=attr_callback)
 

@@ -12,9 +12,9 @@ def test_histogram_basic():
     - quantize()
     """
     # Testing with three input images
-    width_A, height_A, input_pixels_A = utils.load_test_image('flower.jpg')
-    width_B, height_B, input_pixels_B = utils.load_test_image('flower-huechange-1.jpg')
-    width_C, height_C, input_pixels_C = utils.load_test_image('flower-huechange-2.jpg')
+    width_A, height_A, input_pixels_A = utils.load_test_image('flower')
+    width_B, height_B, input_pixels_B = utils.load_test_image('flower-huechange-1')
+    width_C, height_C, input_pixels_C = utils.load_test_image('flower-huechange-2')
     assert width_A == width_B == width_C
     assert height_A == height_B == height_C
     width, height = width_A, height_A
@@ -49,7 +49,7 @@ def test_histogram_add_colors():
     """
 
     # First, quantize flower-huechange-1.jpg on its own
-    width, height, input_pixels = utils.load_test_image('flower-huechange-1.jpg')
+    width, height, input_pixels = utils.load_test_image('flower-huechange-1')
     attr = liq.Attr()
     other_image = attr.create_rgba(input_pixels, width, height, 0)
     result = other_image.quantize(attr)
@@ -89,7 +89,7 @@ def test_histogram_add_colors():
     hist = liq.Histogram(attr)
 
     # Add flower.jpg as an image
-    width, height, input_pixels = utils.load_test_image('flower.jpg')
+    width, height, input_pixels = utils.load_test_image('flower')
     image = attr.create_rgba(input_pixels, width, height, 0)
     hist.add_image(attr, image)
 
@@ -114,8 +114,8 @@ def test_histogram_add_fixed_color():
     """
     Test Histogram.add_fixed_color
     """
-    width_A, height_A, input_pixels_A = utils.load_test_image('flower.jpg')
-    width_B, height_B, input_pixels_B = utils.load_test_image('flower-huechange-1.jpg')
+    width_A, height_A, input_pixels_A = utils.load_test_image('flower')
+    width_B, height_B, input_pixels_B = utils.load_test_image('flower-huechange-1')
     assert width_A == width_B
     width, height = width_A, height_A
 
