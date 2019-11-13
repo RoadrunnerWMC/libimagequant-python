@@ -25,8 +25,6 @@ steps:
 #     $(python.command) get-pip.py
 #   displayName: 'Manually download and install PyPy and pip (manylinux2010/pypy)'
 #   condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'), eq(variables['python.version'], 'pypy3'))
-- script: ls /opt/python
-  displayName: 'DEBUG'
 - script: $(python.command) -m pip install --upgrade --user pip setuptools wheel
   displayName: 'Install/update pip, setuptools, wheel'
 - script: $(python.command) -m pip install --upgrade --user auditwheel
@@ -70,6 +68,13 @@ steps:
     $(python.command_upone) -m pytest --junitxml=junit/test-results.xml --cov=libimagequant --cov-report=xml -p no:faulthandler
   displayName: 'Test with pytest (Win/PyPy)'
   condition: and(succeeded(), eq(variables['python.version'], 'pypy3'), eq(variables['Agent.OS'], 'Windows_NT'))
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK for code coverage (manylinux2010)'
+  inputs:
+    packageType: sdk
+    version: 2.2.203
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+  condition: eq(variables['Agent.OS'], 'Linux')
 - task: PublishTestResults@2
   displayName: 'Publish test results'
   condition: succeededOrFailed()
