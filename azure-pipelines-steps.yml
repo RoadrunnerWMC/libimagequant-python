@@ -18,10 +18,10 @@ steps:
     mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .
     cd ..
     # make symlinks for various .so files
-    echo "/LIB"
-    ls /lib
-    echo "/USR/LIB"
-    ls /usr/lib
+    echo "/USR/LOCAL/LIB"
+    ls /usr/local/lib
+    # echo "/USR/LIB"
+    # ls /usr/lib
     ln -s /lib64/libbz2.so.1 libbz2.so.1.0
     #####
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
