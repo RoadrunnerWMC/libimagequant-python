@@ -18,7 +18,8 @@ steps:
     mv $(find . -mindepth 1 -maxdepth 1 -type d)/* .
     cd ..
     # make a symlink for libbz2.so.1.0
-    ln -s /lib64/libbz2.so.1 /lib64/libbz2.so.1.0
+    ln -s /lib64/libbz2.so.1 libbz2.so.1.0
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
     # run wget.py to download pip
     $(python.command) wget.py https://bootstrap.pypa.io/get-pip.py
     # run pip
