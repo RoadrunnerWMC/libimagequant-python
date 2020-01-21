@@ -6,8 +6,8 @@ from ._libimagequant import lib, ffi
 
 LIQ_VERSION = lib.liq_version()
 LIQ_VERSION_STRING = ffi.string(lib._py_get_liq_version_string()).decode('ascii')
-BINDINGS_VERSION = 2120500
-BINDINGS_VERSION_STRING = '2.12.5.0'
+BINDINGS_VERSION = 2120600
+BINDINGS_VERSION_STRING = '2.12.6.0'
 
 
 ########################################################################
