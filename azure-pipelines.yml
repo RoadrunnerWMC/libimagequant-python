@@ -33,9 +33,9 @@ jobs:
         python.command_upone: '../$(pypy.version)-linux_x86_64-portable/bin/./pypy3'
   steps:
   - template: azure-pipelines-steps.yml
-- job: 'Build_and_Test_Mac_1013'
+- job: 'Build_and_Test_Mac_1014'
   pool:
-    vmImage: 'macOS-10.13'
+    vmImage: 'macOS-10.14'
   strategy:
     matrix:
       Python35:
