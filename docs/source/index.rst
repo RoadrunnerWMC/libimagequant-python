@@ -53,24 +53,25 @@ Examples
 ========
 
 *Note:* instead of copypasting these examples in order to use libimagequant
-with Pillow, consider using the
+with PyPNG or other imagery modules, consider using the
 `libimagequant_integrations <https://github.com/RoadrunnerWMC/libimagequant-python-integrations>`_
 library, which provides robust conversion functions for you.
 
-Here's the simplest useful example, which uses `Pillow
-<https://python-pillow.org/>`_ for loading/saving PNGs:
+Here's the simplest useful example, which uses `PyPNG
+<https://pypng.readthedocs.io/>`_ for loading/saving PNGs:
 
 .. code-block:: python
 
     import libimagequant as liq
-    import PIL.Image
+    import png
 
-    # Load the image with Pillow
-    img = PIL.Image.open('input.png').convert('RGBA')
+    # Load the image with PyPNG
+    img = png.Reader(filename='input.png')
+    width, height, data, info = img.read_flat()
 
     # Create libimagequant Attr and Image objects from it
     attr = liq.Attr()
-    input_image = attr.create_rgba(img.tobytes(), img.width, img.height, 0)
+    input_image = attr.create_rgba(data, width, height, info.get('gamma', 0))
 
     # Quantize
     result = input_image.quantize(attr)
@@ -79,17 +80,10 @@ Here's the simplest useful example, which uses `Pillow
     out_pixels = result.remap_image(input_image)
     out_palette = result.get_palette()
 
-    # Convert the output to a Pillow Image
-    out_img = PIL.Image.frombytes('P', (img.width, img.height), out_pixels)
-    palette_data = []
-    for color in out_palette:
-        palette_data.append(color.r)
-        palette_data.append(color.g)
-        palette_data.append(color.b)
-    out_img.putpalette(palette_data)
-
     # Save it
-    out_img.save('output.png')
+    writer = png.Writer(input_image.width, input_image.height, palette=out_palette)
+    with open('output.png', 'wb') as f:
+        writer.write_array(f, out_pixels)
 
 And here's a port of `example.c from the libimagequant repository
 <https://github.com/ImageOptim/libimagequant/blob/master/example.c>`_:
@@ -99,7 +93,7 @@ And here's a port of `example.c from the libimagequant repository
     import sys
 
     import libimagequant as liq
-    import PIL.Image
+    import png
 
 
     def main(argv):
@@ -110,17 +104,15 @@ And here's a port of `example.c from the libimagequant repository
         input_png_file_path = argv[1]
 
         # Load PNG file and decode it as raw RGBA pixels
-        # This uses the Pillow library for PNG reading (not part of libimagequant)
+        # This uses the PyPNG library for PNG reading (not part of libimagequant)
 
-        img = PIL.Image.open(input_png_file_path).convert('RGBA')
-        width = img.width
-        height = img.height
-        input_rgba_pixels = img.tobytes()
+        reader = png.Reader(filename=input_png_file_path)
+        width, height, input_rgba_pixels, info = reader.read_flat()
 
         # Use libimagequant to make a palette for the RGBA pixels
 
         attr = liq.Attr()
-        input_image = attr.create_rgba(input_rgba_pixels, width, height, 0)
+        input_image = attr.create_rgba(input_rgba_pixels, width, height, info.get('gamma', 0))
 
         result = input_image.quantize(attr)
 
@@ -132,18 +124,12 @@ And here's a port of `example.c from the libimagequant repository
         palette = result.get_palette()
 
         # Save converted pixels as a PNG file
-        # This uses the Pillow library for PNG writing (not part of libimagequant)
-        img = PIL.Image.frombytes('P', (width, height), raw_8bit_pixels)
-
-        palette_data = []
-        for color in palette:
-            palette_data.append(color.r)
-            palette_data.append(color.g)
-            palette_data.append(color.b)
-        img.putpalette(palette_data)
+        # This uses the PyPNG library for PNG writing (not part of libimagequant)
+        writer = png.Writer(input_image.width, input_image.height, palette=palette)
 
         output_png_file_path = 'quantized_example.png'
-        img.save(output_png_file_path)
+        with open(output_png_file_path, 'wb') as f:
+            writer.write_array(f, raw_8bit_pixels)
 
         print('Written ' + output_png_file_path)
 
