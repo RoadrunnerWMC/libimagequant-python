@@ -40,6 +40,8 @@ def add_build(platform, pyver):
     def only_on_not(platform_2, text):
         return text if (platform != platform_2) else ''
 
+    interpreter_tags = ' '.join(f'cp{a}{b}' for a, b in PYTHON_TEST_VERSIONS)
+
     yml.append(f"""
   build-{platform}:
 
@@ -74,6 +76,10 @@ def add_build(platform, pyver):
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
     ''')}
+    - name: Rename wheel file
+      run: |
+        cd dist
+        {py_cmd} ../.github/workflows/rename_wheel.py *.whl - {interpreter_tags}
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:

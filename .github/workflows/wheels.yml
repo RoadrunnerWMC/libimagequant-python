@@ -23,6 +23,10 @@ jobs:
         cd bindings
         python setup.py bdist_wheel
         mv ./dist ../dist
+    - name: Rename wheel file
+      run: |
+        cd dist
+        python ../.github/workflows/rename_wheel.py *.whl - cp35 cp36 cp37 cp38 cp39
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
@@ -171,6 +175,10 @@ jobs:
         cd bindings
         python setup.py bdist_wheel
         mv ./dist ../dist
+    - name: Rename wheel file
+      run: |
+        cd dist
+        python ../.github/workflows/rename_wheel.py *.whl - cp35 cp36 cp37 cp38 cp39
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
@@ -323,6 +331,10 @@ jobs:
         rm dist/*.whl
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
+    - name: Rename wheel file
+      run: |
+        cd dist
+        /opt/python/cp39-cp39/bin/python ../.github/workflows/rename_wheel.py *.whl - cp35 cp36 cp37 cp38 cp39
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
