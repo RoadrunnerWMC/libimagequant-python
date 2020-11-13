@@ -65,7 +65,7 @@ jobs:
     - name: Install wheel
       shell: bash
       run: |
-        python -m pip install dist/*.whl
+        python -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         cd tests
@@ -125,7 +125,7 @@ jobs:
         /opt/python/cp35-cp35m/bin/python -m pip install pytest
     - name: Install wheel
       run: |
-        /opt/python/cp35-cp35m/bin/python -m pip install dist/*.whl
+        /opt/python/cp35-cp35m/bin/python -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         /opt/python/cp35-cp35m/bin/python -m pip install pytest
@@ -186,7 +186,7 @@ jobs:
         /opt/python/cp36-cp36m/bin/python -m pip install pytest
     - name: Install wheel
       run: |
-        /opt/python/cp36-cp36m/bin/python -m pip install dist/*.whl
+        /opt/python/cp36-cp36m/bin/python -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         /opt/python/cp36-cp36m/bin/python -m pip install pytest
@@ -247,7 +247,7 @@ jobs:
         /opt/python/cp37-cp37m/bin/python -m pip install pytest
     - name: Install wheel
       run: |
-        /opt/python/cp37-cp37m/bin/python -m pip install dist/*.whl
+        /opt/python/cp37-cp37m/bin/python -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         /opt/python/cp37-cp37m/bin/python -m pip install pytest
@@ -308,7 +308,7 @@ jobs:
         /opt/python/cp38-cp38/bin/python -m pip install pytest
     - name: Install wheel
       run: |
-        /opt/python/cp38-cp38/bin/python -m pip install dist/*.whl
+        /opt/python/cp38-cp38/bin/python -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         /opt/python/cp38-cp38/bin/python -m pip install pytest
@@ -369,7 +369,7 @@ jobs:
         /opt/python/cp39-cp39/bin/python -m pip install pytest
     - name: Install wheel
       run: |
-        /opt/python/cp39-cp39/bin/python -m pip install dist/*.whl
+        /opt/python/cp39-cp39/bin/python -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install pytest

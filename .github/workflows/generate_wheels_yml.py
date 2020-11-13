@@ -71,7 +71,7 @@ yml.append("""
     - name: Install wheel
       shell: bash
       run: |
-        python -m pip install dist/*.whl
+        python -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         cd tests
@@ -142,7 +142,7 @@ for pyver in ['35', '36', '37', '38', '39']:
         {pycommand} -m pip install pytest
     - name: Install wheel
       run: |
-        {pycommand} -m pip install dist/*.whl
+        {pycommand} -m pip install *.whl
     - name: Test wheel with pytest
       run: |
         {pycommand} -m pip install pytest
