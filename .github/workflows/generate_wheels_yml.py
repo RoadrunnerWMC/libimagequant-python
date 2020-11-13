@@ -34,9 +34,11 @@ yml.append("""
         python -m pip install --upgrade pip
         pip install --upgrade setuptools wheel cffi>=1.0.0
     - name: Build
+      shell: bash
       run: |
         cd bindings
         python setup.py bdist_wheel
+        mv dist/* ../dist/
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
