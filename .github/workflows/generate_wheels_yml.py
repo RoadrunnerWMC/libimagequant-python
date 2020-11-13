@@ -33,7 +33,8 @@ def make_sdist_job(pyver: tuple) -> str:
     """
     Make a job that runs `setup.py sdist`
     """
-    pyver_str_dot, pyver_str_none, py_cmd = strings_for('ubuntu', pyver)
+    pyver_str_dot, pyver_str_none, _ = strings_for('ubuntu', pyver)
+    py_cmd = 'python'
 
     return f"""
   sdist:
@@ -62,6 +63,7 @@ def make_sdist_job(pyver: tuple) -> str:
         name: sdist
         path: dist
     """
+
 
 def make_build_job(platform: str, pyver: tuple) -> str:
     """

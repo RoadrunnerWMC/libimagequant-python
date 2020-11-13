@@ -16,13 +16,13 @@ jobs:
         python-version: 3.9
     - name: Install dependencies
       run: |
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade setuptools cffi>=1.0.0
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools cffi>=1.0.0
     - name: Build
       shell: bash
       run: |
         cd bindings
-        /opt/python/cp39-cp39/bin/python setup.py sdist
+        python setup.py sdist
         mv ./dist ../dist
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
