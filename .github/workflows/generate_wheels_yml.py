@@ -59,7 +59,7 @@ for platform in ['windows', 'macos']:#, 'ubuntu']:
         yml.append(f"""
   test-{platform}-{pyver_str_none}:
 
-    needs: build-{platform}-{pyver_str_dot}
+    needs: build-{platform}-{pyver_str_none}
     runs-on: {platform}-latest
 
     steps:

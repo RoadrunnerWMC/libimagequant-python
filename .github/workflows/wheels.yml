@@ -37,7 +37,7 @@ jobs:
 
   test-windows-35:
 
-    needs: build-windows-3.5
+    needs: build-windows-35
     runs-on: windows-latest
 
     steps:
@@ -92,7 +92,7 @@ jobs:
 
   test-windows-36:
 
-    needs: build-windows-3.6
+    needs: build-windows-36
     runs-on: windows-latest
 
     steps:
@@ -147,7 +147,7 @@ jobs:
 
   test-windows-37:
 
-    needs: build-windows-3.7
+    needs: build-windows-37
     runs-on: windows-latest
 
     steps:
@@ -202,7 +202,7 @@ jobs:
 
   test-windows-38:
 
-    needs: build-windows-3.8
+    needs: build-windows-38
     runs-on: windows-latest
 
     steps:
@@ -257,7 +257,7 @@ jobs:
 
   test-windows-39:
 
-    needs: build-windows-3.9
+    needs: build-windows-39
     runs-on: windows-latest
 
     steps:
@@ -312,7 +312,7 @@ jobs:
 
   test-macos-35:
 
-    needs: build-macos-3.5
+    needs: build-macos-35
     runs-on: macos-latest
 
     steps:
@@ -367,7 +367,7 @@ jobs:
 
   test-macos-36:
 
-    needs: build-macos-3.6
+    needs: build-macos-36
     runs-on: macos-latest
 
     steps:
@@ -422,7 +422,7 @@ jobs:
 
   test-macos-37:
 
-    needs: build-macos-3.7
+    needs: build-macos-37
     runs-on: macos-latest
 
     steps:
@@ -477,7 +477,7 @@ jobs:
 
   test-macos-38:
 
-    needs: build-macos-3.8
+    needs: build-macos-38
     runs-on: macos-latest
 
     steps:
@@ -532,7 +532,7 @@ jobs:
 
   test-macos-39:
 
-    needs: build-macos-3.9
+    needs: build-macos-39
     runs-on: macos-latest
 
     steps:
