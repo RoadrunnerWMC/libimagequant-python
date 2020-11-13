@@ -66,9 +66,10 @@ def test_attr_speed():
         attr_callback=attr_callback)))
 
 
+@pytest.mark.skipif(liq.LIQ_VERSION >= 21300, reason='min_opacity was replaced with a stub in liq 2.13.0')
 def test_attr_min_opacity():
     """
-    Test Attr.min_opacity
+    Test Attr.min_opacity (original implementation, < liq 2.13.0)
     """
 
     def attr_callback(value, attr):
@@ -81,6 +82,27 @@ def test_attr_min_opacity():
             attr.min_opacity = -1
         with pytest.raises(ValueError):
             attr.min_opacity = 256
+
+    utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
+        'alpha-gradient',
+        [0, 63, 127, 191, 255],
+        attr_callback=attr_callback)))
+
+
+@pytest.mark.skipif(liq.LIQ_VERSION < 21300, reason='min_opacity had a real implementation before liq 2.13.0')
+def test_attr_min_opacity_stub():
+    """
+    Test Attr.min_opacity (stub implementation, >= liq 2.13.0)
+    """
+
+    def attr_callback(value, attr):
+        # Test both the getter and setter methods
+        attr.min_opacity = value
+        assert attr.min_opacity == 0
+
+        # There shouldn't be any bounds checking anymore
+        attr.min_opacity = -1
+        attr.min_opacity = 256
 
     utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
         'alpha-gradient',
