@@ -40,6 +40,7 @@ yml.append("""
         python setup.py bdist_wheel
         mv ./dist ../dist
     - name: Install wheel
+      shell: bash
       run: |
         python -m pip install dist/*.whl
     - name: Test wheel with pytest
