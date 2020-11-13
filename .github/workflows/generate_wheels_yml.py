@@ -90,7 +90,7 @@ for platform in PLATFORMS:
     for pyver in PYTHON_BUILD_VERSIONS:
         add_build(platform, pyver)
     for pyver in PYTHON_TEST_VERSIONS:
-        add_build(platform, pyver)
+        add_test(platform, pyver)
 
 
 
