@@ -79,8 +79,8 @@ for pyver in ['35', '36', '37', '38', '39']:
         mkdir dist/wheelhouse
         {pycommand} -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
-        mv dist/wheelhouse/* dist/
-        rm -rf dist/wheelhouse
+        mv dist/wheelhouse/* ../dist/
+        rm -rf dist
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
