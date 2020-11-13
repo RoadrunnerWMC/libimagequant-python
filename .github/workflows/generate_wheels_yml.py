@@ -14,7 +14,7 @@ jobs:
 
 # Mac & Windows builds
 yml.append("""
-  mac_windows:
+  mac_windows_build:
 
     strategy:
       matrix:
@@ -39,20 +39,43 @@ yml.append("""
         cd bindings
         python setup.py bdist_wheel
         mv ./dist ../dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        path: dist
+
+  mac_windows_test:
+
+    needs: mac_windows_build
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
+        platform: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install pytest
     - name: Install wheel
       shell: bash
       run: |
         python -m pip install dist/*.whl
     - name: Test wheel with pytest
       run: |
-        python -m pip install pytest
         cd tests
         python -m pytest
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
-        path: dist
 """)
 
 # manylinuxes
@@ -65,7 +88,7 @@ for pyver in ['35', '36', '37', '38', '39']:
         pycommand = f'/opt/python/cp{pyver}-cp{pyver}m/bin/python'
 
     yml.append(f"""
-  manylinux-{pyver}:
+  manylinux_{pyver}_build:
 
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
@@ -91,6 +114,32 @@ for pyver in ['35', '36', '37', '38', '39']:
         {pycommand} -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build-manylinux-{pyver}
+        path: dist
+
+  manylinux_{pyver}_test:
+
+    needs: manylinux_{pyver}_build
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{{{ matrix.python-version }}}}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{{{ matrix.python-version }}}}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        {pycommand} -m pip install --upgrade pip
+        {pycommand} -m pip install pytest
     - name: Install wheel
       run: |
         {pycommand} -m pip install dist/*.whl
@@ -99,11 +148,6 @@ for pyver in ['35', '36', '37', '38', '39']:
         {pycommand} -m pip install pytest
         cd tests
         {pycommand} -m pytest
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-manylinux-{pyver}
-        path: dist
 """)
 
 # And finally, write the output file

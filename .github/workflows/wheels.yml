@@ -8,7 +8,7 @@ on: [push]
 
 jobs:
 
-  mac_windows:
+  mac_windows_build:
 
     strategy:
       matrix:
@@ -33,22 +33,45 @@ jobs:
         cd bindings
         python setup.py bdist_wheel
         mv ./dist ../dist
-    - name: Install wheel
-      shell: bash
-      run: |
-        python -m pip install dist/*.whl
-    - name: Test wheel with pytest
-      run: |
-        python -m pip install pytest
-        cd tests
-        python -m pytest
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
         name: build-${{ matrix.platform }}-${{ matrix.python-version }}
         path: dist
 
-  manylinux-35:
+  mac_windows_test:
+
+    needs: mac_windows_build
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
+        platform: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install pytest
+    - name: Install wheel
+      shell: bash
+      run: |
+        python -m pip install dist/*.whl
+    - name: Test wheel with pytest
+      run: |
+        cd tests
+        python -m pytest
+
+  manylinux_35_build:
 
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
@@ -74,6 +97,32 @@ jobs:
         /opt/python/cp35-cp35m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build-manylinux-35
+        path: dist
+
+  manylinux_35_test:
+
+    needs: manylinux_35_build
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${ matrix.platform }-${ matrix.python-version }
+    - name: Install dependencies
+      run: |
+        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
+        /opt/python/cp35-cp35m/bin/python -m pip install pytest
     - name: Install wheel
       run: |
         /opt/python/cp35-cp35m/bin/python -m pip install dist/*.whl
@@ -82,13 +131,8 @@ jobs:
         /opt/python/cp35-cp35m/bin/python -m pip install pytest
         cd tests
         /opt/python/cp35-cp35m/bin/python -m pytest
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-manylinux-35
-        path: dist
 
-  manylinux-36:
+  manylinux_36_build:
 
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
@@ -114,6 +158,32 @@ jobs:
         /opt/python/cp36-cp36m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build-manylinux-36
+        path: dist
+
+  manylinux_36_test:
+
+    needs: manylinux_36_build
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${ matrix.platform }-${ matrix.python-version }
+    - name: Install dependencies
+      run: |
+        /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
+        /opt/python/cp36-cp36m/bin/python -m pip install pytest
     - name: Install wheel
       run: |
         /opt/python/cp36-cp36m/bin/python -m pip install dist/*.whl
@@ -122,13 +192,8 @@ jobs:
         /opt/python/cp36-cp36m/bin/python -m pip install pytest
         cd tests
         /opt/python/cp36-cp36m/bin/python -m pytest
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-manylinux-36
-        path: dist
 
-  manylinux-37:
+  manylinux_37_build:
 
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
@@ -154,6 +219,32 @@ jobs:
         /opt/python/cp37-cp37m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build-manylinux-37
+        path: dist
+
+  manylinux_37_test:
+
+    needs: manylinux_37_build
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${ matrix.platform }-${ matrix.python-version }
+    - name: Install dependencies
+      run: |
+        /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
+        /opt/python/cp37-cp37m/bin/python -m pip install pytest
     - name: Install wheel
       run: |
         /opt/python/cp37-cp37m/bin/python -m pip install dist/*.whl
@@ -162,13 +253,8 @@ jobs:
         /opt/python/cp37-cp37m/bin/python -m pip install pytest
         cd tests
         /opt/python/cp37-cp37m/bin/python -m pytest
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-manylinux-37
-        path: dist
 
-  manylinux-38:
+  manylinux_38_build:
 
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
@@ -194,6 +280,32 @@ jobs:
         /opt/python/cp38-cp38/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build-manylinux-38
+        path: dist
+
+  manylinux_38_test:
+
+    needs: manylinux_38_build
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${ matrix.platform }-${ matrix.python-version }
+    - name: Install dependencies
+      run: |
+        /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
+        /opt/python/cp38-cp38/bin/python -m pip install pytest
     - name: Install wheel
       run: |
         /opt/python/cp38-cp38/bin/python -m pip install dist/*.whl
@@ -202,13 +314,8 @@ jobs:
         /opt/python/cp38-cp38/bin/python -m pip install pytest
         cd tests
         /opt/python/cp38-cp38/bin/python -m pytest
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-manylinux-38
-        path: dist
 
-  manylinux-39:
+  manylinux_39_build:
 
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
@@ -234,6 +341,32 @@ jobs:
         /opt/python/cp39-cp39/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: build-manylinux-39
+        path: dist
+
+  manylinux_39_test:
+
+    needs: manylinux_39_build
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-${ matrix.platform }-${ matrix.python-version }
+    - name: Install dependencies
+      run: |
+        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
+        /opt/python/cp39-cp39/bin/python -m pip install pytest
     - name: Install wheel
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install dist/*.whl
@@ -242,8 +375,3 @@ jobs:
         /opt/python/cp39-cp39/bin/python -m pip install pytest
         cd tests
         /opt/python/cp39-cp39/bin/python -m pytest
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-manylinux-39
-        path: dist
