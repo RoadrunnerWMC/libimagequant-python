@@ -8,7 +8,7 @@ on: [push]
 
 jobs:
 
-  build-windows-3.5:
+  build-windows-35:
 
     runs-on: windows-latest
 
@@ -32,10 +32,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-windows-3.5
+        name: build-windows-35
         path: dist
 
-  test-windows-3.5:
+  test-windows-35:
 
     needs: build-windows-3.5
     runs-on: windows-latest
@@ -49,7 +49,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-3.5
+        name: build-windows-35
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -63,7 +63,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-windows-3.6:
+  build-windows-36:
 
     runs-on: windows-latest
 
@@ -87,10 +87,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-windows-3.6
+        name: build-windows-36
         path: dist
 
-  test-windows-3.6:
+  test-windows-36:
 
     needs: build-windows-3.6
     runs-on: windows-latest
@@ -104,7 +104,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-3.6
+        name: build-windows-36
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -118,7 +118,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-windows-3.7:
+  build-windows-37:
 
     runs-on: windows-latest
 
@@ -142,10 +142,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-windows-3.7
+        name: build-windows-37
         path: dist
 
-  test-windows-3.7:
+  test-windows-37:
 
     needs: build-windows-3.7
     runs-on: windows-latest
@@ -159,7 +159,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-3.7
+        name: build-windows-37
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -173,7 +173,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-windows-3.8:
+  build-windows-38:
 
     runs-on: windows-latest
 
@@ -197,10 +197,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-windows-3.8
+        name: build-windows-38
         path: dist
 
-  test-windows-3.8:
+  test-windows-38:
 
     needs: build-windows-3.8
     runs-on: windows-latest
@@ -214,7 +214,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-3.8
+        name: build-windows-38
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -228,7 +228,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-windows-3.9:
+  build-windows-39:
 
     runs-on: windows-latest
 
@@ -252,10 +252,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-windows-3.9
+        name: build-windows-39
         path: dist
 
-  test-windows-3.9:
+  test-windows-39:
 
     needs: build-windows-3.9
     runs-on: windows-latest
@@ -269,7 +269,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-3.9
+        name: build-windows-39
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -283,7 +283,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-macos-3.5:
+  build-macos-35:
 
     runs-on: macos-latest
 
@@ -307,10 +307,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-macos-3.5
+        name: build-macos-35
         path: dist
 
-  test-macos-3.5:
+  test-macos-35:
 
     needs: build-macos-3.5
     runs-on: macos-latest
@@ -324,7 +324,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-3.5
+        name: build-macos-35
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -338,7 +338,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-macos-3.6:
+  build-macos-36:
 
     runs-on: macos-latest
 
@@ -362,10 +362,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-macos-3.6
+        name: build-macos-36
         path: dist
 
-  test-macos-3.6:
+  test-macos-36:
 
     needs: build-macos-3.6
     runs-on: macos-latest
@@ -379,7 +379,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-3.6
+        name: build-macos-36
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -393,7 +393,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-macos-3.7:
+  build-macos-37:
 
     runs-on: macos-latest
 
@@ -417,10 +417,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-macos-3.7
+        name: build-macos-37
         path: dist
 
-  test-macos-3.7:
+  test-macos-37:
 
     needs: build-macos-3.7
     runs-on: macos-latest
@@ -434,7 +434,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-3.7
+        name: build-macos-37
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -448,7 +448,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-macos-3.8:
+  build-macos-38:
 
     runs-on: macos-latest
 
@@ -472,10 +472,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-macos-3.8
+        name: build-macos-38
         path: dist
 
-  test-macos-3.8:
+  test-macos-38:
 
     needs: build-macos-3.8
     runs-on: macos-latest
@@ -489,7 +489,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-3.8
+        name: build-macos-38
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -503,7 +503,7 @@ jobs:
         cd tests
         python -m pytest
 
-  build-macos-3.9:
+  build-macos-39:
 
     runs-on: macos-latest
 
@@ -527,10 +527,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-macos-3.9
+        name: build-macos-39
         path: dist
 
-  test-macos-3.9:
+  test-macos-39:
 
     needs: build-macos-3.9
     runs-on: macos-latest
@@ -544,7 +544,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-3.9
+        name: build-macos-39
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip

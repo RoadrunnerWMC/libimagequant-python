@@ -14,7 +14,8 @@ jobs:
 
 for platform in ['windows', 'macos']:#, 'ubuntu']:
     for pyver in [(3,5), (3,6), (3,7), (3,8), (3,9)]:
-        pyver_str = '.'.join(str(x) for x in pyver)
+        pyver_str_dot = '.'.join(str(x) for x in pyver)
+        pyver_str_none = ''.join(str(x) for x in pyver)
 
         if platform == 'ubuntu':
             if pyver >= (3,8):
@@ -26,17 +27,17 @@ for platform in ['windows', 'macos']:#, 'ubuntu']:
 
         # Build job
         yml.append(f"""
-  build-{platform}-{pyver_str}:
+  build-{platform}-{pyver_str_none}:
 
     runs-on: {platform}-latest
 
     steps:
     - uses: actions/checkout@v2
     - uses: ilammy/msvc-dev-cmd@v1
-    - name: Set up Python {pyver_str}
+    - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
       with:
-        python-version: {pyver_str}
+        python-version: {pyver_str_dot}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -50,27 +51,27 @@ for platform in ['windows', 'macos']:#, 'ubuntu']:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-{platform}-{pyver_str}
+        name: build-{platform}-{pyver_str_none}
         path: dist
 """)
 
         # Test job
         yml.append(f"""
-  test-{platform}-{pyver_str}:
+  test-{platform}-{pyver_str_none}:
 
-    needs: build-{platform}-{pyver_str}
+    needs: build-{platform}-{pyver_str_dot}
     runs-on: {platform}-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python {pyver_str}
+    - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
       with:
-        python-version: {pyver_str}
+        python-version: {pyver_str_dot}
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-{platform}-{pyver_str}
+        name: build-{platform}-{pyver_str_none}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
