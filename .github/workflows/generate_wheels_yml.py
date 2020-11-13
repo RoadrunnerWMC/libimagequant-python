@@ -35,34 +35,39 @@ def strings_for(version_tuple):
 def add_build(platform, version):
     pyver_str_dot, pyver_str_none, py_cmd = strings_for(pyver)
 
-    def only_if_ubuntu(text):
-        return text if (platform == 'ubuntu') else ''
+    def only_on(platform_2, text):
+        return text if (platform == platform_2) else ''
+
+    def only_on_not(platform_2, text):
+        return text if (platform != platform_2) else ''
 
     yml.append(f"""
   build-{platform}-{pyver_str_none}:
 
     runs-on: {platform}-latest
-    {only_if_ubuntu('container: quay.io/pypa/manylinux2014_x86_64')}
+    {only_on('ubuntu', 'container: quay.io/pypa/manylinux2014_x86_64')}
 
     steps:
     - uses: actions/checkout@v2
-    - uses: ilammy/msvc-dev-cmd@v1
+    {only_on('windows', '- uses: ilammy/msvc-dev-cmd@v1')}
+    {only_on_not('ubuntu', f'''
     - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
       with:
         python-version: {pyver_str_dot}
+    ''')}
     - name: Install dependencies
       run: |
         {py_cmd} -m pip install --upgrade pip
-        pip install --upgrade setuptools wheel cffi>=1.0.0
-        {only_if_ubuntu('pip install auditwheel')}
+        {py_cmd} -m pip install --upgrade setuptools wheel cffi>=1.0.0
+        {only_on('ubuntu', 'pip install auditwheel')}
     - name: Build
       shell: bash
       run: |
         cd bindings
         {py_cmd} setup.py bdist_wheel
         mv ./dist ../dist
-    {only_if_ubuntu(f'''
+    {only_on('ubuntu', f'''
     - name: Run auditwheel
       run: |
         mkdir dist/wheelhouse
@@ -76,12 +81,50 @@ def add_build(platform, version):
       with:
         name: build-{platform}-{pyver_str_none}
         path: dist
-""")
+    """)
 
 
 def add_test(platform, version):
     pyver_str_dot, pyver_str_none, py_cmd = strings_for(pyver)
-    ...
+
+    def only_on(platform_2, text):
+        return text if (platform == platform_2) else ''
+
+    def only_on_not(platform_2, text):
+        return text if (platform != platform_2) else ''
+
+    yml.append(f"""
+  test-{platform}-{pyver_str_none}:
+
+    needs: build-{platform}-{pyver_str_none}
+    runs-on: {platform}-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python {pyver_str_dot}
+      uses: actions/setup-python@v2
+      with:
+        python-version: {pyver_str_dot}
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-{platform}-{pyver_str_none}
+    - name: Install dependencies
+      run: |
+        {py_cmd} -m pip install --upgrade pip
+        {py_cmd} -m pip install pytest
+    - name: Install wheel
+      shell: bash
+      run: |
+        {py_cmd} -m pip install *.whl
+    - name: Test wheel with pytest
+      run: |
+        cd tests
+        {py_cmd} -m pytest
+    """)
+
+
+
 
 
 for platform in PLATFORMS:
