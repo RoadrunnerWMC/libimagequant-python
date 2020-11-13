@@ -29,6 +29,7 @@ jobs:
         pip install --upgrade setuptools wheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         python setup.py bdist_wheel
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
@@ -53,9 +54,11 @@ jobs:
         /opt/python/cp35-cp35m/bin/python -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         /opt/python/cp35-cp35m/bin/python setup.py bdist_wheel
     - name: Run auditwheel
       run: |
+        cd bindings
         mkdir dist/wheelhouse
         /opt/python/cp35-cp35m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
@@ -84,9 +87,11 @@ jobs:
         /opt/python/cp36-cp36m/bin/python -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         /opt/python/cp36-cp36m/bin/python setup.py bdist_wheel
     - name: Run auditwheel
       run: |
+        cd bindings
         mkdir dist/wheelhouse
         /opt/python/cp36-cp36m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
@@ -115,9 +120,11 @@ jobs:
         /opt/python/cp37-cp37m/bin/python -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         /opt/python/cp37-cp37m/bin/python setup.py bdist_wheel
     - name: Run auditwheel
       run: |
+        cd bindings
         mkdir dist/wheelhouse
         /opt/python/cp37-cp37m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
@@ -146,9 +153,11 @@ jobs:
         /opt/python/cp38-cp38/bin/python -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         /opt/python/cp38-cp38/bin/python setup.py bdist_wheel
     - name: Run auditwheel
       run: |
+        cd bindings
         mkdir dist/wheelhouse
         /opt/python/cp38-cp38/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
@@ -177,9 +186,11 @@ jobs:
         /opt/python/cp39-cp39/bin/python -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         /opt/python/cp39-cp39/bin/python setup.py bdist_wheel
     - name: Run auditwheel
       run: |
+        cd bindings
         mkdir dist/wheelhouse
         /opt/python/cp39-cp39/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl

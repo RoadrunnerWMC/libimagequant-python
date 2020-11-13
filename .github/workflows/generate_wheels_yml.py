@@ -35,6 +35,7 @@ yml.append("""
         pip install --upgrade setuptools wheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         python setup.py bdist_wheel
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
@@ -70,9 +71,11 @@ for pyver in ['35', '36', '37', '38', '39']:
         {pycommand} -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
     - name: Build
       run: |
+        cd bindings
         {pycommand} setup.py bdist_wheel
     - name: Run auditwheel
       run: |
+        cd bindings
         mkdir dist/wheelhouse
         {pycommand} -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
