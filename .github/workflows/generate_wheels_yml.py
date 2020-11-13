@@ -20,25 +20,23 @@ PYTHON_TEST_VERSIONS = [(3,5), (3,6), (3,7), (3,8), (3,9)]
 def strings_for(version_tuple):
     pyver_str_dot = '.'.join(str(x) for x in pyver)
     pyver_str_none = ''.join(str(x) for x in pyver)
-    return pyver_str_dot, pyver_str_none
-
-
-def add_build(platform, version):
-    pyver_str_dot, pyver_str_none = strings_for(pyver)
-
-    def only_if_ubuntu(text):
-        if platform == 'ubuntu':
-            return text
-        else:
-            return ''
 
     if platform == 'ubuntu':
         if pyver >= (3,8):
-            py_cmd = f'/opt/python/cp{pyver}-cp{pyver}/bin/python'
+            py_cmd = f'/opt/python/cp{pyver_str_none}-cp{pyver_str_none}/bin/python'
         else:
-            py_cmd = f'/opt/python/cp{pyver}-cp{pyver}m/bin/python'
+            py_cmd = f'/opt/python/cp{pyver_str_none}-cp{pyver_str_none}m/bin/python'
     else:
         py_cmd = 'python'
+
+    return pyver_str_dot, pyver_str_none, py_cmd
+
+
+def add_build(platform, version):
+    pyver_str_dot, pyver_str_none, py_cmd = strings_for(pyver)
+
+    def only_if_ubuntu(text):
+        return text if (platform == 'ubuntu') else ''
 
     yml.append(f"""
   build-{platform}-{pyver_str_none}:
@@ -82,7 +80,7 @@ def add_build(platform, version):
 
 
 def add_test(platform, version):
-    pyver_str_dot, pyver_str_none = strings_for(pyver)
+    pyver_str_dot, pyver_str_none, py_cmd = strings_for(pyver)
     ...
 
 

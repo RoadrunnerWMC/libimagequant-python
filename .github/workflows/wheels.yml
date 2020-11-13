@@ -256,19 +256,19 @@ jobs:
         python-version: 3.5
     - name: Install dependencies
       run: |
-        /opt/python/cp(3, 5)-cp(3, 5)m/bin/python -m pip install --upgrade pip
+        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
         pip install --upgrade setuptools wheel cffi>=1.0.0
         pip install auditwheel
     - name: Build
       shell: bash
       run: |
         cd bindings
-        /opt/python/cp(3, 5)-cp(3, 5)m/bin/python setup.py bdist_wheel
+        /opt/python/cp35-cp35m/bin/python setup.py bdist_wheel
         mv ./dist ../dist
     - name: Run auditwheel
       run: |
         mkdir dist/wheelhouse
-        /opt/python/cp(3, 5)-cp(3, 5)m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
+        /opt/python/cp35-cp35m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
@@ -289,19 +289,19 @@ jobs:
         python-version: 3.6
     - name: Install dependencies
       run: |
-        /opt/python/cp(3, 6)-cp(3, 6)m/bin/python -m pip install --upgrade pip
+        /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
         pip install --upgrade setuptools wheel cffi>=1.0.0
         pip install auditwheel
     - name: Build
       shell: bash
       run: |
         cd bindings
-        /opt/python/cp(3, 6)-cp(3, 6)m/bin/python setup.py bdist_wheel
+        /opt/python/cp36-cp36m/bin/python setup.py bdist_wheel
         mv ./dist ../dist
     - name: Run auditwheel
       run: |
         mkdir dist/wheelhouse
-        /opt/python/cp(3, 6)-cp(3, 6)m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
+        /opt/python/cp36-cp36m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
@@ -322,19 +322,19 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        /opt/python/cp(3, 7)-cp(3, 7)m/bin/python -m pip install --upgrade pip
+        /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
         pip install --upgrade setuptools wheel cffi>=1.0.0
         pip install auditwheel
     - name: Build
       shell: bash
       run: |
         cd bindings
-        /opt/python/cp(3, 7)-cp(3, 7)m/bin/python setup.py bdist_wheel
+        /opt/python/cp37-cp37m/bin/python setup.py bdist_wheel
         mv ./dist ../dist
     - name: Run auditwheel
       run: |
         mkdir dist/wheelhouse
-        /opt/python/cp(3, 7)-cp(3, 7)m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
+        /opt/python/cp37-cp37m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
@@ -355,19 +355,19 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        /opt/python/cp(3, 8)-cp(3, 8)/bin/python -m pip install --upgrade pip
+        /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
         pip install --upgrade setuptools wheel cffi>=1.0.0
         pip install auditwheel
     - name: Build
       shell: bash
       run: |
         cd bindings
-        /opt/python/cp(3, 8)-cp(3, 8)/bin/python setup.py bdist_wheel
+        /opt/python/cp38-cp38/bin/python setup.py bdist_wheel
         mv ./dist ../dist
     - name: Run auditwheel
       run: |
         mkdir dist/wheelhouse
-        /opt/python/cp(3, 8)-cp(3, 8)/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
+        /opt/python/cp38-cp38/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
@@ -388,19 +388,19 @@ jobs:
         python-version: 3.9
     - name: Install dependencies
       run: |
-        /opt/python/cp(3, 9)-cp(3, 9)/bin/python -m pip install --upgrade pip
+        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
         pip install --upgrade setuptools wheel cffi>=1.0.0
         pip install auditwheel
     - name: Build
       shell: bash
       run: |
         cd bindings
-        /opt/python/cp(3, 9)-cp(3, 9)/bin/python setup.py bdist_wheel
+        /opt/python/cp39-cp39/bin/python setup.py bdist_wheel
         mv ./dist ../dist
     - name: Run auditwheel
       run: |
         mkdir dist/wheelhouse
-        /opt/python/cp(3, 9)-cp(3, 9)/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
+        /opt/python/cp39-cp39/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
