@@ -89,7 +89,6 @@ def make_build_job(platform: str, pyver: tuple) -> str:
 
     steps:
     - uses: actions/checkout@v2
-    {only_on('windows', '- uses: ilammy/msvc-dev-cmd@v1')}
     {only_on_not('ubuntu', f'''
     - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
