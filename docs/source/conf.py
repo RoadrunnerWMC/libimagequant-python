@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'libimagequant Python Bindings'
-copyright = '2019 RoadrunnerWMC; libimagequant copyright 1989-2018 Kornel Lesiński and other contributors'
+copyright = '2020 RoadrunnerWMC; libimagequant copyright 1989-2018 Kornel Lesiński and other contributors'
 author = 'RoadrunnerWMC'
 
 # The full version, including alpha/beta/rc tags

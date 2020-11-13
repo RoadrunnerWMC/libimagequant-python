@@ -1,0 +1,2 @@
+include build_cffi.py
+graft libimagequant_c
