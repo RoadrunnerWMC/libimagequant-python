@@ -6,6 +6,29 @@
 name: Build and test
 on: [push]
 jobs:
+  sdist:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
+        /opt/python/cp39-cp39/bin/python -m pip install --upgrade setuptools cffi>=1.0.0
+    - name: Build
+      shell: bash
+      run: |
+        cd bindings
+        /opt/python/cp39-cp39/bin/python setup.py sdist
+        mv ./dist ../dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: sdist
+        path: dist
   build-windows:
     runs-on: windows-latest
     steps:
@@ -36,7 +59,7 @@ jobs:
         name: build-windows
         path: dist
   test-windows-35:
-    needs: build-windows
+    needs: [build-windows, sdist]
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -44,10 +67,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.5
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-windows
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -60,8 +87,18 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - uses: ilammy/msvc-dev-cmd@v1
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-windows-36:
-    needs: build-windows
+    needs: [build-windows, sdist]
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -69,10 +106,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.6
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-windows
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -85,8 +126,18 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - uses: ilammy/msvc-dev-cmd@v1
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-windows-37:
-    needs: build-windows
+    needs: [build-windows, sdist]
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -94,10 +145,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-windows
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -110,8 +165,18 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - uses: ilammy/msvc-dev-cmd@v1
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-windows-38:
-    needs: build-windows
+    needs: [build-windows, sdist]
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -119,10 +184,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-windows
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -135,8 +204,18 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - uses: ilammy/msvc-dev-cmd@v1
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-windows-39:
-    needs: build-windows
+    needs: [build-windows, sdist]
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -144,10 +223,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-windows
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -157,6 +240,16 @@ jobs:
       run: |
         python -m pip install *.whl
     - name: Test wheel with pytest
+      run: |
+        cd tests
+        python -m pytest
+    - uses: ilammy/msvc-dev-cmd@v1
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
       run: |
         cd tests
         python -m pytest
@@ -189,7 +282,7 @@ jobs:
         name: build-macos
         path: dist
   test-macos-35:
-    needs: build-macos
+    needs: [build-macos, sdist]
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -197,10 +290,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.5
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-macos
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -213,8 +310,17 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-macos-36:
-    needs: build-macos
+    needs: [build-macos, sdist]
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -222,10 +328,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.6
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-macos
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -238,8 +348,17 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-macos-37:
-    needs: build-macos
+    needs: [build-macos, sdist]
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -247,10 +366,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-macos
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -263,8 +386,17 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-macos-38:
-    needs: build-macos
+    needs: [build-macos, sdist]
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -272,10 +404,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-macos
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -288,8 +424,17 @@ jobs:
       run: |
         cd tests
         python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        python -m pytest
   test-macos-39:
-    needs: build-macos
+    needs: [build-macos, sdist]
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -297,10 +442,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-macos
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -310,6 +459,15 @@ jobs:
       run: |
         python -m pip install *.whl
     - name: Test wheel with pytest
+      run: |
+        cd tests
+        python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        python -m pip uninstall libimagequant
+        python -m pip install *.tar.gz
+    - name: Test sdist with pytest
       run: |
         cd tests
         python -m pytest
@@ -346,7 +504,7 @@ jobs:
         name: build-ubuntu
         path: dist
   test-ubuntu-35:
-    needs: build-ubuntu
+    needs: [build-ubuntu, sdist]
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -355,10 +513,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.5
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-ubuntu
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
@@ -371,8 +533,17 @@ jobs:
       run: |
         cd tests
         /opt/python/cp35-cp35m/bin/python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        /opt/python/cp35-cp35m/bin/python -m pip uninstall libimagequant
+        /opt/python/cp35-cp35m/bin/python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        /opt/python/cp35-cp35m/bin/python -m pytest
   test-ubuntu-36:
-    needs: build-ubuntu
+    needs: [build-ubuntu, sdist]
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -381,10 +552,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.6
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-ubuntu
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
@@ -397,8 +572,17 @@ jobs:
       run: |
         cd tests
         /opt/python/cp36-cp36m/bin/python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        /opt/python/cp36-cp36m/bin/python -m pip uninstall libimagequant
+        /opt/python/cp36-cp36m/bin/python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        /opt/python/cp36-cp36m/bin/python -m pytest
   test-ubuntu-37:
-    needs: build-ubuntu
+    needs: [build-ubuntu, sdist]
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -407,10 +591,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-ubuntu
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
@@ -423,8 +611,17 @@ jobs:
       run: |
         cd tests
         /opt/python/cp37-cp37m/bin/python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        /opt/python/cp37-cp37m/bin/python -m pip uninstall libimagequant
+        /opt/python/cp37-cp37m/bin/python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        /opt/python/cp37-cp37m/bin/python -m pytest
   test-ubuntu-38:
-    needs: build-ubuntu
+    needs: [build-ubuntu, sdist]
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -433,10 +630,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-ubuntu
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
@@ -449,8 +650,17 @@ jobs:
       run: |
         cd tests
         /opt/python/cp38-cp38/bin/python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        /opt/python/cp38-cp38/bin/python -m pip uninstall libimagequant
+        /opt/python/cp38-cp38/bin/python -m pip install *.tar.gz
+    - name: Test sdist with pytest
+      run: |
+        cd tests
+        /opt/python/cp38-cp38/bin/python -m pytest
   test-ubuntu-39:
-    needs: build-ubuntu
+    needs: [build-ubuntu, sdist]
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -459,10 +669,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-ubuntu
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
@@ -472,6 +686,15 @@ jobs:
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install *.whl
     - name: Test wheel with pytest
+      run: |
+        cd tests
+        /opt/python/cp39-cp39/bin/python -m pytest
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        /opt/python/cp39-cp39/bin/python -m pip uninstall libimagequant
+        /opt/python/cp39-cp39/bin/python -m pip install *.tar.gz
+    - name: Test sdist with pytest
       run: |
         cd tests
         /opt/python/cp39-cp39/bin/python -m pytest

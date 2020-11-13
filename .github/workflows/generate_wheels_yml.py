@@ -29,6 +29,40 @@ def strings_for(platform: str, pyver: tuple) -> (str, str, str):
     return pyver_str_dot, pyver_str_none, py_cmd
 
 
+def make_sdist_job(pyver: tuple) -> str:
+    """
+    Make a job that runs `setup.py sdist`
+    """
+    pyver_str_dot, pyver_str_none, py_cmd = strings_for('ubuntu', pyver)
+
+    return f"""
+  sdist:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python {pyver_str_dot}
+      uses: actions/setup-python@v2
+      with:
+        python-version: {pyver_str_dot}
+    - name: Install dependencies
+      run: |
+        {py_cmd} -m pip install --upgrade pip
+        {py_cmd} -m pip install --upgrade setuptools cffi>=1.0.0
+    - name: Build
+      shell: bash
+      run: |
+        cd bindings
+        {py_cmd} setup.py sdist
+        mv ./dist ../dist
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: sdist
+        path: dist
+    """
+
 def make_build_job(platform: str, pyver: tuple) -> str:
     """
     Make a build job for the specified platform and Python version
@@ -105,7 +139,7 @@ def make_test_job(platform: str, pyver: tuple) -> str:
     return f"""
   test-{platform}-{pyver_str_none}:
 
-    needs: build-{platform}
+    needs: [build-{platform}, sdist]
     runs-on: {platform}-latest
     {only_on('ubuntu', f'container: {MANYLINUX_CONTAINER}')}
 
@@ -115,10 +149,14 @@ def make_test_job(platform: str, pyver: tuple) -> str:
       uses: actions/setup-python@v2
       with:
         python-version: {pyver_str_dot}
-    - name: Download artifact
+    - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
         name: build-{platform}
+    - name: Download sdist artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: sdist
     - name: Install dependencies
       run: |
         {py_cmd} -m pip install --upgrade pip
@@ -128,6 +166,16 @@ def make_test_job(platform: str, pyver: tuple) -> str:
       run: |
         {py_cmd} -m pip install *.whl
     - name: Test wheel with pytest
+      run: |
+        cd tests
+        {py_cmd} -m pytest
+    {only_on('windows', '- uses: ilammy/msvc-dev-cmd@v1')}
+    - name: Uninstall wheel and install sdist
+      shell: bash
+      run: |
+        {py_cmd} -m pip uninstall libimagequant
+        {py_cmd} -m pip install *.tar.gz
+    - name: Test sdist with pytest
       run: |
         cd tests
         {py_cmd} -m pytest
@@ -145,6 +193,7 @@ jobs:
 
 # Make one build per platform (abi3),
 # and perform one test per platform / Python version combo
+yml.append(make_sdist_job(CPYTHON_BUILD_VERSION))
 for platform in PLATFORMS:
     yml.append(make_build_job(platform, CPYTHON_BUILD_VERSION))
     for pyver in CPYTHON_TEST_VERSIONS:
