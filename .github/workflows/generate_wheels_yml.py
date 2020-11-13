@@ -12,23 +12,32 @@ on: [push]
 jobs:
 """)
 
-# Mac & Windows builds
-yml.append("""
-  mac_windows_build:
+for platform in ['windows', 'macos']:#, 'ubuntu']:
+    for pyver in [(3,5), (3,6), (3,7), (3,8), (3,9)]:
+        pyver_str = '.'.join(str(x) for x in pyver)
 
-    strategy:
-      matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
-        platform: [macos-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
+        if platform == 'ubuntu':
+            if pyver >= (3,8):
+                py_cmd = f'/opt/python/cp{pyver}-cp{pyver}/bin/python'
+            else:
+                py_cmd = f'/opt/python/cp{pyver}-cp{pyver}m/bin/python'
+        else:
+            py_cmd = 'python'
+
+        # Build job
+        yml.append(f"""
+  build-{platform}-{pyver_str}:
+
+    python-version: {pyver_str}
+    runs-on: {platform}-latest
 
     steps:
     - uses: actions/checkout@v2
     - uses: ilammy/msvc-dev-cmd@v1
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python {pyver_str}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: {pyver_str}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -42,28 +51,28 @@ yml.append("""
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-{platform}-{pyver_str}
         path: dist
+""")
 
-  mac_windows_test:
+        # Test job
+        yml.append(f"""
+  test-{platform}-{pyver_str}:
 
-    needs: mac_windows_build
-    strategy:
-      matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
-        platform: [macos-latest, windows-latest]
-    runs-on: ${{ matrix.platform }}
+    needs: build-{platform}-{pyver_str}
+    python-version: {pyver_str}
+    runs-on: {platform}-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python {pyver_str}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: {pyver_str}
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-{platform}-{pyver_str}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -83,9 +92,9 @@ for pyver in ['35', '36', '37', '38', '39']:
     # There seems to be no way (as of 2020-02-13) to accomplish this in the YAML
     # (unlike in Azure Pipelines)
     if pyver in ['38', '39']:
-        pycommand = f'/opt/python/cp{pyver}-cp{pyver}/bin/python'
+        py_cmd = f'/opt/python/cp{pyver}-cp{pyver}/bin/python'
     else:
-        pycommand = f'/opt/python/cp{pyver}-cp{pyver}m/bin/python'
+        py_cmd = f'/opt/python/cp{pyver}-cp{pyver}m/bin/python'
 
     yml.append(f"""
   manylinux_{pyver}_build:
@@ -101,17 +110,17 @@ for pyver in ['35', '36', '37', '38', '39']:
         python-version: ${{{{ matrix.python-version }}}}
     - name: Install dependencies
       run: |
-        {pycommand} -m pip install --upgrade pip
-        {pycommand} -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
+        {py_cmd} -m pip install --upgrade pip
+        {py_cmd} -m pip install --upgrade setuptools wheel auditwheel cffi>=1.0.0
     - name: Build
       run: |
         cd bindings
-        {pycommand} setup.py bdist_wheel
+        {py_cmd} setup.py bdist_wheel
     - name: Run auditwheel
       run: |
         cd bindings
         mkdir dist/wheelhouse
-        {pycommand} -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
+        {py_cmd} -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
     - name: Upload artifacts
@@ -138,16 +147,16 @@ for pyver in ['35', '36', '37', '38', '39']:
         name: build-manylinux-{pyver}
     - name: Install dependencies
       run: |
-        {pycommand} -m pip install --upgrade pip
-        {pycommand} -m pip install pytest
+        {py_cmd} -m pip install --upgrade pip
+        {py_cmd} -m pip install pytest
     - name: Install wheel
       run: |
-        {pycommand} -m pip install *.whl
+        {py_cmd} -m pip install *.whl
     - name: Test wheel with pytest
       run: |
-        {pycommand} -m pip install pytest
+        {py_cmd} -m pip install pytest
         cd tests
-        {pycommand} -m pytest
+        {py_cmd} -m pytest
 """)
 
 # And finally, write the output file
