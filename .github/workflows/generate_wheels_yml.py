@@ -135,7 +135,7 @@ for pyver in ['35', '36', '37', '38', '39']:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-${{{{ matrix.platform }}}}-${{{{ matrix.python-version }}}}
     - name: Install dependencies
       run: |
         {pycommand} -m pip install --upgrade pip
