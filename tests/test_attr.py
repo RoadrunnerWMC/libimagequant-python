@@ -104,10 +104,10 @@ def test_attr_min_opacity_stub():
         attr.min_opacity = -1
         attr.min_opacity = 256
 
-    utils.check_outputs_unique(utils.get_output_datas(utils.try_multiple_values(
+    utils.get_output_datas(utils.try_multiple_values(
         'alpha-gradient',
         [0, 63, 127, 191, 255],
-        attr_callback=attr_callback)))
+        attr_callback=attr_callback))
 
 
 def test_attr_min_posterization():
