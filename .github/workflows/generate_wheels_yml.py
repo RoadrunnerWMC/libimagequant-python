@@ -28,7 +28,6 @@ for platform in ['windows', 'macos']:#, 'ubuntu']:
         yml.append(f"""
   build-{platform}-{pyver_str}:
 
-    python-version: {pyver_str}
     runs-on: {platform}-latest
 
     steps:
@@ -60,7 +59,6 @@ for platform in ['windows', 'macos']:#, 'ubuntu']:
   test-{platform}-{pyver_str}:
 
     needs: build-{platform}-{pyver_str}
-    python-version: {pyver_str}
     runs-on: {platform}-latest
 
     steps:
