@@ -1,5 +1,4 @@
-# TODO:
-# - PyPy
+# Script for auto-generating wheels.yml.
 
 PLATFORMS = ['windows', 'macos', 'ubuntu']
 CPYTHON_TEST_VERSIONS = [(3,5), (3,6), (3,7), (3,8), (3,9)]
@@ -18,6 +17,7 @@ def strings_for(platform: str, pyver: tuple) -> (str, str, str):
     pyver_str_none = ''.join(str(x) for x in pyver)
 
     if platform == 'ubuntu':
+        # Use the Python installations provided by the manylinux container.
         # <3.8 have to be in the form "cpXY-cpXYm"; >=3.8 have to be in the form "cpXY-cpXY"
         if pyver >= (3,8):
             py_cmd = f'/opt/python/cp{pyver_str_none}-cp{pyver_str_none}/bin/python'
@@ -34,6 +34,8 @@ def make_sdist_job(pyver: tuple) -> str:
     Make a job that runs `setup.py sdist`
     """
     pyver_str_dot, pyver_str_none, _ = strings_for('ubuntu', pyver)
+    # Ignore strings_for()'s py_cmd, since it gives us the one for the
+    # manylinux container but we're just in a regular Ubuntu VM for this job
     py_cmd = 'python'
 
     return f"""
@@ -129,6 +131,7 @@ def make_build_job(platform: str, pyver: tuple) -> str:
 def make_test_job(platform: str, pyver: tuple) -> str:
     """
     Make a test job for the specified platform and Python version
+    (tests both the built wheel and the sdist)
     """
     pyver_str_dot, pyver_str_none, py_cmd = strings_for(platform, pyver)
 
@@ -171,7 +174,6 @@ def make_test_job(platform: str, pyver: tuple) -> str:
       run: |
         cd tests
         {py_cmd} -m pytest
-    {only_on('windows', '- uses: ilammy/msvc-dev-cmd@v1')}
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |

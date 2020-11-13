@@ -87,7 +87,6 @@ jobs:
       run: |
         cd tests
         python -m pytest
-    - uses: ilammy/msvc-dev-cmd@v1
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
@@ -126,7 +125,6 @@ jobs:
       run: |
         cd tests
         python -m pytest
-    - uses: ilammy/msvc-dev-cmd@v1
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
@@ -165,7 +163,6 @@ jobs:
       run: |
         cd tests
         python -m pytest
-    - uses: ilammy/msvc-dev-cmd@v1
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
@@ -204,7 +201,6 @@ jobs:
       run: |
         cd tests
         python -m pytest
-    - uses: ilammy/msvc-dev-cmd@v1
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
@@ -243,7 +239,6 @@ jobs:
       run: |
         cd tests
         python -m pytest
-    - uses: ilammy/msvc-dev-cmd@v1
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
