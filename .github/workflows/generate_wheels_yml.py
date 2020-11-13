@@ -13,6 +13,7 @@ jobs:
 PLATFORMS = ['windows', 'macos', 'ubuntu']
 PYTHON_BUILD_VERSIONS = [(3,5), (3,6), (3,7), (3,8), (3,9)]
 PYTHON_TEST_VERSIONS = [(3,5), (3,6), (3,7), (3,8), (3,9)]
+MANYLINUX_CONTAINER = 'quay.io/pypa/manylinux2014_x86_64'
 
 
 def strings_for(version_tuple):
@@ -43,7 +44,7 @@ def add_build(platform, version):
   build-{platform}-{pyver_str_none}:
 
     runs-on: {platform}-latest
-    {only_on('ubuntu', 'container: quay.io/pypa/manylinux2014_x86_64')}
+    {only_on('ubuntu', f'container: {MANYLINUX_CONTAINER}')}
 
     steps:
     - uses: actions/checkout@v2
@@ -95,6 +96,7 @@ def add_test(platform, version):
 
     needs: build-{platform}-{pyver_str_none}
     runs-on: {platform}-latest
+    {only_on('ubuntu', f'container: {MANYLINUX_CONTAINER}')}
 
     steps:
     - uses: actions/checkout@v2

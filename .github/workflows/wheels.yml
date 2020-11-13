@@ -627,6 +627,7 @@ jobs:
   test-ubuntu-35:
     needs: build-ubuntu-35
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.5
@@ -652,6 +653,7 @@ jobs:
   test-ubuntu-36:
     needs: build-ubuntu-36
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.6
@@ -677,6 +679,7 @@ jobs:
   test-ubuntu-37:
     needs: build-ubuntu-37
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.7
@@ -702,6 +705,7 @@ jobs:
   test-ubuntu-38:
     needs: build-ubuntu-38
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
@@ -727,6 +731,7 @@ jobs:
   test-ubuntu-39:
     needs: build-ubuntu-39
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
