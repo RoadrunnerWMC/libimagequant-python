@@ -118,7 +118,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-manylinux-35
     - name: Install dependencies
       run: |
         /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
@@ -179,7 +179,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-manylinux-36
     - name: Install dependencies
       run: |
         /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
@@ -240,7 +240,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-manylinux-37
     - name: Install dependencies
       run: |
         /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
@@ -301,7 +301,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-manylinux-38
     - name: Install dependencies
       run: |
         /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
@@ -362,7 +362,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.python-version }}
+        name: build-manylinux-39
     - name: Install dependencies
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
