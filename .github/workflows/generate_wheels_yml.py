@@ -60,7 +60,7 @@ def add_build(platform, pyver):
     - name: Install dependencies
       run: |
         {py_cmd} -m pip install --upgrade pip
-        {py_cmd} -m pip install --upgrade setuptools wheel cffi>=1.0.0 {only_on('ubuntu', 'auditwheel')}
+        {py_cmd} -m pip install --upgrade setuptools wheel packaging cffi>=1.0.0 {only_on('ubuntu', 'auditwheel')}
     - name: Build
       shell: bash
       run: |
