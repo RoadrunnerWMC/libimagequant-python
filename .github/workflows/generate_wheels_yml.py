@@ -39,6 +39,14 @@ yml.append("""
         cd bindings
         python setup.py bdist_wheel
         mv ./dist ../dist
+    - name: Install wheel
+      run: |
+        python -m pip install dist/*.whl
+    - name: Test wheel with pytest
+      run: |
+        python -m pip install pytest
+        cd tests
+        python -m pytest
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
@@ -82,6 +90,14 @@ for pyver in ['35', '36', '37', '38', '39']:
         {pycommand} -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         mv dist/wheelhouse ../dist
         rm -rf dist
+    - name: Install wheel
+      run: |
+        {pycommand} -m pip install dist/*.whl
+    - name: Test wheel with pytest
+      run: |
+        {pycommand} -m pip install pytest
+        cd tests
+        {pycommand} -m pytest
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
