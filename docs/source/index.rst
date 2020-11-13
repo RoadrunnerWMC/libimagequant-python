@@ -33,10 +33,12 @@ APIs.
 You may want to take a look at :ref:`examples`, :ref:`installation`, or the
 :ref:`api-ref`.
 
-You might also be interested in the companion library
-`libimagequant_integrations <https://github.com/RoadrunnerWMC/libimagequant-python-integrations>`_,
-which provides helper functions for using libimagequant with many other Python
-libraries used for imagery.
+.. note::
+
+    You might also be interested in the companion library
+    `libimagequant_integrations <https://github.com/RoadrunnerWMC/libimagequant-python-integrations>`_,
+    which provides helper functions for using libimagequant with many other Python
+    libraries used for imagery.
 
 
 Indices and tables
@@ -143,28 +145,19 @@ And here's a port of `example.c from the libimagequant repository
 Installation
 ============
 
-These bindings are built and tested against:
+Builds (fully unit-tested) are provided for supported versions of `CPython
+<https://www.python.org/>`_ 3 (3.5 through 3.9, at the time of this writing) on
+the following platforms:
 
-*   Supported versions of `CPython <https://www.python.org/>`_ 3 (3.5 through
-    3.8, at the time of this writing)
-*   A recent version of `PyPy <https://www.pypy.org>`_ in Python 3 mode.
-    (Please note that the selected PyPy version may not be the latest, and may
-    not be the same across all operating systems.)
+*    x86_64 Windows
+*    x86_64 macOS
+*    x86_64 Linux (using the "manylinux2014" platform)
 
-(Python 2 is not supported.)
+A source distribution ("sdist") is also available, which should be compatible
+with `PyPy <https://www.pypy.org/>`_, as well as other platforms and
+architectures.
 
-On the following platforms:
-
-*    64-bit Windows
-*    64-bit macOS
-*    64-bit Linux (using the "manylinux2010" platform)
-
-(The bindings should work on 32-bit systems, but builds for such platforms are
-not provided.)
-
-Builds are provided on PyPI for every combination of Python version and
-platform listed above. If you're using any of those environments, the
-recommended way to install is through pip. You can try running:
+The recommended way to install is through pip. You can try running:
 
 .. code-block:: text
 
@@ -178,13 +171,13 @@ If that doesn't work, you might have better luck with either of:
 
     py -3 -m pip install libimagequant
 
-If for some reason you'd instead like to install from source (such as if you're
-running a system for which official builds are not available on PyPI), read on.
+If for some reason you'd instead like to install from source manually (such as
+for debugging), read on.
 
 Building from source
 --------------------
 
-To build from source, begin by cloning or downloading the repository.
+To build from source manually, begin by cloning or downloading the repository.
 
 If desired, you can replace the ``libimagequant`` folder with the latest
 libimagequant source code from `its own repository
