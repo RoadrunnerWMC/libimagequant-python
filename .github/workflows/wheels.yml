@@ -91,7 +91,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -130,7 +130,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -169,7 +169,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -208,7 +208,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -247,7 +247,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -313,7 +313,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -351,7 +351,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -389,7 +389,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -427,7 +427,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -465,7 +465,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        python -m pip uninstall libimagequant
+        python -m pip uninstall -y libimagequant
         python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -536,7 +536,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        /opt/python/cp35-cp35m/bin/python -m pip uninstall libimagequant
+        /opt/python/cp35-cp35m/bin/python -m pip uninstall -y libimagequant
         /opt/python/cp35-cp35m/bin/python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -575,7 +575,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        /opt/python/cp36-cp36m/bin/python -m pip uninstall libimagequant
+        /opt/python/cp36-cp36m/bin/python -m pip uninstall -y libimagequant
         /opt/python/cp36-cp36m/bin/python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -614,7 +614,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        /opt/python/cp37-cp37m/bin/python -m pip uninstall libimagequant
+        /opt/python/cp37-cp37m/bin/python -m pip uninstall -y libimagequant
         /opt/python/cp37-cp37m/bin/python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -653,7 +653,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        /opt/python/cp38-cp38/bin/python -m pip uninstall libimagequant
+        /opt/python/cp38-cp38/bin/python -m pip uninstall -y libimagequant
         /opt/python/cp38-cp38/bin/python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
@@ -692,7 +692,7 @@ jobs:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        /opt/python/cp39-cp39/bin/python -m pip uninstall libimagequant
+        /opt/python/cp39-cp39/bin/python -m pip uninstall -y libimagequant
         /opt/python/cp39-cp39/bin/python -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |

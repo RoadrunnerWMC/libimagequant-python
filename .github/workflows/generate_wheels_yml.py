@@ -175,7 +175,7 @@ def make_test_job(platform: str, pyver: tuple) -> str:
     - name: Uninstall wheel and install sdist
       shell: bash
       run: |
-        {py_cmd} -m pip uninstall libimagequant
+        {py_cmd} -m pip uninstall -y libimagequant
         {py_cmd} -m pip install *.tar.gz
     - name: Test sdist with pytest
       run: |
