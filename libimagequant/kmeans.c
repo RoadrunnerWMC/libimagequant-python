@@ -73,7 +73,7 @@ LIQ_PRIVATE double kmeans_do_iteration(histogram *hist, colormap *const map, kme
     const int hist_size = hist->size;
 
     double total_diff=0;
-#if __GNUC__ >= 9
+#if __GNUC__ >= 9 || __clang__
     #pragma omp parallel for if (hist_size > 2000) \
         schedule(static) default(none) shared(achv,average_color,callback,hist_size,map,n) reduction(+:total_diff)
 #else
@@ -86,9 +86,9 @@ LIQ_PRIVATE double kmeans_do_iteration(histogram *hist, colormap *const map, kme
         achv[j].tmp.likely_colormap_index = match;
         total_diff += diff * achv[j].perceptual_weight;
 
-        kmeans_update_color(achv[j].acolor, achv[j].perceptual_weight, map, match, omp_get_thread_num(), average_color);
-
         if (callback) callback(&achv[j], diff);
+
+        kmeans_update_color(achv[j].acolor, achv[j].perceptual_weight, map, match, omp_get_thread_num(), average_color);
     }
 
     nearest_free(n);
