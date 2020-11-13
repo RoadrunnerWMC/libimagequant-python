@@ -1,6 +1,15 @@
+import os, os.path
+import shutil
+
 import setuptools
 
-with open('../README.md', 'r', encoding='utf-8') as fh:
+# This is a big hack, but I can't think of a better solution here
+if os.path.isfile('../README.md') and not os.path.isfile('./README.md'):
+    shutil.copy('../README.md', './README.md')
+if os.path.isfile('../libimagequant/libimagequant.c') and not os.path.isdir('./libimagequant_c'):
+    shutil.copytree('../libimagequant', './libimagequant_c')
+
+with open('./README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
 setuptools.setup(
