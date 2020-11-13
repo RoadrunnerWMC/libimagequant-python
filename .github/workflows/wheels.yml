@@ -4,103 +4,7 @@
 name: Build and test
 on: [push]
 jobs:
-  build-windows-35:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ilammy/msvc-dev-cmd@v1
-    - name: Set up Python 3.5
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.5
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-windows-35
-        path: dist
-  build-windows-36:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ilammy/msvc-dev-cmd@v1
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-windows-36
-        path: dist
-  build-windows-37:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ilammy/msvc-dev-cmd@v1
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-windows-37
-        path: dist
-  build-windows-38:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ilammy/msvc-dev-cmd@v1
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-windows-38
-        path: dist
-  build-windows-39:
+  build-windows:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -122,10 +26,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-windows-39
+        name: build-windows
         path: dist
   test-windows-35:
-    needs: build-windows-35
+    needs: build-windows
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -136,7 +40,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-35
+        name: build-windows
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -150,7 +54,7 @@ jobs:
         cd tests
         python -m pytest
   test-windows-36:
-    needs: build-windows-36
+    needs: build-windows
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -161,7 +65,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-36
+        name: build-windows
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -175,7 +79,7 @@ jobs:
         cd tests
         python -m pytest
   test-windows-37:
-    needs: build-windows-37
+    needs: build-windows
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -186,7 +90,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-37
+        name: build-windows
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -200,7 +104,7 @@ jobs:
         cd tests
         python -m pytest
   test-windows-38:
-    needs: build-windows-38
+    needs: build-windows
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -211,7 +115,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-38
+        name: build-windows
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -225,7 +129,7 @@ jobs:
         cd tests
         python -m pytest
   test-windows-39:
-    needs: build-windows-39
+    needs: build-windows
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -236,7 +140,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-windows-39
+        name: build-windows
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -249,99 +153,7 @@ jobs:
       run: |
         cd tests
         python -m pytest
-  build-macos-35:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.5
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.5
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-macos-35
-        path: dist
-  build-macos-36:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-macos-36
-        path: dist
-  build-macos-37:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-macos-37
-        path: dist
-  build-macos-38:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel cffi>=1.0.0
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-macos-38
-        path: dist
-  build-macos-39:
+  build-macos:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -362,10 +174,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-macos-39
+        name: build-macos
         path: dist
   test-macos-35:
-    needs: build-macos-35
+    needs: build-macos
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -376,7 +188,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-35
+        name: build-macos
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -390,7 +202,7 @@ jobs:
         cd tests
         python -m pytest
   test-macos-36:
-    needs: build-macos-36
+    needs: build-macos
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -401,7 +213,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-36
+        name: build-macos
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -415,7 +227,7 @@ jobs:
         cd tests
         python -m pytest
   test-macos-37:
-    needs: build-macos-37
+    needs: build-macos
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -426,7 +238,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-37
+        name: build-macos
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -440,7 +252,7 @@ jobs:
         cd tests
         python -m pytest
   test-macos-38:
-    needs: build-macos-38
+    needs: build-macos
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -451,7 +263,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-38
+        name: build-macos
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -465,7 +277,7 @@ jobs:
         cd tests
         python -m pytest
   test-macos-39:
-    needs: build-macos-39
+    needs: build-macos
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -476,7 +288,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-macos-39
+        name: build-macos
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -489,115 +301,7 @@ jobs:
       run: |
         cd tests
         python -m pytest
-  build-ubuntu-35:
-    runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
-        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade setuptools wheel cffi>=1.0.0 auditwheel
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        /opt/python/cp35-cp35m/bin/python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Run auditwheel
-      run: |
-        mkdir dist/wheelhouse
-        /opt/python/cp35-cp35m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
-        rm dist/*.whl
-        mv dist/wheelhouse/* dist/
-        rm -rf dist/wheelhouse
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-ubuntu-35
-        path: dist
-  build-ubuntu-36:
-    runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
-        /opt/python/cp36-cp36m/bin/python -m pip install --upgrade setuptools wheel cffi>=1.0.0 auditwheel
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        /opt/python/cp36-cp36m/bin/python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Run auditwheel
-      run: |
-        mkdir dist/wheelhouse
-        /opt/python/cp36-cp36m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
-        rm dist/*.whl
-        mv dist/wheelhouse/* dist/
-        rm -rf dist/wheelhouse
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-ubuntu-36
-        path: dist
-  build-ubuntu-37:
-    runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
-        /opt/python/cp37-cp37m/bin/python -m pip install --upgrade setuptools wheel cffi>=1.0.0 auditwheel
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        /opt/python/cp37-cp37m/bin/python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Run auditwheel
-      run: |
-        mkdir dist/wheelhouse
-        /opt/python/cp37-cp37m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
-        rm dist/*.whl
-        mv dist/wheelhouse/* dist/
-        rm -rf dist/wheelhouse
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-ubuntu-37
-        path: dist
-  build-ubuntu-38:
-    runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
-        /opt/python/cp38-cp38/bin/python -m pip install --upgrade setuptools wheel cffi>=1.0.0 auditwheel
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        /opt/python/cp38-cp38/bin/python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Run auditwheel
-      run: |
-        mkdir dist/wheelhouse
-        /opt/python/cp38-cp38/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
-        rm dist/*.whl
-        mv dist/wheelhouse/* dist/
-        rm -rf dist/wheelhouse
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-ubuntu-38
-        path: dist
-  build-ubuntu-39:
+  build-ubuntu:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -622,10 +326,10 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-ubuntu-39
+        name: build-ubuntu
         path: dist
   test-ubuntu-35:
-    needs: build-ubuntu-35
+    needs: build-ubuntu
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -637,7 +341,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-ubuntu-35
+        name: build-ubuntu
     - name: Install dependencies
       run: |
         /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
@@ -651,7 +355,7 @@ jobs:
         cd tests
         /opt/python/cp35-cp35m/bin/python -m pytest
   test-ubuntu-36:
-    needs: build-ubuntu-36
+    needs: build-ubuntu
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -663,7 +367,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-ubuntu-36
+        name: build-ubuntu
     - name: Install dependencies
       run: |
         /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
@@ -677,7 +381,7 @@ jobs:
         cd tests
         /opt/python/cp36-cp36m/bin/python -m pytest
   test-ubuntu-37:
-    needs: build-ubuntu-37
+    needs: build-ubuntu
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -689,7 +393,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-ubuntu-37
+        name: build-ubuntu
     - name: Install dependencies
       run: |
         /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
@@ -703,7 +407,7 @@ jobs:
         cd tests
         /opt/python/cp37-cp37m/bin/python -m pytest
   test-ubuntu-38:
-    needs: build-ubuntu-38
+    needs: build-ubuntu
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -715,7 +419,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-ubuntu-38
+        name: build-ubuntu
     - name: Install dependencies
       run: |
         /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
@@ -729,7 +433,7 @@ jobs:
         cd tests
         /opt/python/cp38-cp38/bin/python -m pytest
   test-ubuntu-39:
-    needs: build-ubuntu-39
+    needs: build-ubuntu
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
@@ -741,7 +445,7 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-ubuntu-39
+        name: build-ubuntu
     - name: Install dependencies
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
