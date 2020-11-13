@@ -77,6 +77,7 @@ def add_build(platform, pyver):
         rm -rf dist/wheelhouse
     ''')}
     - name: Rename wheel file
+      shell: bash
       run: |
         cd dist
         {py_cmd} ../.github/workflows/rename_wheel.py *.whl - {interpreter_tags}
