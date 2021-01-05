@@ -5,16 +5,14 @@
 #ifndef LIBIMAGEQUANT_H
 #define LIBIMAGEQUANT_H
 
-#ifdef IMAGEQUANT_EXPORTS
+#ifdef _WINDOWS
 #define LIQ_EXPORT __declspec(dllexport)
-#endif
-
-#ifndef LIQ_EXPORT
+#else 
 #define LIQ_EXPORT extern
 #endif
 
-#define LIQ_VERSION 21301
-#define LIQ_VERSION_STRING "2.13.1"
+#define LIQ_VERSION 21300
+#define LIQ_VERSION_STRING "2.13.0"
 
 #ifndef LIQ_PRIVATE
 #if defined(__GNUC__) || defined (__llvm__)
