@@ -749,7 +749,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
         /opt/python/cp35-cp35m/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -784,7 +784,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
         /opt/python/cp36-cp36m/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -819,7 +819,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
         /opt/python/cp37-cp37m/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -854,7 +854,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
         /opt/python/cp38-cp38/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -889,7 +889,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
         /opt/python/cp39-cp39/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash

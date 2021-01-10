@@ -170,7 +170,7 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
         name: sdist
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        {py_cmd} -m pip install --upgrade pip
         {py_cmd} -m pip install pytest
     - name: Install wheel
       shell: bash
