@@ -32,8 +32,7 @@ jobs:
   build-windows-32:
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -63,8 +62,7 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -103,8 +101,7 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -143,8 +140,7 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -183,8 +179,7 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -223,8 +218,7 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -259,244 +253,10 @@ jobs:
       run: |
         cd tests
         python -m pytest
-  build-ubuntu-32:
-    runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_i686
-    steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
-    - name: Install dependencies
-      run: |
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade setuptools wheel packaging cffi>=1.0.0 auditwheel
-    - name: Build
-      shell: bash
-      run: |
-        cd bindings
-        /opt/python/cp39-cp39/bin/python setup.py bdist_wheel
-        mv ./dist ../dist
-    - name: Run auditwheel
-      run: |
-        mkdir dist/wheelhouse
-        /opt/python/cp39-cp39/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
-        rm dist/*.whl
-        mv dist/wheelhouse/* dist/
-        rm -rf dist/wheelhouse
-    - name: Rename wheel file
-      shell: bash
-      run: |
-        cd dist
-        /opt/python/cp39-cp39/bin/python ../.github/workflows/rename_wheel.py *.whl - cp35 cp36 cp37 cp38 cp39
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-ubuntu-32
-        path: dist
-  test-ubuntu-32-35:
-    needs: [build-ubuntu-32, sdist]
-    runs-on: ubuntu-latest
-    steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.5
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.5
-        architecture: x86
-    - name: Download build artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: build-ubuntu-32
-    - name: Download sdist artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: sdist
-    - name: Install dependencies
-      run: |
-        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
-        /opt/python/cp35-cp35m/bin/python -m pip install pytest
-    - name: Install wheel
-      shell: bash
-      run: |
-        /opt/python/cp35-cp35m/bin/python -m pip install *.whl
-    - name: Test wheel with pytest
-      run: |
-        cd tests
-        /opt/python/cp35-cp35m/bin/python -m pytest
-    - name: Uninstall wheel and install sdist
-      shell: bash
-      run: |
-        /opt/python/cp35-cp35m/bin/python -m pip uninstall -y libimagequant
-        /opt/python/cp35-cp35m/bin/python -m pip install *.tar.gz
-    - name: Test sdist with pytest
-      run: |
-        cd tests
-        /opt/python/cp35-cp35m/bin/python -m pytest
-  test-ubuntu-32-36:
-    needs: [build-ubuntu-32, sdist]
-    runs-on: ubuntu-latest
-    steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-        architecture: x86
-    - name: Download build artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: build-ubuntu-32
-    - name: Download sdist artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: sdist
-    - name: Install dependencies
-      run: |
-        /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
-        /opt/python/cp36-cp36m/bin/python -m pip install pytest
-    - name: Install wheel
-      shell: bash
-      run: |
-        /opt/python/cp36-cp36m/bin/python -m pip install *.whl
-    - name: Test wheel with pytest
-      run: |
-        cd tests
-        /opt/python/cp36-cp36m/bin/python -m pytest
-    - name: Uninstall wheel and install sdist
-      shell: bash
-      run: |
-        /opt/python/cp36-cp36m/bin/python -m pip uninstall -y libimagequant
-        /opt/python/cp36-cp36m/bin/python -m pip install *.tar.gz
-    - name: Test sdist with pytest
-      run: |
-        cd tests
-        /opt/python/cp36-cp36m/bin/python -m pytest
-  test-ubuntu-32-37:
-    needs: [build-ubuntu-32, sdist]
-    runs-on: ubuntu-latest
-    steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-        architecture: x86
-    - name: Download build artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: build-ubuntu-32
-    - name: Download sdist artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: sdist
-    - name: Install dependencies
-      run: |
-        /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
-        /opt/python/cp37-cp37m/bin/python -m pip install pytest
-    - name: Install wheel
-      shell: bash
-      run: |
-        /opt/python/cp37-cp37m/bin/python -m pip install *.whl
-    - name: Test wheel with pytest
-      run: |
-        cd tests
-        /opt/python/cp37-cp37m/bin/python -m pytest
-    - name: Uninstall wheel and install sdist
-      shell: bash
-      run: |
-        /opt/python/cp37-cp37m/bin/python -m pip uninstall -y libimagequant
-        /opt/python/cp37-cp37m/bin/python -m pip install *.tar.gz
-    - name: Test sdist with pytest
-      run: |
-        cd tests
-        /opt/python/cp37-cp37m/bin/python -m pytest
-  test-ubuntu-32-38:
-    needs: [build-ubuntu-32, sdist]
-    runs-on: ubuntu-latest
-    steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-        architecture: x86
-    - name: Download build artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: build-ubuntu-32
-    - name: Download sdist artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: sdist
-    - name: Install dependencies
-      run: |
-        /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
-        /opt/python/cp38-cp38/bin/python -m pip install pytest
-    - name: Install wheel
-      shell: bash
-      run: |
-        /opt/python/cp38-cp38/bin/python -m pip install *.whl
-    - name: Test wheel with pytest
-      run: |
-        cd tests
-        /opt/python/cp38-cp38/bin/python -m pytest
-    - name: Uninstall wheel and install sdist
-      shell: bash
-      run: |
-        /opt/python/cp38-cp38/bin/python -m pip uninstall -y libimagequant
-        /opt/python/cp38-cp38/bin/python -m pip install *.tar.gz
-    - name: Test sdist with pytest
-      run: |
-        cd tests
-        /opt/python/cp38-cp38/bin/python -m pytest
-  test-ubuntu-32-39:
-    needs: [build-ubuntu-32, sdist]
-    runs-on: ubuntu-latest
-    steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-        architecture: x86
-    - name: Download build artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: build-ubuntu-32
-    - name: Download sdist artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: sdist
-    - name: Install dependencies
-      run: |
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
-        /opt/python/cp39-cp39/bin/python -m pip install pytest
-    - name: Install wheel
-      shell: bash
-      run: |
-        /opt/python/cp39-cp39/bin/python -m pip install *.whl
-    - name: Test wheel with pytest
-      run: |
-        cd tests
-        /opt/python/cp39-cp39/bin/python -m pytest
-    - name: Uninstall wheel and install sdist
-      shell: bash
-      run: |
-        /opt/python/cp39-cp39/bin/python -m pip uninstall -y libimagequant
-        /opt/python/cp39-cp39/bin/python -m pip install *.tar.gz
-    - name: Test sdist with pytest
-      run: |
-        cd tests
-        /opt/python/cp39-cp39/bin/python -m pytest
   build-windows-64:
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -526,8 +286,7 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -566,8 +325,7 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -606,8 +364,7 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -646,8 +403,7 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -686,8 +442,7 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -725,8 +480,7 @@ jobs:
   build-macos-64:
     runs-on: macos-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -756,8 +510,7 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -796,8 +549,7 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -836,8 +588,7 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -876,8 +627,7 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -916,8 +666,7 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -956,8 +705,7 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
@@ -989,8 +737,7 @@ jobs:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -1029,8 +776,7 @@ jobs:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -1069,8 +815,7 @@ jobs:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -1109,8 +854,7 @@ jobs:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -1149,8 +893,7 @@ jobs:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:

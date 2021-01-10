@@ -90,8 +90,7 @@ def make_build_job(platform: str, arch: int, pyver: tuple) -> str:
     {only_on('ubuntu', f'container: {container}')}
 
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     {only_on_not('ubuntu', f'''
     - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
@@ -152,8 +151,7 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
     runs-on: {platform}-latest
 
     steps:
-    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
       with:
@@ -205,8 +203,8 @@ jobs:
 yml.append(make_sdist_job(CPYTHON_BUILD_VERSION))
 for arch in [32, 64]:
     for platform in PLATFORMS:
-        if platform == 'macos' and arch == 32:
-            # 32-bit macOS isn't a thing anymore
+        if arch == 32 and platform != 'windows':
+            # GHA actions/setup-python only provides 32-bit Python builds for Windows
             continue
         yml.append(make_build_job(platform, arch, CPYTHON_BUILD_VERSION))
         for pyver in CPYTHON_TEST_VERSIONS:
