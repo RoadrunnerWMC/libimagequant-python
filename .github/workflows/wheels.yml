@@ -32,11 +32,8 @@ jobs:
   build-windows-32:
     runs-on: windows-latest
     steps:
-    - name: TESTING
-      shell: bash
-      run: |
-        echo "HELLO WORLD"
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -66,7 +63,8 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -105,7 +103,8 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -144,7 +143,8 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -183,7 +183,8 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -222,7 +223,8 @@ jobs:
     needs: [build-windows-32, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -261,11 +263,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_i686
     steps:
-    - name: TESTING
-      shell: bash
-      run: |
-        echo "HELLO WORLD"
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Install dependencies
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
@@ -298,7 +297,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_i686
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -338,7 +338,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_i686
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -378,7 +379,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_i686
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -418,7 +420,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_i686
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -458,7 +461,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_i686
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -496,11 +500,8 @@ jobs:
   build-windows-64:
     runs-on: windows-latest
     steps:
-    - name: TESTING
-      shell: bash
-      run: |
-        echo "HELLO WORLD"
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -530,7 +531,8 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -569,7 +571,8 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -608,7 +611,8 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -647,7 +651,8 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -686,7 +691,8 @@ jobs:
     needs: [build-windows-64, sdist]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -724,11 +730,8 @@ jobs:
   build-macos-64:
     runs-on: macos-latest
     steps:
-    - name: TESTING
-      shell: bash
-      run: |
-        echo "HELLO WORLD"
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -758,7 +761,8 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -797,7 +801,8 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -836,7 +841,8 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -875,7 +881,8 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -914,7 +921,8 @@ jobs:
     needs: [build-macos-64, sdist]
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
@@ -953,11 +961,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - name: TESTING
-      shell: bash
-      run: |
-        echo "HELLO WORLD"
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Install dependencies
       run: |
         /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
@@ -990,7 +995,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
@@ -1030,7 +1036,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
@@ -1070,7 +1077,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
@@ -1110,7 +1118,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -1150,7 +1159,8 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:

@@ -90,11 +90,8 @@ def make_build_job(platform: str, arch: int, pyver: tuple) -> str:
     {only_on('ubuntu', f'container: {container}')}
 
     steps:
-    - name: TESTING
-      shell: bash
-      run: |
-        echo "HELLO WORLD"
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     {only_on_not('ubuntu', f'''
     - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
@@ -156,7 +153,8 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
     {only_on('ubuntu', f'container: {container}')}
 
     steps:
-    - uses: actions/checkout@v2
+    # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
+    - uses: actions/checkout@v1
     - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
       with:
