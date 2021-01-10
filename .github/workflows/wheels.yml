@@ -736,13 +736,9 @@ jobs:
   test-ubuntu-64-35:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.5
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.5
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -753,7 +749,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         /opt/python/cp35-cp35m/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -775,13 +771,9 @@ jobs:
   test-ubuntu-64-36:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -792,7 +784,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        /opt/python/cp36-cp36m/bin/python -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         /opt/python/cp36-cp36m/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -814,13 +806,9 @@ jobs:
   test-ubuntu-64-37:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -831,7 +819,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        /opt/python/cp37-cp37m/bin/python -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         /opt/python/cp37-cp37m/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -853,13 +841,9 @@ jobs:
   test-ubuntu-64-38:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -870,7 +854,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        /opt/python/cp38-cp38/bin/python -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         /opt/python/cp38-cp38/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash
@@ -892,13 +876,9 @@ jobs:
   test-ubuntu-64-39:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -909,7 +889,7 @@ jobs:
         name: sdist
     - name: Install dependencies
       run: |
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         /opt/python/cp39-cp39/bin/python -m pip install pytest
     - name: Install wheel
       shell: bash

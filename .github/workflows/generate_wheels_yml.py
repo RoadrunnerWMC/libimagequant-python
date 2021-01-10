@@ -149,14 +149,17 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
 
     needs: [build-{platform}-{arch}, sdist]
     runs-on: {platform}-latest
+    {only_on('ubuntu', f'container: {container}')}
 
     steps:
     - uses: actions/checkout@v2
+    {only_on_not('ubuntu', f'''
     - name: Set up Python {pyver_str_dot}
       uses: actions/setup-python@v2
       with:
         python-version: {pyver_str_dot}
         architecture: {'x64' if arch == 64 else 'x86'}
+    ''')}
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -167,7 +170,7 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
         name: sdist
     - name: Install dependencies
       run: |
-        {py_cmd} -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         {py_cmd} -m pip install pytest
     - name: Install wheel
       shell: bash
