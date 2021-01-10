@@ -295,10 +295,14 @@ jobs:
   test-ubuntu-32-35:
     needs: [build-ubuntu-32, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_i686
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.5
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.5
+        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -331,10 +335,14 @@ jobs:
   test-ubuntu-32-36:
     needs: [build-ubuntu-32, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_i686
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -367,10 +375,14 @@ jobs:
   test-ubuntu-32-37:
     needs: [build-ubuntu-32, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_i686
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -403,10 +415,14 @@ jobs:
   test-ubuntu-32-38:
     needs: [build-ubuntu-32, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_i686
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -439,10 +455,14 @@ jobs:
   test-ubuntu-32-39:
     needs: [build-ubuntu-32, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_i686
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -968,10 +988,14 @@ jobs:
   test-ubuntu-64-35:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.5
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.5
+        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1004,10 +1028,14 @@ jobs:
   test-ubuntu-64-36:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1040,10 +1068,14 @@ jobs:
   test-ubuntu-64-37:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1076,10 +1108,14 @@ jobs:
   test-ubuntu-64-38:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1112,10 +1148,14 @@ jobs:
   test-ubuntu-64-39:
     needs: [build-ubuntu-64, sdist]
     runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
