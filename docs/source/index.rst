@@ -150,6 +150,7 @@ Builds (fully unit-tested) are provided for supported versions of `CPython
 the following platforms:
 
 *    x86_64 Windows
+*    x86 (32-bit) Windows
 *    x86_64 macOS
 *    x86_64 Linux (using the "manylinux2014" platform)
 
