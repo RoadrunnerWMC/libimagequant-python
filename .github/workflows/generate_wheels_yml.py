@@ -3,7 +3,8 @@
 PLATFORMS = ['windows', 'macos', 'ubuntu']
 CPYTHON_TEST_VERSIONS = [(3,5), (3,6), (3,7), (3,8), (3,9)]
 CPYTHON_BUILD_VERSION = CPYTHON_TEST_VERSIONS[-1]
-MANYLINUX_CONTAINER = 'quay.io/pypa/manylinux2014_x86_64'
+MANYLINUX_CONTAINER_32 = 'quay.io/pypa/manylinux2014_i686'
+MANYLINUX_CONTAINER_64 = 'quay.io/pypa/manylinux2014_x86_64'
 
 
 def strings_for(platform: str, pyver: tuple) -> (str, str, str):
@@ -67,7 +68,7 @@ def make_sdist_job(pyver: tuple) -> str:
     """
 
 
-def make_build_job(platform: str, pyver: tuple) -> str:
+def make_build_job(platform: str, arch: int, pyver: tuple) -> str:
     """
     Make a build job for the specified platform and Python version
     """
@@ -80,12 +81,13 @@ def make_build_job(platform: str, pyver: tuple) -> str:
         return text if (platform != platform_2) else ''
 
     interpreter_tags = ' '.join(f'cp{a}{b}' for a, b in CPYTHON_TEST_VERSIONS)
+    container = MANYLINUX_CONTAINER_64 if arch == 64 else MANYLINUX_CONTAINER_32
 
     return f"""
-  build-{platform}:
+  build-{platform}-{arch}:
 
     runs-on: {platform}-latest
-    {only_on('ubuntu', f'container: {MANYLINUX_CONTAINER}')}
+    {only_on('ubuntu', f'container: {container}')}
 
     steps:
     - uses: actions/checkout@v2
@@ -94,6 +96,7 @@ def make_build_job(platform: str, pyver: tuple) -> str:
       uses: actions/setup-python@v2
       with:
         python-version: {pyver_str_dot}
+        architecture: {'x64' if arch == 64 else 'x86'}
     ''')}
     - name: Install dependencies
       run: |
@@ -122,17 +125,18 @@ def make_build_job(platform: str, pyver: tuple) -> str:
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
-        name: build-{platform}
+        name: build-{platform}-{arch}
         path: dist
     """
 
 
-def make_test_job(platform: str, pyver: tuple) -> str:
+def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
     """
     Make a test job for the specified platform and Python version
     (tests both the built wheel and the sdist)
     """
     pyver_str_dot, pyver_str_none, py_cmd = strings_for(platform, pyver)
+    container = MANYLINUX_CONTAINER_64 if arch == 64 else MANYLINUX_CONTAINER_32
 
     def only_on(platform_2, text):
         return text if (platform == platform_2) else ''
@@ -141,11 +145,11 @@ def make_test_job(platform: str, pyver: tuple) -> str:
         return text if (platform != platform_2) else ''
 
     return f"""
-  test-{platform}-{pyver_str_none}:
+  test-{platform}-{arch}-{pyver_str_none}:
 
-    needs: [build-{platform}, sdist]
+    needs: [build-{platform}-{arch}, sdist]
     runs-on: {platform}-latest
-    {only_on('ubuntu', f'container: {MANYLINUX_CONTAINER}')}
+    {only_on('ubuntu', f'container: {container}')}
 
     steps:
     - uses: actions/checkout@v2
@@ -153,10 +157,11 @@ def make_test_job(platform: str, pyver: tuple) -> str:
       uses: actions/setup-python@v2
       with:
         python-version: {pyver_str_dot}
+        architecture: {'x64' if arch == 64 else 'x86'}
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
-        name: build-{platform}
+        name: build-{platform}-{arch}
     - name: Download sdist artifact
       uses: actions/download-artifact@v2
       with:
@@ -197,10 +202,14 @@ jobs:
 # Make one build per platform (abi3),
 # and perform one test per platform / Python version combo
 yml.append(make_sdist_job(CPYTHON_BUILD_VERSION))
-for platform in PLATFORMS:
-    yml.append(make_build_job(platform, CPYTHON_BUILD_VERSION))
-    for pyver in CPYTHON_TEST_VERSIONS:
-        yml.append(make_test_job(platform, pyver))
+for arch in [32, 64]:
+    for platform in PLATFORMS:
+        if platform == 'macos' and arch == 32:
+            # 32-bit macOS isn't a thing anymore
+            continue
+        yml.append(make_build_job(platform, arch, CPYTHON_BUILD_VERSION))
+        for pyver in CPYTHON_TEST_VERSIONS:
+            yml.append(make_test_job(platform, arch, pyver))
 
 
 # Write the output file
