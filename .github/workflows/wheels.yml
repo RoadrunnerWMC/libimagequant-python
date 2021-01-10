@@ -299,11 +299,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.5
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.5
-        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -340,11 +335,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -381,11 +371,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -422,11 +407,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -463,11 +443,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-        architecture: x86
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -997,11 +972,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.5
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.5
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1038,11 +1008,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1079,11 +1044,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1120,11 +1080,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
@@ -1161,11 +1116,6 @@ jobs:
     steps:
     # using v1 for now, to avoid https://github.com/actions/checkout/issues/334 on ubuntu_i686
     - uses: actions/checkout@v1
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-        architecture: x64
     - name: Download build artifact
       uses: actions/download-artifact@v2
       with:
