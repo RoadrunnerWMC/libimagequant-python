@@ -90,6 +90,10 @@ def make_build_job(platform: str, arch: int, pyver: tuple) -> str:
     {only_on('ubuntu', f'container: {container}')}
 
     steps:
+    - name: TESTING
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
     - uses: actions/checkout@v2
     {only_on_not('ubuntu', f'''
     - name: Set up Python {pyver_str_dot}

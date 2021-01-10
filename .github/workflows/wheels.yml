@@ -32,6 +32,10 @@ jobs:
   build-windows-32:
     runs-on: windows-latest
     steps:
+    - name: TESTING
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
@@ -257,6 +261,10 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_i686
     steps:
+    - name: TESTING
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
@@ -488,6 +496,10 @@ jobs:
   build-windows-64:
     runs-on: windows-latest
     steps:
+    - name: TESTING
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
@@ -712,6 +724,10 @@ jobs:
   build-macos-64:
     runs-on: macos-latest
     steps:
+    - name: TESTING
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
@@ -937,6 +953,10 @@ jobs:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
     steps:
+    - name: TESTING
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
