@@ -3,8 +3,7 @@
 PLATFORMS = ['windows', 'macos', 'ubuntu']
 CPYTHON_TEST_VERSIONS = [(3,5), (3,6), (3,7), (3,8), (3,9)]
 CPYTHON_BUILD_VERSION = CPYTHON_TEST_VERSIONS[-1]
-MANYLINUX_CONTAINER_32 = 'quay.io/pypa/manylinux2014_i686'
-MANYLINUX_CONTAINER_64 = 'quay.io/pypa/manylinux2014_x86_64'
+MANYLINUX_CONTAINER = 'quay.io/pypa/manylinux2014_x86_64'
 
 
 def strings_for(platform: str, pyver: tuple) -> (str, str, str):
@@ -81,13 +80,12 @@ def make_build_job(platform: str, arch: int, pyver: tuple) -> str:
         return text if (platform != platform_2) else ''
 
     interpreter_tags = ' '.join(f'cp{a}{b}' for a, b in CPYTHON_TEST_VERSIONS)
-    container = MANYLINUX_CONTAINER_64 if arch == 64 else MANYLINUX_CONTAINER_32
 
     return f"""
   build-{platform}-{arch}:
 
     runs-on: {platform}-latest
-    {only_on('ubuntu', f'container: {container}')}
+    {only_on('ubuntu', f'container: {MANYLINUX_CONTAINER}')}
 
     steps:
     - uses: actions/checkout@v2
@@ -136,7 +134,6 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
     (tests both the built wheel and the sdist)
     """
     pyver_str_dot, pyver_str_none, py_cmd = strings_for(platform, pyver)
-    container = MANYLINUX_CONTAINER_64 if arch == 64 else MANYLINUX_CONTAINER_32
 
     def only_on(platform_2, text):
         return text if (platform == platform_2) else ''
@@ -149,7 +146,7 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
 
     needs: [build-{platform}-{arch}, sdist]
     runs-on: {platform}-latest
-    {only_on('ubuntu', f'container: {container}')}
+    {only_on('ubuntu', f'container: {MANYLINUX_CONTAINER}')}
 
     steps:
     - uses: actions/checkout@v2
