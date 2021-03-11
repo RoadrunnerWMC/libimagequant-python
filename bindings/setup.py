@@ -14,7 +14,7 @@ with open('./README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='libimagequant',
-    version='2.13.1.0',
+    version='2.14.1.0',
     author='RoadrunnerWMC, Kornel Lesiński',
     author_email='roadrunnerwmc@gmail.com',
     description='Unofficial Python bindings for libimagequant',

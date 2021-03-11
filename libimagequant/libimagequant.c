@@ -626,6 +626,7 @@ LIQ_EXPORT LIQ_NONNULL liq_error liq_image_set_memory_ownership(liq_image *img, 
 }
 
 LIQ_NONNULL static void liq_image_free_maps(liq_image *input_image);
+LIQ_NONNULL static void liq_image_free_dither_map(liq_image *input_image);
 LIQ_NONNULL static void liq_image_free_importance_map(liq_image *input_image);
 
 LIQ_EXPORT LIQ_NONNULL liq_error liq_image_set_importance_map(liq_image *img, unsigned char importance_map[], size_t buffer_size, enum liq_ownership ownership) {
@@ -671,7 +672,7 @@ LIQ_EXPORT LIQ_NONNULL liq_error liq_image_set_background(liq_image *img, liq_im
     }
 
     img->background = background;
-    liq_image_free_maps(img); // Force them to be re-analyzed with the background
+    liq_image_free_dither_map(img); // Force it to be re-analyzed with the background
 
     return LIQ_OK;
 }
@@ -848,7 +849,16 @@ LIQ_EXPORT LIQ_NONNULL int liq_image_get_height(const liq_image *input_image)
 
 typedef void free_func(void*);
 
-LIQ_NONNULL static free_func *get_default_free_func(liq_image *img)
+LIQ_NONNULL static free_func *get_default_image_free_func(liq_image *img)
+{
+    // When default allocator is used then user-supplied pointers must be freed with free()
+    if (img->free != liq_aligned_free) {
+        return img->free;
+    }
+    return free;
+}
+
+LIQ_NONNULL static free_func *get_default_rows_free_func(liq_image *img)
 {
     // When default allocator is used then user-supplied pointers must be freed with free()
     if (img->free_rows_internal || img->free != liq_aligned_free) {
@@ -860,12 +870,12 @@ LIQ_NONNULL static free_func *get_default_free_func(liq_image *img)
 LIQ_NONNULL static void liq_image_free_rgba_source(liq_image *input_image)
 {
     if (input_image->free_pixels && input_image->pixels) {
-        get_default_free_func(input_image)(input_image->pixels);
+        get_default_image_free_func(input_image)(input_image->pixels);
         input_image->pixels = NULL;
     }
 
     if (input_image->free_rows && input_image->rows) {
-        get_default_free_func(input_image)(input_image->rows);
+        get_default_rows_free_func(input_image)(input_image->rows);
         input_image->rows = NULL;
     }
 }
@@ -884,7 +894,10 @@ LIQ_NONNULL static void liq_image_free_maps(liq_image *input_image) {
         input_image->free(input_image->edges);
         input_image->edges = NULL;
     }
+    liq_image_free_dither_map(input_image);
+}
 
+LIQ_NONNULL static void liq_image_free_dither_map(liq_image *input_image) {
     if (input_image->dither_map) {
         input_image->free(input_image->dither_map);
         input_image->dither_map = NULL;
@@ -968,6 +981,7 @@ LIQ_EXPORT LIQ_NONNULL liq_error liq_image_quantize(liq_image *const img, liq_at
     }
     liq_error err = liq_histogram_add_image(hist, attr, img);
     if (LIQ_OK != err) {
+        liq_histogram_destroy(hist);
         return err;
     }
 
@@ -1251,7 +1265,12 @@ LIQ_NONNULL static float remap_to_palette(liq_image *const input_image, unsigned
     const colormap_item *acolormap = map->palette;
 
     struct nearest_map *const n = nearest_init(map);
-    const int transparent_index = input_image->background ? nearest_search(n, &(f_pixel){0,0,0,0}, 0, NULL) : 0;
+    liq_image *background = input_image->background;
+    const int transparent_index = background ? nearest_search(n, &(f_pixel){0,0,0,0}, 0, NULL) : -1;
+    if (background && acolormap[transparent_index].acolor.a > 1.f/256.f) {
+        // palette unsuitable for using the bg
+        background = NULL;
+    }
 
 
     const unsigned int max_threads = omp_get_max_threads();
@@ -1260,26 +1279,29 @@ LIQ_NONNULL static float remap_to_palette(liq_image *const input_image, unsigned
 
 #if __GNUC__ >= 9 || __clang__
     #pragma omp parallel for if (rows*cols > 3000) \
-        schedule(static) default(none) shared(acolormap,average_color,cols,input_image,map,n,output_pixels,rows,transparent_index) reduction(+:remapping_error)
-#else
-    #pragma omp parallel for if (rows*cols > 3000) \
-        schedule(static) default(none) shared(acolormap) shared(average_color) reduction(+:remapping_error)
+        schedule(static) default(none) shared(background,acolormap,average_color,cols,input_image,map,n,output_pixels,rows,transparent_index) reduction(+:remapping_error)
 #endif
     for(int row = 0; row < rows; ++row) {
         const f_pixel *const row_pixels = liq_image_get_row_f(input_image, row);
-        const f_pixel *const bg_pixels = input_image->background && acolormap[transparent_index].acolor.a < 1.f/256.f ? liq_image_get_row_f(input_image->background, row) : NULL;
+        const f_pixel *const bg_pixels = background && acolormap[transparent_index].acolor.a < 1.f/256.f ? liq_image_get_row_f(background, row) : NULL;
 
         unsigned int last_match=0;
         for(unsigned int col = 0; col < cols; ++col) {
             float diff;
             last_match = nearest_search(n, &row_pixels[col], last_match, &diff);
-            if (bg_pixels && colordifference(bg_pixels[col], acolormap[last_match].acolor) <= diff) {
-                last_match = transparent_index;
+            if (bg_pixels) {
+                float bg_diff = colordifference(bg_pixels[col], acolormap[last_match].acolor);
+                if (bg_diff <= diff) {
+                    diff = bg_diff;
+                    last_match = transparent_index;
+                }
             }
             output_pixels[row][col] = last_match;
 
             remapping_error += diff;
-            kmeans_update_color(row_pixels[col], 1.0, map, last_match, omp_get_thread_num(), average_color);
+            if (last_match != transparent_index) {
+                kmeans_update_color(row_pixels[col], 1.0, map, last_match, omp_get_thread_num(), average_color);
+            }
         }
     }
 
@@ -1361,7 +1383,12 @@ LIQ_NONNULL static bool remap_to_palette_floyd(liq_image *input_image, unsigned 
 
     bool ok = true;
     struct nearest_map *const n = nearest_init(map);
-    const int transparent_index = input_image->background ? nearest_search(n, &(f_pixel){0,0,0,0}, 0, NULL) : 0;
+    liq_image *background = input_image->background;
+    const int transparent_index = background ? nearest_search(n, &(f_pixel){0,0,0,0}, 0, NULL) : -1;
+    if (background && acolormap[transparent_index].acolor.a > 1.f/256.f) {
+        // palette unsuitable for using the bg
+        background = NULL;
+    }
 
     // response to this value is non-linear and without it any value < 0.8 would give almost no dithering
     float base_dithering_level = quant->dither_level;
@@ -1384,7 +1411,8 @@ LIQ_NONNULL static bool remap_to_palette_floyd(liq_image *input_image, unsigned 
 
         int col = (fs_direction > 0) ? 0 : (cols - 1);
         const f_pixel *const row_pixels = liq_image_get_row_f(input_image, row);
-        const f_pixel *const bg_pixels = input_image->background && acolormap[transparent_index].acolor.a < 1.f/256.f ? liq_image_get_row_f(input_image->background, row) : NULL;
+        const f_pixel *const bg_pixels = background && acolormap[transparent_index].acolor.a < 1.f/256.f ? liq_image_get_row_f(background, row) : NULL;
+        int undithered_bg_used = 0;
 
         do {
             float dither_level = base_dithering_level;
@@ -1395,15 +1423,41 @@ LIQ_NONNULL static bool remap_to_palette_floyd(liq_image *input_image, unsigned 
             const f_pixel spx = get_dithered_pixel(dither_level, max_dither_error, thiserr[col + 1], row_pixels[col]);
 
             const unsigned int guessed_match = output_image_is_remapped ? output_pixels[row][col] : last_match;
-            float diff;
-            last_match = nearest_search(n, &spx, guessed_match, &diff);
+            float dither_diff;
+            last_match = nearest_search(n, &spx, guessed_match, &dither_diff);
             f_pixel output_px = acolormap[last_match].acolor;
-            if (bg_pixels && colordifference(bg_pixels[col], output_px) <= diff) {
-                output_px = bg_pixels[col];
-                output_pixels[row][col] = transparent_index;
-            } else {
-                output_pixels[row][col] = last_match;
+            // this is for animgifs
+            if (bg_pixels) {
+                // if the background makes better match *with* dithering, it's a definitive win
+                float bg_for_dither_diff = colordifference(spx, bg_pixels[col]);
+                if (bg_for_dither_diff <= dither_diff) {
+                    output_px = bg_pixels[col];
+                    last_match = transparent_index;
+                } else if (undithered_bg_used > 1) {
+                    // the undithered fallback can cause artifacts when too many undithered pixels accumulate a big dithering error
+                    // so periodically ignore undithered fallback to prevent that
+                    undithered_bg_used = 0;
+                } else {
+                    // if dithering is not applied, there's a high risk of creating artifacts (flat areas, error accumulating badly),
+                    // OTOH poor dithering disturbs static backgrounds and creates oscilalting frames that break backgrounds
+                    // back and forth in two differently bad ways
+                    float max_diff = colordifference(row_pixels[col], bg_pixels[col]);
+                    float dithered_diff = colordifference(row_pixels[col], output_px);
+                    // if dithering is worse than natural difference between frames
+                    // (this rule dithers moving areas, but does not dither static areas)
+                    if (dithered_diff > max_diff) {
+                        // then see if an undithered color is closer to the ideal
+                        float undithered_diff = colordifference(row_pixels[col], acolormap[guessed_match].acolor);
+                        if (undithered_diff < max_diff) {
+                            undithered_bg_used++;
+                            output_px = acolormap[guessed_match].acolor;
+                            last_match = guessed_match;
+                        }
+                    }
+                }
             }
+
+            output_pixels[row][col] = last_match;
 
             f_pixel err = {
                 .r = (spx.r - output_px.r),
