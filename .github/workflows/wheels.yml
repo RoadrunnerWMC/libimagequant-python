@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
+    - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.5
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -33,10 +33,10 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
+    - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.5
         architecture: x86
     - name: Install dependencies
       run: |
@@ -257,10 +257,10 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
+    - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.5
         architecture: x64
     - name: Install dependencies
       run: |
@@ -481,10 +481,10 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
+    - name: Set up Python 3.5
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.5
         architecture: x64
     - name: Install dependencies
       run: |
@@ -708,18 +708,18 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade pip
-        /opt/python/cp39-cp39/bin/python -m pip install --upgrade setuptools wheel packaging cffi>=1.0.0 auditwheel
+        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade pip
+        /opt/python/cp35-cp35m/bin/python -m pip install --upgrade setuptools wheel packaging cffi>=1.0.0 auditwheel
     - name: Build
       shell: bash
       run: |
         cd bindings
-        /opt/python/cp39-cp39/bin/python setup.py bdist_wheel
+        /opt/python/cp35-cp35m/bin/python setup.py bdist_wheel
         mv ./dist ../dist
     - name: Run auditwheel
       run: |
         mkdir dist/wheelhouse
-        /opt/python/cp39-cp39/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
+        /opt/python/cp35-cp35m/bin/python -m auditwheel repair -w dist/wheelhouse/ dist/*.whl
         rm dist/*.whl
         mv dist/wheelhouse/* dist/
         rm -rf dist/wheelhouse
@@ -727,7 +727,7 @@ jobs:
       shell: bash
       run: |
         cd dist
-        /opt/python/cp39-cp39/bin/python ../.github/workflows/rename_wheel.py *.whl - cp35 cp36 cp37 cp38 cp39
+        /opt/python/cp35-cp35m/bin/python ../.github/workflows/rename_wheel.py *.whl - cp35 cp36 cp37 cp38 cp39
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
