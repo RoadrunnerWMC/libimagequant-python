@@ -80,9 +80,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -122,9 +119,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -164,9 +158,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -206,9 +197,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -248,9 +236,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -319,9 +304,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -361,9 +343,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -403,9 +382,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -445,9 +421,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -487,9 +460,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -558,9 +528,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -600,9 +567,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -642,9 +606,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -684,9 +645,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
@@ -726,9 +684,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install pytest
-    - name: (TEMP) Install libffi
-      run: |
-        apt-get install libffi-dev
     - name: Install wheel
       shell: bash
       run: |
