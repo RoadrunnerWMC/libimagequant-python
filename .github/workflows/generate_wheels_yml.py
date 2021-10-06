@@ -169,7 +169,7 @@ def make_test_job(platform: str, arch: int, pyver: tuple) -> str:
       run: |
         {py_cmd} -m pip install --upgrade pip
         {py_cmd} -m pip install pytest
-    - name: [TEMP] Install libffi
+    - name: (TEMP) Install libffi
       run: |
         apt-get install libffi-dev
     - name: Install wheel
