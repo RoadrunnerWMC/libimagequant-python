@@ -39,10 +39,18 @@ def split_wheel_filename(fn: str) -> typing.Tuple[str, typing.FrozenSet[packagin
 
 def interpreter_version_str_sorting_key(key: str) -> int:
     """
-    Return a sorting key for an interpreter version string like "3.8" or
-    "3.10".
+    Return a sorting key for an interpreter version string like "cp38" or
+    "cp310".
     """
-    return tuple(int(part) for part in key.split('.'))
+    if key.startswith('cp'):
+        key = key[2:]
+    if key.endswith('m'):  # unlikely, but just in case
+        key = key[:-1]
+
+    major = int(key[0])  # "3"
+    minor = int(key[1:])  # "10"
+
+    return (major, minor)
 
 
 def make_compressed_tag(interpreter: set, abi: set, platform: set) -> str:
