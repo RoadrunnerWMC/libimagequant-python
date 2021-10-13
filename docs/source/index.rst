@@ -146,13 +146,16 @@ Installation
 ============
 
 Builds (fully unit-tested) are provided for supported versions of `CPython
-<https://www.python.org/>`_ 3 (3.5 through 3.9, at the time of this writing) on
-the following platforms:
+<https://www.python.org/>`_ 3 (3.6 through 3.10, at the time of this writing)
+on the following platforms:
 
 *    x86_64 Windows
 *    x86 (32-bit) Windows
 *    x86_64 macOS
-*    x86_64 Linux (using the "manylinux2014" platform)
+*    x86_64 Linux (for both the `"manylinux2014"
+     <https://www.python.org/dev/peps/pep-0599/>`_ platform and a `PEP-600
+     <https://www.python.org/dev/peps/pep-0600/>`_-compatible manylinux
+     platform)
 
 A source distribution ("sdist") is also available, which should be compatible
 with `PyPy <https://www.pypy.org/>`_, as well as other platforms and

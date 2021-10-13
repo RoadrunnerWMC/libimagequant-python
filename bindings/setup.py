@@ -14,7 +14,7 @@ with open('./README.md', 'r', encoding='utf-8') as fh:
 
 setuptools.setup(
     name='libimagequant',
-    version='2.14.1.0',
+    version='2.16.0.0',
     author='RoadrunnerWMC, Kornel Lesiński',
     author_email='roadrunnerwmc@gmail.com',
     description='Unofficial Python bindings for libimagequant',
@@ -22,7 +22,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/RoadrunnerWMC/libimagequant-python',
     packages=setuptools.find_packages(),
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     setup_requires=[
         'cffi>=1.0.0'
     ],
@@ -34,11 +34,11 @@ setuptools.setup(
     ],
     classifiers=[
         'Programming Language :: C',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Multimedia :: Graphics',
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',

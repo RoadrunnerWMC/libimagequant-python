@@ -22,7 +22,7 @@ copyright = '2020 RoadrunnerWMC; libimagequant copyright 1989-2018 Kornel Lesiń
 author = 'RoadrunnerWMC'
 
 # The full version, including alpha/beta/rc tags
-release = '2.14.1.0'
+release = '2.16.0.0'
 
 
 # -- General configuration ---------------------------------------------------
