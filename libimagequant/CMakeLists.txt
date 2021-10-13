@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
+file(READ version.txt VERSION)
 
 project(imagequant C)
 
-option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(BUILD_WITH_SSE "Use SSE" ON)
 
 if(BUILD_WITH_SSE)
@@ -30,3 +30,23 @@ add_library(imagequant SHARED
   pam.c
   kmeans.c
 )
+
+add_library(imagequant_a STATIC
+  libimagequant.c
+  blur.c
+  mediancut.c
+  mempool.c
+  nearest.c
+  pam.c
+  kmeans.c
+)
+set_target_properties(imagequant PROPERTIES SOVERSION 0
+  VERSION 0.0)
+
+set(PREFIX ${CMAKE_INSTALL_PREFIX})
+configure_file(imagequant.pc.in imagequant.pc @ONLY)
+
+install(TARGETS imagequant        LIBRARY           DESTINATION ${LIB_INSTALL_DIR})
+install(FILES                     libimagequant.h   DESTINATION include)
+install(FILES ${CMAKE_BINARY_DIR}/libimagequant_a.a DESTINATION ${LIB_INSTALL_DIR} RENAME libimagequant.a)
+install(FILES ${CMAKE_BINARY_DIR}/imagequant.pc     DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
